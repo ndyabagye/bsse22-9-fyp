@@ -10,7 +10,7 @@ from .forms import ProductForm
 # Converting Title into Slug
 from django.utils.text import slugify
 
-# Create your views here.
+#These are the controllers where we create apis and whats returned
 
 
 def vendors(request):
