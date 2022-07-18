@@ -1,13 +1,13 @@
-# BSSE22-9-FYP
-Final year project for **BSSE22-9** group
+### Backend
+Deployment of Backend
+1. In bsse22-9-fyp, create a virtual env using -> "python3 -m venv vendor-venv"
+2. start virtual env using -> "source vendor-venv/bin/activate"
+3. cd to backend folder
+4. install requirements.txt using -> "pip install -r requirements.txt"
+5. run server using -> "python3 manage.py runserver"
+6. With server still running, open another terminal create super user -> "python3 manage.py createsuperuser" and follow prompts
 
-## Groupmembers
-
-- Ndyabagye Henry
-- Kigula Jesse James
-- Kirabo Kakopo Atuhurira
-- Ssemabtya Isaac
-
->This repository includes the frontend application built in react and tailwind
->To get started,clone the repo,navigate to ./ai-negotiator-frontend
->After this, do **npm install** and **npm start** to launch the project
+### Frontend
+- 1. After cloning or unzipping the project folder, navigate to `./frontend`
+- 2. Run npm install in the terminal and then npm start or npm run start
+- 3. The project will open up in your default browser
