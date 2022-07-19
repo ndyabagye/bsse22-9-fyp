@@ -1,4 +1,5 @@
 from django.db import models
+from pkg_resources import require
 from product.models import Product
 from vendor.models import Vendor
 
@@ -14,6 +15,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     paid_amount = models.DecimalField(max_digits=8, decimal_places=2)
     vendors = models.ManyToManyField(Vendor, related_name="orders")
+    comment = models.CharField(max_length=100, null=True)
 
     class Meta:
         ordering = ['-created_at']
