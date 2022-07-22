@@ -30,7 +30,7 @@ class Header extends React.Component {
                   <li>
                     <a
                       className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
-                      href="#"
+                      href="/"
                     >
                       Shop
                     </a>
@@ -38,7 +38,7 @@ class Header extends React.Component {
                   <li>
                     <a
                       className="inline-block no-underline hover:text-black hover:underline py-2 px-4"
-                      href="#"
+                      href="/about"
                     >
                       About
                     </a>
@@ -49,7 +49,7 @@ class Header extends React.Component {
             <div className="order-1 md:order-2">
               <a
                 className="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
-                href="#"
+                href="/"
               >
                 <svg
                   className="fill-current text-gray-800 mr-2"
