@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
+import pandas as pd
 webpage = requests.get('https://deals.jumia.ug/cars')
 
 sp = BeautifulSoup(webpage.content, 'html.parser')
@@ -22,7 +23,7 @@ data = {
   'Price': sellpriceloop
 }
 
-df = pd.DataFrame (data, columns = [
-    'Name',
-    'Price'
-])
+#df = pd.DataFrame (data, columns = [
+#    'Name',
+#    'Price'
+#])
