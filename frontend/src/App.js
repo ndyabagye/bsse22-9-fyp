@@ -1,23 +1,15 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import Layout from './components/Layout/Layout';
-import Home from './pages/Home';
-import About from './pages/About';
-import SingleProductPage from './pages/SingleProductPage';
-import NotFoundPage from './pages/404';
+import Landing from "./pages/Landing";
+import Header from "./shared/Header";
 
 function App() {
   return (
     <Router>
-      <Layout>
+      <Header/>
       <Routes>
-        <Route path='/' element={<Home/>} exact/>
-        <Route path='/about' element={<About/>} exact/>
-        <Route path='/product/:id' element={<SingleProductPage/>} exact/>
-        <Route path="*" element={<NotFoundPage />} />
+        <Route exact path="/" element={<Landing />} />
+        <Route path="/category/:id" element={<Landing />} />
       </Routes>
-      </Layout>
     </Router>
   );
 }
