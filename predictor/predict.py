@@ -2,6 +2,10 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 import pandas as pd
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 66e777de46e8e13f0b75d5cd0601824516b0aca0
 from catboost import CatBoostRegressor
 model = CatBoostRegressor()      # parameters not required.
 model.load_model('car_model')
