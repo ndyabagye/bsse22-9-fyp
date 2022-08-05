@@ -7,7 +7,12 @@ import pickle
 import numpy as np
 
 import nltk
+import negotiation
 from nltk.stem import WordNetLemmatizer
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+
 
 from tensorflow.keras.models import load_model
 
@@ -60,10 +65,10 @@ def get_response(intents_list,intents_json):
 print("|============= Welcome to Negotiation Chatbot System! =============|")
 print("|============================== Feel Free ============================|")
 print("|================================== To ===============================|")
-print("|=============== What's your offer ================|")
+print("|=========================== What's your offer ================|")
 while True:
     message = input("| You: ")
-    if message == "bye" or message == "Goodbye":
+    if message == "bye" or message == "Goodbye" or message == "deal":
         ints = predict_class(message)
         res = get_response(ints, intents)
         print("| Bot:", res)
@@ -73,4 +78,7 @@ while True:
     else:
         ints = predict_class(message)
         res = get_response(ints, intents)
-        print("| Bot:", res)
+        if "%d" in res:
+            print("| Bot:", res % (5000))
+        else:
+            print("| Bot:", res)
