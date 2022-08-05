@@ -5,7 +5,7 @@ import random
 import json
 import pickle
 import numpy as np
-
+import re
 import nltk
 import negotiation
 from nltk.stem import WordNetLemmatizer
@@ -75,6 +75,14 @@ while True:
         ints = predict_class(message)
         res = get_response(ints, intents)
         print(ints[0]['intent'])
+        if ints[0]['intent'] == "numbers":
+            figures = re.findall(r'\d+', message)
+            if figures.length == 0:
+                print("| Bot:", res)
+                continue
+            else:
+                asking_price = figures[0]
+                
         if "%d" in res:
             print("| Bot:", res % (5000))
         else:
