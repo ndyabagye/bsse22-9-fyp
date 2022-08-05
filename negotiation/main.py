@@ -9,10 +9,6 @@ import numpy as np
 import nltk
 import negotiation
 from nltk.stem import WordNetLemmatizer
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
-
 
 from tensorflow.keras.models import load_model
 
@@ -78,6 +74,7 @@ while True:
     else:
         ints = predict_class(message)
         res = get_response(ints, intents)
+        print(ints[0]['intent'])
         if "%d" in res:
             print("| Bot:", res % (5000))
         else:
