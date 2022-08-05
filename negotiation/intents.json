@@ -4,6 +4,16 @@
   "responses": ["Hello!","Hey!","What can I do for you?"]
   },
 
+  {"tag": "price",
+  "patterns": ["what is the price of (.*)?","what is the price of (.*) in (.*)?","what is the price of (.*) in (.*) for (.*)?"],
+  "responses": ["The price of is %d"]
+  },
+
+  {"tag": "numbers",
+  "patterns": ["make it (.*)"],
+  "responses": ["Deal"]
+  },
+
   {"tag": "negotiate",
     "patterns": ["what can you do for me?","reduce the price", "what's the lowest value", "i have only"],
     "responses": ["that's the lowest value", "just add alitte bit more"]
