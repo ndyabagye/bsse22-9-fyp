@@ -13,3 +13,9 @@ Deployment of Backend
  3. The project will open up in your default browser
 
 ### Predictor 
+
+### Negotiator
+ 1. After cloning or unzipping the project folder, navigate to `./negotiation`
+ 2. install requirements.txt using -> "pip install -r requirements.txt"
+ 3. Run my_nltk.py
+ 4. Run main.py
