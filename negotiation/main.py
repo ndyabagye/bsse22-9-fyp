@@ -7,8 +7,8 @@ import pickle
 import numpy as np
 import re
 import nltk
-import negotiation
 from nltk.stem import WordNetLemmatizer
+import negotiation
 
 from tensorflow.keras.models import load_model
 
@@ -62,6 +62,8 @@ print("|============= Welcome to Negotiation Chatbot System! =============|")
 print("|============================== Feel Free ============================|")
 print("|================================== To ===============================|")
 print("|=========================== What's your offer ================|")
+old_price_list = [0]
+offer_list = [0]
 while True:
     message = input("| You: ")
     if message == "bye" or message == "Goodbye" or message == "deal":
@@ -73,17 +75,21 @@ while True:
 
     else:
         ints = predict_class(message)
-        res = get_response(ints, intents)
-        print(ints[0]['intent'])
-        if ints[0]['intent'] == "numbers":
-            figures = re.findall(r'\d+', message)
-            if figures.length == 0:
+        res = get_response(ints, intents) 
+        if ints[0]['intent'] == "numbers":      #checks to see the intent of the chatbot
+            figures = re.findall(r'\d+', message)   #finds all the numbers in the message
+            if len(figures) == 0:
                 print("| Bot:", res)
                 continue
             else:
-                asking_price = figures[0]
-                
-        if "%d" in res:
-            print("| Bot:", res % (5000))
-        else:
-            print("| Bot:", res)
+                asking_price = float(figures[0])
+                old_price_list.append(asking_price)
+                reply = negotiation.lower_price(asking_price, old_price_list, offer_list)
+                res = reply[0]
+                offer_list.append(reply[1])
+
+
+        # if "%d" in res:
+        #     print("| Bot:", res % (5000))
+        # else:
+        print("| Bot:", res)
