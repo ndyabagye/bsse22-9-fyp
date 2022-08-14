@@ -62,8 +62,12 @@ print("|============= Welcome to Negotiation Chatbot System! =============|")
 print("|============================== Feel Free ============================|")
 print("|================================== To ===============================|")
 print("|=========================== What's your offer ================|")
+
 old_price_list = [0]
 offer_list = [0]
+display_value = 100000
+last_price = 70000
+
 while True:
     message = input("| You: ")
     if message == "bye" or message == "Goodbye" or message == "deal":
@@ -84,9 +88,11 @@ while True:
             else:
                 asking_price = float(figures[0])
                 old_price_list.append(asking_price)
-                reply = negotiation.lower_price(asking_price, old_price_list, offer_list)
+                reply = negotiation.lower_price(asking_price, old_price_list, display_value, last_price)
                 res = reply[0]
                 offer_list.append(reply[1])
+                display_value = reply[1]
+
 
 
         # if "%d" in res:
