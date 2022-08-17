@@ -1,7 +1,7 @@
 import React from 'react'
-import BackendLayout from '../components/BackendLayout/BackendLayout';
-import BackendInfoCard from '../components/BackendLayout/BackendInfoCard';
-import BackendGraph from '../components/BackendLayout/BackendGraph';
+import BackendLayout from '../components/BackendLayout';
+import BackendInfoCard from '../components/BackendInfoCard';
+import BackendGraph from '../components/BackendGraph';
 import { BsCartCheck, BsCreditCard2Back, BsPersonCircle } from 'react-icons/bs';
 import { AiFillCar } from 'react-icons/ai';
 
