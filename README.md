@@ -10,7 +10,8 @@ Deployment of Backend
 ### Frontend
  1. After cloning or unzipping the project folder, navigate to `./frontend`
  2. Run npm install in the terminal and then npm start or npm run start
- 3. The project will open up in your default browser
+ 3. The project will open up in your default browser￼￼￼￼￼￼￼￼
+
 
 ### Predictor 
 
