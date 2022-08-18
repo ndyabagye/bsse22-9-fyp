@@ -14,11 +14,11 @@ urlpatterns = [
     path('category/<int:category_id>', views.category_products, name="category_products"),
     
     #--GET A SINGULAR PRODUCT
-    path('<int:product_id>', views.product, name="product"),
+    path('<int:product_id>', views.single_product, name="product"),
     
     
-    #path('search', views.search, name="search"),
-    #path('<slug:category_slug>/<slug:product_slug>/', views.product, name="product"),
-    #path('<slug:category_slug>/', views.category, name="category")
+    path('search', views.search, name="search"),
+    path('<slug:category_slug>/<slug:product_slug>/', views.product, name="product"),
+    path('<slug:category_slug>/', views.category, name="category")
     
 ]
