@@ -5,6 +5,12 @@ from django.db.models import Q
 from cart.cart import Cart
 from django.http import JsonResponse
 
+from django.contrib import messages
+from django.shortcuts import redirect, render, get_object_or_404
+
+from .forms import AddToCartForm
+from cart.cart import Cart
+
 
 #--- USED TO GET BRANDS---#
 def all_brands(request):
@@ -41,16 +47,14 @@ def category_products(request,category_id):
     products = list(obj.values())
     return JsonResponse(products,safe=False)
 
-def product(request, product_id):
+def single_product(request, product_id):
     obj = Product.objects.filter(pk=product_id)
     product = list(obj.values())
     return JsonResponse(product,safe=False)
 
 
 
-
-
-"""# Create your views here.
+# Create your views here.
 def product(request, category_slug, product_slug):
     # Create instance of Cart class
     cart = Cart(request)
@@ -98,4 +102,4 @@ def search(request):
     query = request.GET.get('query', '') # second is default parameter which is empty
     products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
 
-    #return render(request, 'product/search.html', {'products':products, 'query': query})"""
+    #return render(request, 'product/search.html', {'products':products, 'query': query})
