@@ -1,17 +1,13 @@
 import React from 'react'
-import Layout from '../components/Layout'
-import SideBar from '../shared/SideBar'
-import Banner from '../shared/Banner'
-import ProductCard from '../components/Products/ProductCard'
+import Layout from '../../Shared/Layout'
+import Banner from '../../Shared/Banner'
+import ProductCard from '../components/ProductCard'
 
 export default function Landing() {
   return (
     <Layout>
-    <div className='grid grid-cols-3 px-4 py-2 h-max mx-10 bg-white gap-1 border border-gray-300 rounded-sm'>
-        <div id="menu" className='h-1/2 rounded-sm'>
-            <SideBar />
-        </div>
-        <div id="banner" className='col-span-2 h-full rounded-sm py-2'>
+    <div className='px-4 py-2 h-max mx-10 bg-white gap-1 border border-gray-300 rounded-sm'>
+        <div id="banner" className='h-full rounded-sm py-2'>
             <Banner/>
         </div>
     </div>

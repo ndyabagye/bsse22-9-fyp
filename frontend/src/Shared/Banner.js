@@ -1,5 +1,11 @@
 import { Carousel } from "flowbite-react";
 import React from "react";
+import mercedes from './assets/banner/mercedes.jpg';
+import bmw from './assets/banner/bmw.jpg';
+import bond from './assets/banner/bond.jpg';
+import range from './assets/banner/range.jpg';
+import drift from './assets/banner/drift.jpg';
+import m3 from './assets/banner/m3.jpg';
 
 export default function Banner() {
   return (
@@ -8,32 +14,32 @@ export default function Banner() {
   <Carousel>
     <img
     className="object-cover"
-      src="/banner/mercedes.jpg"
+      src={mercedes}
       alt="..."
     />
     <img
     className="object-cover"
-      src="/banner/bmw.jpg"
+      src={bmw}
       alt="..."
     />
     <img
     className="object-cover"
-      src="/banner/bond.jpg"
+      src={bond}
       alt="..."
     />
     <img
     className="object-cover"
-      src="/banner/range.jpg"
+      src={range}
       alt="..."
     />
     <img
     className="object-cover"
-      src="/banner/drift.jpg"
+      src={drift}
       alt="..."
     />
     <img
     className="object-cover"
-      src="/banner/m3.jpg"
+      src={m3}
       alt="..."
     />
   </Carousel>
