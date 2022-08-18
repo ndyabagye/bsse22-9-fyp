@@ -1,10 +1,11 @@
 ### Backend
 Deployment of Backend
-1. In bsse22-9-fyp, create a virtual env using -> "python3 -m venv vendor-venv"
+1. In bsse22-9-fyp, create a virtual env using -> "python3 -m venv vendor-venv" (**This is run once**)
 2. start virtual env using -> "source vendor-venv/bin/activate"
-3. install requirements.txt using -> "pip install -r requirements.txt"
+3. install requirements.txt using -> "pip install -r requirements.txt" (**This is run once**)
+4. cd backend
 5. run server using -> "python3 manage.py runserver"
-6. With server still running, open another terminal create super user -> "python3 manage.py createsuperuser" and follow prompts
+6. With server still running, open another terminal create super user -> "python3 manage.py createsuperuser" and follow prompts(**This is run once**)
 
 ### Frontend
  1. After cloning or unzipping the project folder, navigate to `./frontend`
