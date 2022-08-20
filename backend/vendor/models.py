@@ -20,7 +20,7 @@ class Vendor(models.Model):
     business_subscription = models.DecimalField(max_digits=20, decimal_places=0, default=0)
     advert_subscription = models.DecimalField(max_digits=20, decimal_places=0, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.OneToOneField(User, related_name='vendor', on_delete=models.CASCADE)
+    # created_by = models.OneToOneField(User, related_name='vendor', on_delete=models.CASCADE)
 
 
     class Meta:
