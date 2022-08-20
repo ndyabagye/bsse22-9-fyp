@@ -1,10 +1,13 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
 import BackendLayout from "../components/BackendLayout";
+import AddUserModal from "../components/AddUserModal";
+import EditUserModal from "../components/EditUserModal";
 import Loader from "../../Shared/Loader";
+import useTable from "../../hooks/useTable";
 import { BiUserPlus } from "react-icons/bi";
-import { AiOutlineClose } from "react-icons/ai";
+import TableFooter from "../../Shared/TableFooter/tableFooter";
+import TableLength from "../../Shared/TableLength/tableLength";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -12,6 +15,11 @@ export default function Users() {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [openAddForm, setOpenAddForm] = useState(false);
+  const [openEditForm, setOpenEditForm] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { slice, range } = useTable(filteredUsers, page, rowsPerPage);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [usersPerPage] = useState(10);
 
@@ -27,7 +35,6 @@ export default function Users() {
   }, []);
 
   const handleSearch = (e) => {
-    setQuery(e.target.value);
     console.log("Query", query);
     if (query !== "") {
       const filtered = users.filter((item) => {
@@ -42,10 +49,15 @@ export default function Users() {
     }
   };
 
+  const handleEdit = (stat, user) => {
+    setOpenEditForm(stat);
+    setSelectedUser(user);
+  };
+
   return (
     <BackendLayout title={"Users"}>
       <div className="overflow-x-auto relative shadow-md sm:rounded-lg p-2">
-        <div className="flex justify-between items-center px-3">
+        <div className="flex justify-between items-center px-3 pb-2">
           <label for="table-search" className="sr-only">
             Search
           </label>
@@ -74,6 +86,11 @@ export default function Users() {
               onChange={(e) => handleSearch(e)}
             />
           </div>
+          <TableLength
+            rowsPerPage={rowsPerPage}
+            title="Users"
+            setRowsPerPage={setRowsPerPage}
+          />
 
           <button
             type="button"
@@ -88,172 +105,116 @@ export default function Users() {
         {/* table */}
         {loading && <Loader />}
         {!loading && (
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <input
-                      id="checkbox-all-search"
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label for="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
-                </th>
-                <th scope="col" className="py-3 px-6">
-                  Name
-                </th>
-                <th scope="col" className="py-3 px-6">
-                  Phone
-                </th>
-                <th scope="col" className="py-3 px-6">
-                  Company
-                </th>
-                <th scope="col" className="py-3 px-6">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers?.map((user) => (
-                <tr
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                  key="user?.id"
-                >
-                  <td className="p-4 w-4">
+          <>
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="p-4">
                     <div className="flex items-center">
                       <input
-                        id="checkbox-table-search-1"
+                        id="checkbox-all-search"
                         type="checkbox"
                         className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label for="checkbox-table-search-1" className="sr-only">
+                      <label for="checkbox-all-search" className="sr-only">
                         checkbox
                       </label>
                     </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    <img
-                      className="w-10 h-10 rounded-full"
-                      src="https://via.placeholder.com/150"
-                      alt=""
-                    />
-                    <div className="pl-3">
-                      <div className="text-base font-semibold">
-                        {user?.name}
-                      </div>
-                      <div className="font-normal text-gray-500">
-                        {user?.email}
-                      </div>
-                    </div>
                   </th>
-                  <td className="py-4 px-6">{user?.phone}</td>
-                  <td className="py-4 px-6">
-                    <div className="flex items-center">
-                      {user?.company?.name}
-                    </div>
-                  </td>
-                  <td className="py-4 px-6">
-                    <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit user
-                    </a>
-                  </td>
+                  <th scope="col" className="py-3 px-6">
+                    Name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Phone
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Company
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-        {openAddForm ? (
-          <>
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-              <div className="relative w-auto my-6 mx-auto max-w-4xl">
-                {/*content*/}
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                  {/*header*/}
-                  <div className="flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                    <h3 className="text-2xl font-medium flex">
-                    <BiUserPlus className="w-8 h-8 mr-2" />
-                      Add New User</h3>
-                    <button
-                      type="button"
-                      class="text-slate-700 border border-slate-700 hover:bg-slate-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-slate-500 dark:text-slate-500 dark:hover:text-white dark:focus:ring-slate-800"
-                      onClick={() => setOpenAddForm(false)}
+              </thead>
+              <tbody>
+                {slice?.map((user) => (
+                  <tr
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    key={user?.id}
+                  >
+                    <td className="p-4 w-4">
+                      <div className="flex items-center">
+                        <input
+                          id="checkbox-table-search-1"
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        />
+                        <label
+                          for="checkbox-table-search-1"
+                          className="sr-only"
+                        >
+                          checkbox
+                        </label>
+                      </div>
+                    </td>
+                    <th
+                      scope="row"
+                      className="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <AiOutlineClose className="h-5 w-5"/>
-                      <span class="sr-only">Close Modal</span>
-                    </button>
-                  </div>
-                  {/*body*/}
-                  <div className="relative p-6 flex-auto">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="col-span-2 flex flex-col">
-                        <label htmlFor="name">Full Name</label>
-                        <input
-                          type="text"
-                          id="name"
-                          className="rounded-md text-gray-700"
-                        />
+                      <img
+                        className="w-10 h-10 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt=""
+                      />
+                      <div className="pl-3">
+                        <div className="text-base font-semibold">
+                          {user?.name}
+                        </div>
+                        <div className="font-normal text-gray-500">
+                          {user?.email}
+                        </div>
                       </div>
-                      {/* email */}
-                      <div className="col-span-1 flex flex-col">
-                        <label htmlFor="email">Email</label>
-                        <input
-                          type="text"
-                          id="email"
-                          className="rounded-md text-gray-700"
-                        />
+                    </th>
+                    <td className="py-4 px-6">{user?.phone}</td>
+                    <td className="py-4 px-6">
+                      <div className="flex items-center">
+                        {user?.company?.name}
                       </div>
-                      {/* phone */}
-                      <div className="col-span-1 flex flex-col">
-                        <label htmlFor="phone">Phone</label>
-                        <input
-                          type="text"
-                          id="phone"
-                          className="rounded-md text-gray-700"
-                        />
-                      </div>
-                      {/* role */}
-                      <div className="col-span-1 flex flex-col">
-                        <label htmlFor="role">Role</label>
-                        <input
-                          type="text"
-                          id="role"
-                          className="rounded-md text-gray-700"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/*footer*/}
-                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                    <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setOpenAddForm(false)}
-                    >
-                      Close
-                    </button>
-                    <button
-                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setOpenAddForm(false)}
-                    >
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </td>
+                    <td className="py-4 px-3 space-x-2">
+                      {openEditForm?.status}
+                      <button
+                        className="font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-200 p-2 rounded-md"
+                        onClick={() => handleEdit(true, user)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="font-medium text-red-600 hover:text-red-800 hover:bg-red-200 p-2 rounded-md"
+                        onClick={() => handleEdit(true, user)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <TableFooter
+              range={range}
+              slice={slice}
+              setPage={setPage}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              length={filteredUsers?.length}
+            />
           </>
+        )}
+        {openAddForm ? <AddUserModal setOpenAddForm={setOpenAddForm} /> : null}
+        {openEditForm ? (
+          <EditUserModal
+            user={selectedUser}
+            setOpenEditForm={setOpenEditForm}
+          />
         ) : null}
       </div>
     </BackendLayout>
