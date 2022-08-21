@@ -1,3 +1,4 @@
+import React from 'react'
 import { Switch } from '@headlessui/react'
 
 export default function toggle({enabled, setEnabled}) {

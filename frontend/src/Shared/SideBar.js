@@ -1,12 +1,10 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React ,{useState, useEffect}from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 // import brands from "../data/brands.json";
 
 export default function SideBar() {
-  const [brands, setBrands] = useState();
+  const [brands, setBrands] = useState([]);
   // const trimmed = brands.slice(0, 10);
 
   const fetchBrands = async () => {
