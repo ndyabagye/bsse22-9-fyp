@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./AdminBackend/pages/Dashboard";
 import Landing from "./CustomerLanding/pages/Landing";
@@ -22,9 +22,10 @@ function App() {
     <Router>
       <Routes>
         {/* authentication */}
-        <Route exact path="/" element={<Login />} />
+        <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />
         {/* customer */}
+        <Route exact path="/" element={<Landing />} />
         <Route exact path="/landing" element={<Landing />} />
         <Route path="/category/:id" element={<SingleProduct />} />
           {/* admin */}
