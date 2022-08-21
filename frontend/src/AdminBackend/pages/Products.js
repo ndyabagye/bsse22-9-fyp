@@ -8,6 +8,7 @@ import EditProductModal from "../components/EditProductModal";
 import BackendLayout from "../components/BackendLayout";
 import TableFooter from "../../Shared/TableFooter/tableFooter";
 import TableLength from "../../Shared/TableLength/tableLength";
+import { Link } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -91,15 +92,17 @@ export default function Products() {
             setRowsPerPage={setRowsPerPage}
           />
 
+          <Link to='/addProducts'>
           <button
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center"
-            onClick={() => setOpenAddForm(true)}
+            // onClick={() => setOpenAddForm(true)}
             data-modal-toggle="authentication-modal"
-          >
+            >
             <BiUserPlus className="w-5 h-5 mr-2" />
             Add Product
           </button>
+            </Link>
         </div>
         {/* table */}
         {loading && <Loader />}
