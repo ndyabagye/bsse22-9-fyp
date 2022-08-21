@@ -4,7 +4,6 @@ from django.db import models
 class CustomUser(AbstractUser):
     
     name = models.CharField(max_length=255, default="")
-    email = models.EmailField(max_length=254, default="")
     location = models.CharField(max_length=255, default="")
     address = models.CharField(max_length=255, default="")
     contact = models.CharField(max_length=255, default="")
@@ -22,7 +21,7 @@ class CustomUser(AbstractUser):
         ordering = ['name']
     
     def __str__(self):
-        return self.name
+        return self.email
 
     def get_balance(self):
         items = self.items.filter(vendor_paid=False, order__vendors__in=[self.id])
