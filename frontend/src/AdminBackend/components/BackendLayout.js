@@ -14,7 +14,7 @@ export default function BackendLayout({children, title}) {
        <div className="h-20 mb-3">
         <BackendHeader/>
         </div>
-       <div className="ml-3 pb-3">
+       <div className="mx-3 pb-3">
         <h5 className="text-gray-700 text-xl text-left my-1">{title}</h5>
          {children}
         </div>

@@ -7,6 +7,7 @@ import Login from "./Authentication/Login";
 import SignUp from "./Authentication/SignUp";
 import Users from "./AdminBackend/pages/Users";
 import Products from "./AdminBackend/pages/Products";
+import AddProductPage from "./AdminBackend/pages/AddProductPage";
 // import Login from "./auth/Login";
 // import Header from "./Shared/Header";
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/users" element={<Users />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/addProducts" element={<AddProductPage />} />
       </Routes>
     </Router>
   );
