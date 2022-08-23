@@ -1,15 +1,11 @@
 from django.shortcuts import render
 from product.models import Product
+from django.http import HttpResponse
 
 # Create your views here.
 
 def frontpage(request):
-    newest_products = Product.objects.all()[0:8]
-    context = {
-        'newest_products': newest_products,
-    }
-    return render(request, 'core/frontpage.html', context)
-
+     return HttpResponse("Run the react server to see the frontend")
 
 def contactpage(request):
     return render(request, 'core/contact.html')

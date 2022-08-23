@@ -2,13 +2,8 @@
 Deployment of Backend
 1. In bsse22-9-fyp, create a virtual env using -> "python3 -m venv vendor-venv" (**This is run once**)
 2. start virtual env using -> "source vendor-venv/bin/activate"
-<<<<<<< HEAD
 3. cd to backend folder
 4. install requirements.txt using -> "pip install -r requirements.txt"
-=======
-3. install requirements.txt using -> "pip install -r requirements.txt" (**This is run once**)
-4. cd backend
->>>>>>> kigula_backend
 5. run server using -> "python3 manage.py runserver"
 6. With server still running, open another terminal create super user -> "python3 manage.py createsuperuser" and follow prompts(**This is run once**)
 
@@ -17,7 +12,6 @@ Deployment of Backend
  2. Run npm install in the terminal and then npm start or npm run start
  3. The project will open up in your default browser￼￼￼￼￼￼￼￼
 
-
 ### Predictor 
 
 ### Negotiator
@@ -25,3 +19,6 @@ Deployment of Backend
  2. install requirements.txt using -> "pip install -r requirements.txt"
  3. Run my_nltk.py
  4. Run main.py
+
+### Scraper
+ 1.
