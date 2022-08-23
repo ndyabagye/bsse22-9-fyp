@@ -41,7 +41,7 @@ export default function SignUp() {
     };
     console.log(userDetails);
     const res = await axios.post(
-      "http://localhost:8000/api/v1/users/auth/register/",
+      "http://localhost:8000/users/auth/register/",
       userDetails
     );
     if (res.status === 201) {
