@@ -5,7 +5,7 @@ from django.views.generic.base import RedirectView
 app_name = 'core'
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='https://localhost:3000')),
+    path('', RedirectView.as_view(url='http://localhost:3000')),
     #path('', views.frontpage, name="home"),
     path('contact-us/', views.contactpage, name="contact"),
 ]
