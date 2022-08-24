@@ -10,8 +10,8 @@ export default function AddProductPage() {
   };
   return (
     <BackendLayout title={"Add Product Page"}>
-      <div className="flex items-center justify-center p-2 rounded-md">
-        <form className="w-4/5 p-3 bg-gray-200 rounded-md" onSubmit={handleSubmit}>
+      <div className="flex items-center justify-center p-2 rounded-md bg-gray-200">
+        <form className="w-full p-3 bg-gray-200 rounded-md" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-x-3">
             <div id="name" className="flex flex-col">
               <label htmlFor="name">Name</label>

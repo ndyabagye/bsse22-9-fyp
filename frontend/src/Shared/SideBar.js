@@ -20,7 +20,7 @@ export default function SideBar() {
   return (
     <aside className="w-full h-full" aria-label="Sidebar">
       <div className="pt-4">
-        <Link to="/" className="flex items-center pl-2.5 mb-5 pb-2 border-b">
+        <Link to="/landing" className="flex items-center pl-2.5 mb-5 pb-2 border-b">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="mr-3 h-6 sm:h-7"
