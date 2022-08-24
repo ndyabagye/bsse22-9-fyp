@@ -65,8 +65,8 @@ print("|=========================== What's your offer ================|")
 
 old_price_list = [0]
 offer_list = [0]
-display_value = 100000
-last_price = 70000
+display_value = 100000 #name this selling price
+last_price = 70000 #name this base price
 
 while True:
     message = input("| You: ")
@@ -76,26 +76,24 @@ while True:
         print("| Bot:", res)
         print("|===================== The Program End here! =====================|")
         exit()
+    
+    elif message.lower() == "no deal":
+        print("| Bot:", "What's your offer then?")
+        continue
 
     else:
         ints = predict_class(message)
-        res = get_response(ints, intents) 
+        res = get_response(ints, intents)
         if ints[0]['intent'] == "numbers":      #checks to see the intent of the chatbot
             figures = re.findall(r'\d+', message)   #finds all the numbers in the message
             if len(figures) == 0:
                 print("| Bot:", res)
                 continue
             else:
-                asking_price = float(figures[0])
+                asking_price = float(figures[0]) #name this offer
                 old_price_list.append(asking_price)
                 reply = negotiation.lower_price(asking_price, old_price_list, display_value, last_price)
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
-
-
-
-        # if "%d" in res:
-        #     print("| Bot:", res % (5000))
-        # else:
-        print("| Bot:", res)
+    print("| Bot:", res)

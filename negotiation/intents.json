@@ -19,6 +19,8 @@
     "responses": ["that's the lowest value", "just add alitte bit more"]
   },
 
+  
+
   {"tag": "name",
   "patterns": ["what is your name","name","what's your name","who are you","what should I call you"],
   "responses": ["You can call me Ribot","I'm Ribot","I'm Ribot your virtual assistant"]
