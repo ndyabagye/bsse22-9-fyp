@@ -27,11 +27,6 @@ export default function SignUp() {
     },
   });
 
-  // const [userName, setUserName] = useState();
-
-  // const handleChange = (e) => {
-  //     set
-  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userDetails = {
@@ -50,12 +45,11 @@ export default function SignUp() {
         icon: "success",
         title: "Account Created Successfully, Please Login!!",
       });
-     navigate("/login");
+     navigate("/");
     } else {
-      console.log("Res", res);
       Toast.fire({
         icon: "warning",
-        title: "Error",
+        title: res.response.data,
       });
     }
   };
@@ -99,7 +93,7 @@ export default function SignUp() {
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -117,7 +111,7 @@ export default function SignUp() {
               </div>
               <div>
                 <label
-                  for="confirm-password"
+                  htmlFor="confirm-password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Confirm password
