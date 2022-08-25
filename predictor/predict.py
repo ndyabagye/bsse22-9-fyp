@@ -1,11 +1,7 @@
 from datetime import datetime 
 from matplotlib import pyplot as plt
 import pandas as pd
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 66e777de46e8e13f0b75d5cd0601824516b0aca0
+from sklearn.metrics import r2_score
 from catboost import CatBoostRegressor
 model = CatBoostRegressor()      # parameters not required.
 model.load_model('car_model')
@@ -61,4 +57,9 @@ print("")
 
 
 preds = model.predict(fitModel) 
-print(preds) # [12213.35324984 5213.058479 20674.08838559]"""
+y_true = [12990,5200,20900]
+print(r2_score(y_true, preds))
+
+print(preds) # 	"""
+
+# add error handling
