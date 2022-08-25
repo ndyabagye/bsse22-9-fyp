@@ -45,6 +45,7 @@ async def get_jumia_cars():
             results = await asyncio.gather(*map(fetch_jumia_car,cars)) #run loop cocurrent to fetch jumia cars
             carsList += results
             print(carsList)
+            print(len(carsList))
             counter += 1
         except requests.exceptions.ConnectionError:
             print("Connection Error")
@@ -89,6 +90,7 @@ async def get_jiji_cars():
             results = await asyncio.gather(*map(fetch_jiji_car,cars))
             car_list += results
             print(car_list)
+            print(len(car_list))
             counter += 1
         except json.decoder.JSONDecodeError:
             print('JSONDecodeError:')

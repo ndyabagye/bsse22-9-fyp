@@ -55,6 +55,8 @@ model.fit(
 model.save_model('car_model')
 print(model.score(X, Y)) # 0.92416
 
+
+
 cars = pd.DataFrame(columns=cars.columns)
 cars = cars.loc[:, ~cars.columns.str.contains('^Unnamed')]
 cars.to_csv('columns.csv')
