@@ -65,11 +65,11 @@ print("|=========================== What's your offer ================|")
 
 old_price_list = [0]
 offer_list = [0]
-display_value = 100000 #name this selling price
-last_price = 70000 #name this base price
+display_value = 15000000 #name this selling price
+last_price = 12000000 #name this base price
 
 while True:
-    message = input("| You: ")
+    message = input("| You: ").lower()
     if message == "bye" or message == "Goodbye" or message == "deal":
         ints = predict_class(message)
         res = get_response(ints, intents)
