@@ -16,7 +16,9 @@ urlpatterns = [
     #--GET A SINGULAR PRODUCT
     path('<int:product_id>', views.single_product, name="product"),
     
-    
+    #--PREDICT A  PRICE
+    path('predictPrice', views.predictPrice, name="predictPrice"),
+
     path('search', views.search, name="search"),
     path('<slug:category_slug>/<slug:product_slug>/', views.product, name="product"),
     path('<slug:category_slug>/', views.category, name="category")

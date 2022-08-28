@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'location',
+    'predictor.apps.PredictorConfig',
 ]
 
 MIDDLEWARE = [
@@ -194,3 +195,5 @@ REST_FRAMEWORK = {
     'rest_framework.authentication.TokenAuthentication',    
     ],
 }
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
