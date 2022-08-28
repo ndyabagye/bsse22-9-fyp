@@ -68,6 +68,7 @@ last_price = 70000
 while True:
     message = input("| You: ").lower()
     ints = predict_class(message)
+    print(ints[0]['intent'])
     res = get_response(ints, intents)
         
     # if message == "bye" or message == "goodbye" or message == "deal":

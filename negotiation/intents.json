@@ -9,17 +9,20 @@
   "responses": ["The price of is %d"]
   },
 
-  {"tag": "numbers",
-  "patterns": ["make it (.*)"],
+  {"tag": "negotiate",
+  "patterns": ["make it (.*)", "i have only (.*)", "i can give you (.*)", "i can give you (.*) for (.*)"],
   "responses": ["Deal"]
   },
 
-  {"tag": "negotiate",
+  {"tag": "disagree",
+  "patterns": ["no deal","deal is off","nope","no thanks", "no thank you", "no, thanks", "no, thank you"],
+  "responses": ["Okay, what's your offer then?", "So what are you suggesting?"]
+  },
+
+  {"tag": "numbers",
     "patterns": ["what can you do for me?","reduce the price", "what's the lowest value", "i have only"],
     "responses": ["that's the lowest value", "just add alitte bit more"]
   },
-
-  
 
   {"tag": "name",
   "patterns": ["what is your name","name","what's your name","who are you","what should I call you"],
@@ -103,6 +106,11 @@
 
   {"tag": "thanks",
     "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+    "responses": ["Happy to help!", "Any time!", "My pleasure"]
+  },
+
+  {"tag": "deal",
+    "patterns": ["Deal", "It's a deal", "I agree with this price", "Awesome,let me buy", "I can work with this price"],
     "responses": ["Happy to help!", "Any time!", "My pleasure"]
   }
 ]}
