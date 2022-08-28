@@ -7,13 +7,12 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 
-from .forms import AddToCartForm
+from .forms import AddToCartForm,CategoryForm
 from cart.cart import Cart
 from predictor.models import Predictor
+from chat.models import ChatBot
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt # import
-import json
-
 
 #--- USED TO GET BRANDS---#
 def all_brands(request):
@@ -56,7 +55,7 @@ def single_product(request, product_id):
     return JsonResponse(product,safe=False)
 
 @csrf_exempt 
-def predictPrice(request):
+def predict_price(request):
     price_data = {}
     if request.method == 'POST':
         car_values = request.POST
@@ -67,6 +66,51 @@ def predictPrice(request):
         price_data["predicted_price"] = "no product details"
     
     return JsonResponse(price_data,safe=False)
+
+@csrf_exempt 
+def send_chat(request):
+    chat_response = {}
+    if request.method == 'POST':
+        client_response = request.POST
+        client_response = dict(client_response.lists())
+        chatbot_response_returned = ChatBot.chat(client_response) # calls the predict function in class predict with car values e.g make, model
+        chat_response = chatbot_response_returned
+    else:
+        chat_response["response"] = "i didnt get that"
+    return JsonResponse(chat_response,safe=False)
+
+@csrf_exempt 
+def store_brand(request):
+    if request.method == 'POST':
+        brand = Brand(request.POST)
+
+        """
+        if form.is_valid():
+            # process form data
+            obj = Category() #gets new object
+            obj.business_name = form.cleaned_data['business_name']
+            obj.business_email = form.cleaned_data['business_email']
+            obj.business_phone = form.cleaned_data['business_phone']
+            obj.business_website = form.cleaned_data['business_website']
+            #finally save the object in db
+            obj.save()
+            return HttpResponseRedirect('/')"""
+
+@csrf_exempt 
+def store_category(request):
+    if request.method == 'POST':
+        category = CategoryForm(request.POST)
+        if category.is_valid():
+            obj = Category() #gets new object
+            obj.title = category.cleaned_data['title']
+            obj.slug = category.cleaned_data['slug']
+            obj.description = category.cleaned_data['description']
+            obj.save()
+            return HttpResponse("valid")
+        else:
+            return HttpResponse("invalid")
+
+
 
 # Create your views here.
 def product(request, category_slug, product_slug):
@@ -104,7 +148,6 @@ def product(request, category_slug, product_slug):
 
     return render(request, 'product/product.html', context)
 
-
 def category(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     return render(request,'product/category.html', {'category': category})
@@ -115,5 +158,4 @@ def search(request):
     print("")
     query = request.GET.get('query', '') # second is default parameter which is empty
     products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
-
     #return render(request, 'product/search.html', {'products':products, 'query': query})
