@@ -6,6 +6,7 @@ from catboost import CatBoostRegressor
 model = CatBoostRegressor()      # parameters not required.
 model.load_model('car_model')
 
+
 #sample price prediction
 testCars = pd.DataFrame.from_records([ 
 	{'mileage': 90000, 'make': 'Volkswagen', 'model': 'Gold', 
@@ -25,6 +26,7 @@ testCars['age'] = datetime.now().year - testCars['year']
 testCars = testCars.drop(columns='year') 
 testCars = testCars.drop(columns='model') 
 
+print(type(testCars))
 #spreading out the categorical data and then dropping the columns
 offerTypeDummies = pd.get_dummies(testCars.offerType) 
 testCars = testCars.join(offerTypeDummies) 

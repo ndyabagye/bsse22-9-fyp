@@ -4,12 +4,15 @@ from .models import Category, Product,Brand
 from django.db.models import Q
 from cart.cart import Cart
 from django.http import JsonResponse
-
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 
 from .forms import AddToCartForm
 from cart.cart import Cart
+from predictor.models import Predictor
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt # import
+import json
 
 
 #--- USED TO GET BRANDS---#
@@ -52,7 +55,18 @@ def single_product(request, product_id):
     product = list(obj.values())
     return JsonResponse(product,safe=False)
 
-
+@csrf_exempt 
+def predictPrice(request):
+    price_data = {}
+    if request.method == 'POST':
+        car_values = request.POST
+        car_values = dict(car_values.lists())
+        price_returned = Predictor.predict(car_values) # calls the predict function in class predict with car values e.g make, model
+        price_data['predicted_price'] = price_returned
+    else:
+        price_data["predicted_price"] = "no product details"
+    
+    return JsonResponse(price_data,safe=False)
 
 # Create your views here.
 def product(request, category_slug, product_slug):

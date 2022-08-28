@@ -8,7 +8,6 @@ from django.core.files import File
 from django.db import models
 from vendor.models import Vendor
 
-
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=50)
