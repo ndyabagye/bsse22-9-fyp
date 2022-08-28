@@ -1,17 +1,14 @@
-### Author: Riya Nakarmi ###
-### College Project ###
-
 import random
 import json
 import pickle
 import numpy as np
 import re
+
 import nltk
 from nltk.stem import WordNetLemmatizer
 import negotiation
 
 from tensorflow.keras.models import load_model
-
 
 lemmatizer = WordNetLemmatizer()
 
@@ -61,26 +58,27 @@ def get_response(intents_list,intents_json):
 print("|============= Welcome to Negotiation Chatbot System! =============|")
 print("|============================== Feel Free ============================|")
 print("|================================== To ===============================|")
-print("|=========================== What's your offer ================|")
+print("|=========================== State your price ================|")
 
 old_price_list = [0]
 offer_list = [0]
-display_value = 15000000
-last_price = 12000000
+display_value = 100000
+last_price = 70000
 
 while True:
     message = input("| You: ").lower()
-    if message == "bye" or message == "Goodbye" or message == "deal":
-        ints = predict_class(message)
-        res = get_response(ints, intents)
+    ints = predict_class(message)
+    print(ints[0]['intent'])
+    res = get_response(ints, intents)
+        
+    # if message == "bye" or message == "goodbye" or message == "deal":
+    if ints[0]['intent'] == "goodbye" or ints[0]['intent'] == "deal":
         print("| Bot:", res)
         print("|===================== The Program End here! =====================|")
         exit()
 
     else:
-        ints = predict_class(message)
-        res = get_response(ints, intents) 
-        if ints[0]['intent'] == "numbers":      #checks to see the intent of the chatbot
+        if ints[0]['intent'] == "negotiate":      #checks to see the intent of the chatbot
             figures = re.findall(r'\d+', message)   #finds all the numbers in the message
             if len(figures) == 0:
                 print("| Bot:", res)
@@ -92,10 +90,4 @@ while True:
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
-
-
-
-        # if "%d" in res:
-        #     print("| Bot:", res % (5000))
-        # else:
-        print("| Bot:", res)
+    print("| Bot:", res)

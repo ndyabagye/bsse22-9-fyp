@@ -9,12 +9,17 @@
   "responses": ["The price of is %d"]
   },
 
-  {"tag": "numbers",
-  "patterns": ["make it (.*)"],
+  {"tag": "negotiate",
+  "patterns": ["make it (.*)", "i have only (.*)", "i can give you (.*)", "i can give you (.*) for (.*)"],
   "responses": ["Deal"]
   },
 
-  {"tag": "negotiate",
+  {"tag": "disagree",
+  "patterns": ["no deal","deal is off","nope","no thanks", "no thank you", "no, thanks", "no, thank you"],
+  "responses": ["Okay, what's your offer then?", "So what are you suggesting?"]
+  },
+
+  {"tag": "numbers",
     "patterns": ["what can you do for me?","reduce the price", "what's the lowest value", "i have only"],
     "responses": ["that's the lowest value", "just add alitte bit more"]
   },

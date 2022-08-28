@@ -12,24 +12,27 @@ import AddProductPage from "./AdminBackend/pages/AddProductPage";
 // import Header from "./Shared/Header";
 
 function App() {
+  // const [token ,setToken] = useState();
+
+  // if(!token) {
+  //   return <Login setToken={setToken} />
+  // }
 
   return (
     <Router>
       <Routes>
         {/* authentication */}
-        <Route exact path="/" element={<Login />} />
+        <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />
         {/* customer */}
+        <Route exact path="/" element={<Landing />} />
         <Route exact path="/landing" element={<Landing />} />
         <Route path="/category/:id" element={<SingleProduct />} />
           {/* admin */}
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin/products" element={<Products />} />
-        <Route path="/admin/categories" element={<Products />} />
-        <Route path="/admin/brands" element={<Products />} />
-        <Route path="/admin/settings" element={<Products />} />
-        <Route path="/admin/addProducts" element={<AddProductPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/addProducts" element={<AddProductPage />} />
       </Routes>
     </Router>
   );
