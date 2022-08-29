@@ -1,21 +1,16 @@
-import React ,{useState, useEffect}from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-// import brands from "../data/brands.json";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchBrands } from "../data/brands/brandsSlice";
+import Loader from "./Loader";
 
 export default function SideBar() {
-  const [brands, setBrands] = useState([]);
-  // const trimmed = brands.slice(0, 10);
+  const brands = useSelector((state) => state.brands);
 
-  const fetchBrands = async () => {
-    const result = await axios('https://private-anon-ddcbf94e5c-carsapi1.apiary-mock.com/manufacturers');
-    console.log(result);
-    setBrands(result.data);
-  }
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchBrands();
-  });
+    dispatch(fetchBrands());
+  }, [dispatch]);
 
   return (
     <aside className="w-full h-full" aria-label="Sidebar">
@@ -30,22 +25,37 @@ export default function SideBar() {
             Auto Car
           </span>
         </Link>
-        <ul className="space-y-2 h-screen overflow-y-scroll w-full">
-          {brands?.map((brand) => (
-            <li key={brand.name} className="">
-              <Link to={`/category/${brand.name}`}>
-                <div className="flex items-center p-2 space-x-2 rounded-lg hover:bg-gray-200">
-                  {/* <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  /> */}
-                  <span className="ml-3 text-base font-normal text-gray-900 capitalize">{brand.name}</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {brands.loading && (
+          <div className="flex items-center justify-center h-full">
+            <Loader />
+          </div>
+        )}
+        {!brands.loading && brands.error ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader />
+          </div>
+        ) : null}
+        {!brands.loading && brands?.brands.length ? (
+          <ul className="space-y-2 h-screen overflow-y-scroll w-full">
+            {brands?.brands?.map((brand) => (
+              <li key={brand.name} className="">
+                <Link to={`/category/${brand.name}`}>
+                  <div className="flex items-center p-2 space-x-2 rounded-lg hover:bg-gray-200">
+                    {/* <img
+                src={brand.logo}
+                alt={brand.name}
+                className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              /> */}
+                    <span className="ml-3 text-base font-normal text-gray-900 capitalize">
+                      {brand.name}
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </aside>
-  )};
+  );
+}
