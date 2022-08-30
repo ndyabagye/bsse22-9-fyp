@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'location',
-    'predictor.apps.PredictorConfig',
+    'predictor',
+    'negotiation',
+    'chat',
 ]
 
 MIDDLEWARE = [

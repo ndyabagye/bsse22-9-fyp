@@ -10,7 +10,7 @@ from vendor.models import Vendor
 
 # Create your models here.
 class Category(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=55)
     ordering = models.IntegerField(default=0)
     description = models.CharField(max_length=50, blank=True,null=True)
