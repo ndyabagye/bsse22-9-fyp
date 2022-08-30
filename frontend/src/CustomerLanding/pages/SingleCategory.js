@@ -2,24 +2,19 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../../Shared/Layout";
 import { useSelector } from "react-redux";
-// import { filterByName } from "../../data/brands/brandsSlice";
 // import Loader from "../../Shared/Loader";
 import ProductCard from "../components/ProductCard";
 
 export default function SingleCategory() {
   const params = useParams();
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(filterByName(params.id));
-  // }, [dispatch, params]);
 
   const categories = useSelector((state) => {
-    const all = state?.brands?.brands;
-    return all.filter((brand) =>
-      brand.name.toLowerCase().includes(params.id.toLowerCase())
+    const allCars = state?.cars?.cars;
+    return allCars.filter((car) =>
+      car.make.toLowerCase().includes(params.id.toLowerCase())
     );
   });
+
   console.log("Categories", categories);
   return (
     <Layout>

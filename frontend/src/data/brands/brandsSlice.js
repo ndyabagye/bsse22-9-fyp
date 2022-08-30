@@ -19,19 +19,6 @@ export const fetchBrands = createAsyncThunk("brands/fetchBrands", async () => {
 export const brandsSlice = createSlice({
   name: "brands",
   initialState,
-  reducers: {
-    filterByName: (state, action) => {
-      const filteredBrands = state?.brands?.filter(
-        (brand) => brand.name.toLowerCase().includes(action.payload.toLowerCase())
-      );
-      console.log('filtered', filteredBrands);
-      return {
-        ...state,
-        filteredBrands:
-          action.payload.length > 0 ? filteredBrands : [...state.brands],
-      };
-    },
-  },
   extraReducers: (builder) => {
     builder.addCase(fetchBrands.pending, (state) => {
       state.loading = true;
@@ -49,6 +36,6 @@ export const brandsSlice = createSlice({
   },
 });
 
-export const { filterByName} = brandsSlice.actions;
+// export const { filterByName} = brandsSlice.actions;
 
 export default brandsSlice.reducer;

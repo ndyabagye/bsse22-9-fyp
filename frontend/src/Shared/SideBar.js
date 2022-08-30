@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { fetchBrands } from "../data/brands/brandsSlice";
 import Loader from "./Loader";
 
 export default function SideBar() {
-  const brands = useSelector((state) => state.brands);
+  const brands = useSelector((state) => state.brands, shallowEqual);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -42,10 +42,10 @@ export default function SideBar() {
                 <Link to={`/category/${brand.name}`}>
                   <div className="flex items-center p-2 space-x-2 rounded-lg hover:bg-gray-200">
                     {/* <img
-                src={brand.logo}
-                alt={brand.name}
-                className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              /> */}
+                      src={brand.img_url}
+                      alt=""
+                      className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    /> */}
                     <span className="ml-3 text-base font-normal text-gray-900 capitalize">
                       {brand.name}
                     </span>
