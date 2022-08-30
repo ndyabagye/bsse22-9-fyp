@@ -9,9 +9,6 @@ import Users from "./AdminBackend/pages/Users";
 import Products from "./AdminBackend/pages/Products";
 import AddProductPage from "./AdminBackend/pages/AddProductPage";
 import SingleCategory from './CustomerLanding/pages/SingleCategory';
-// import axios from 'axios';
-// import Login from "./auth/Login";
-// import Header from "./Shared/Header";
 
 function App() {
   // const [token ,setToken] = useState();
