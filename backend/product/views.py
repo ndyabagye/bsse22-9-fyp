@@ -7,32 +7,162 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 
-from .forms import AddToCartForm,CategoryForm
+from .forms import AddToCartForm,CategoryForm,BrandForm
 from cart.cart import Cart
 from predictor.models import Predictor
 from chat.models import ChatBot
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt # import
 
-#--- USED TO GET BRANDS---#
+#---BRAND URLS---#
 def all_brands(request):
-    brands = list(Product.objects.values())
+    brands = list(Brand.objects.values())
     return JsonResponse(brands,safe=False)
 
+@csrf_exempt
+def create_brand(request):
+    if request.method == 'POST':
+        brand = BrandForm(request.POST)
+        if brand.is_valid():
+            name = brand.cleaned_data['name']
+            slug = brand.cleaned_data['slug']
+            description = brand.cleaned_data['description']
+            status = brand.cleaned_data['status']
+            saved_brand = Brand.objects.create(
+                name = name,
+                slug=slug,
+                description=description,
+                status = status
+            )
+            if saved_brand:
+                obj = Brand.objects.filter(pk=saved_brand.id)
+                brand = list(obj.values())
+                return JsonResponse(brand,safe=False)
+        return HttpResponse("invalid")
 
-#--- USED TO GET CATEGORIES---#
+def get_brand(request, brand_id):
+    obj = Brand.objects.filter(pk=brand_id)
+    brand = list(obj.values())
+    return JsonResponse(brand,safe=False)
+
+@csrf_exempt
+def update_brand(request,brand_id):
+    if request.method == 'POST':
+        brand = BrandForm(request.POST)
+        if brand.is_valid():
+            obj = Brand.objects.get(id=brand_id)
+            obj.name = brand.cleaned_data['name']
+            obj.slug = brand.cleaned_data['slug']
+            obj.description = brand.cleaned_data['description']
+            obj.status = brand.cleaned_data['status']
+            try:
+                obj.save()
+                obj = Brand.objects.filter(pk=obj.id)
+                brand = list(obj.values())
+                return JsonResponse(brand,safe=False)
+            except:
+                return HttpResponse("invalid")    
+        else:
+            return HttpResponse("invalid") 
+
+def archive_brand(request, brand_id):
+    obj = Brand.objects.get(id=brand_id)
+    obj.archived = True
+    try:
+        obj.save()
+        obj = Brand.objects.filter(pk=obj.id)
+        brand = list(obj.values())
+        return JsonResponse(brand,safe=False)
+    except:
+        return HttpResponse("invalid")
+
+
+#---CATEGORY URLS---#
 def all_categories(request):
     categories = list(Category.objects.values())
     return JsonResponse(categories,safe=False)
 
-def get_child_categories(request):
-    child_categories = list(Category.objects.values())
-    return JsonResponse(child_categories,safe=False)
+@csrf_exempt
+def create_category(request):
+    if request.method == 'POST':
+        category = CategoryForm(request.POST)
+        if category.is_valid():
+            name = category.cleaned_data['name']
+            slug = category.cleaned_data['slug']
+            description = category.cleaned_data['description']
+            status = category.cleaned_data['status']
+            saved_category = Category.objects.create(
+                name = name,
+                slug=slug,
+                description=description,
+                status = status
+            )
+            if saved_category:
+                obj = Category.objects.filter(pk=saved_category.id)
+                category = list(obj.values())
+                return JsonResponse(category,safe=False)
+        return HttpResponse("invalid")
 
-#--- USED TO GET PRODUCTS---#
+def get_category(request, category_id):
+    obj = Category.objects.filter(pk=category_id)
+    category = list(obj.values())
+    return JsonResponse(category,safe=False)
+
+@csrf_exempt
+def update_category(request,category_id):
+    if request.method == 'POST':
+        category = CategoryForm(request.POST)
+        if category.is_valid():
+            obj = Category.objects.get(id=category_id)
+            obj.name = category.cleaned_data['name']
+            obj.slug = category.cleaned_data['slug']
+            obj.description = category.cleaned_data['description']
+            obj.status = category.cleaned_data['status']
+            try:
+                obj.save()
+                obj = Category.objects.filter(pk=obj.id)
+                category = list(obj.values())
+                return JsonResponse(category,safe=False)
+            except:
+                return HttpResponse("invalid")    
+        else:
+            return HttpResponse("invalid") 
+
+def archive_category(request, category_id):
+    obj = Category.objects.get(id=category_id)
+    obj.archived = True
+    try:
+        obj.save()
+        obj = Category.objects.filter(pk=obj.id)
+        category = list(obj.values())
+        return JsonResponse(category,safe=False)
+    except:
+        return HttpResponse("invalid")
+
+#---PRODUCT URLS---#
 def all_products(request):
     products = list(Product.objects.values())
     return JsonResponse(products,safe=False)
+
+def create_product(request, product_id):
+    obj = Product.objects.filter(pk=product_id)
+    product = list(obj.values())
+    return JsonResponse(product,safe=False)
+
+def get_product(request, product_id):
+    obj = Product.objects.filter(pk=product_id)
+    product = list(obj.values())
+    return JsonResponse(product,safe=False)
+
+def update_product(request, product_id):
+    obj = Product.objects.filter(pk=product_id)
+    product = list(obj.values())
+    return JsonResponse(product,safe=False)
+
+def archive_product(request, product_id):
+    obj = Product.objects.filter(pk=product_id)
+    product = list(obj.values())
+    return JsonResponse(product,safe=False)
 
 def brand_products(request,brand_id):
     obj = Product.objects.filter(brand_id=brand_id)
@@ -49,10 +179,6 @@ def category_products(request,category_id):
     products = list(obj.values())
     return JsonResponse(products,safe=False)
 
-def single_product(request, product_id):
-    obj = Product.objects.filter(pk=product_id)
-    product = list(obj.values())
-    return JsonResponse(product,safe=False)
 
 @csrf_exempt 
 def predict_price(request):
@@ -95,21 +221,6 @@ def store_brand(request):
             #finally save the object in db
             obj.save()
             return HttpResponseRedirect('/')"""
-
-@csrf_exempt 
-def store_category(request):
-    if request.method == 'POST':
-        category = CategoryForm(request.POST)
-        if category.is_valid():
-            obj = Category() #gets new object
-            obj.title = category.cleaned_data['title']
-            obj.slug = category.cleaned_data['slug']
-            obj.description = category.cleaned_data['description']
-            obj.save()
-            return HttpResponse("valid")
-        else:
-            return HttpResponse("invalid")
-
 
 
 # Create your views here.
