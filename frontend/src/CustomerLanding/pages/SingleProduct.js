@@ -1,8 +1,13 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../Shared/Layout";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChats, incrementMessagesCount, addMessage, openChat } from "../../data/chat/chatSlice";
+import {
+  fetchChats,
+  incrementMessagesCount,
+  addMessage,
+  openChat,
+} from "../../data/chat/chatSlice";
 import { Launcher } from "../../chat";
 
 export default function SingleProduct() {
@@ -14,8 +19,8 @@ export default function SingleProduct() {
     return allCars.find((car) => Number(car.id) === Number(params.id));
   });
 
-  const chatState = useSelector((state)=> state.chats);
-  console.log('Chat State', chatState)
+  const chatState = useSelector((state) => state.chats);
+  console.log("Chat State", chatState);
   const dispatch = useDispatch();
 
   // useEffect(()=> {
@@ -28,7 +33,6 @@ export default function SingleProduct() {
   //   dispatch(fetchChats(initialFormData))
   // },[dispatch]);
 
-
   const [state, setState] = useState({
     messageList: [],
     newMessagesCount: 0,
@@ -36,23 +40,24 @@ export default function SingleProduct() {
     fileUpload: true,
   });
 
-  console.log('state', state);
+  console.log("state", state);
 
   function onMessageWasSent(message) {
+    console.log("Chat state message", message);
     // console.log('message is', message);
     const formData = new FormData();
-    formData.append('client_response', message.data.text);
-    formData.append('old_price_list', 0);
-    formData.append('offer_list', 0);
+    formData.append("client_response", message.data.text);
+    formData.append("old_price_list", chatState.old_price_list);
+    formData.append("offer_list", chatState.offer_list);
     // product base price
-    formData.append('base_price', 70000);
+    formData.append("base_price", chatState.base_price);
     // product selling price
-    formData.append('selling_price', 100000);
-    message= {
-      author: 'me',
-      type:'text',
-      data:message.data.text
-    }
+    formData.append("selling_price", chatState.selling_price);
+    message = {
+      author: "me",
+      type: "text",
+      data: { text: message.data.text },
+    };
     dispatch(addMessage(message));
     dispatch(fetchChats(formData));
   }
@@ -83,16 +88,16 @@ export default function SingleProduct() {
     }));
   }
 
-  function sendMessage(text){
-    console.log('text', text)
-    if(text.length > 0){
+  function sendMessage(text) {
+    console.log("text", text);
+    if (text.length > 0) {
       incrementMessagesCount();
       const formData = new FormData();
-      formData.append('client_response', text);
-      formData.append('old_price_list', text);
-      formData.append('offer_list', text);
-      formData.append('base_price', text);
-      formData.append('selling_price', text);
+      formData.append("client_response", text);
+      formData.append("old_price_list", text);
+      formData.append("offer_list", text);
+      formData.append("base_price", text);
+      formData.append("selling_price", text);
       dispatch(fetchChats(formData));
     }
   }
@@ -117,8 +122,8 @@ export default function SingleProduct() {
   //   }
   // }
 
-  function onClick(){
-    dispatch(openChat())
+  function onClick() {
+    dispatch(openChat());
   }
   // function onClick() {
   //   setState((state) => ({
@@ -171,8 +176,8 @@ export default function SingleProduct() {
               imageUrl:
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
               title:
-                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-              text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                "Chat Format",
+              text: "Please use a format of Make it {intended price}",
             }}
             placeholder="Type here..."
           />
