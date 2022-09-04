@@ -5,8 +5,8 @@ const initialState = {
   client_response: "",
   old_price_list: 0,
   offer_list: 0,
-  base_price: 0,
-  selling_price: 0,
+  base_price: 70000,
+  selling_price: 100000,
 
   ai_response: "",
 
@@ -29,7 +29,7 @@ export const fetchChats = createAsyncThunk(
 
     const currentUser = "me";
 
-    export const brandsSlice = createSlice({
+    export const chatSlice = createSlice({
         name: "brands",
         initialState,
         reducers: {
@@ -41,7 +41,7 @@ export const fetchChats = createAsyncThunk(
                 state.newMessagesCount = 0;
             },
             addMessage(state,message){
-                console.log('Message is', message);
+                console.log('Message is', message.payload);
                 state.messageList =  [...state.messageList, message.payload];
             }
         },
@@ -53,7 +53,7 @@ export const fetchChats = createAsyncThunk(
                 state.loading = false;
     //   state.ai_response = action.payload.ai_response;
       state.offer_list = action.payload.offer_list;
-      state.old_price_list = action.payload.old_price_list;
+      state.old_price_list = action.payload.old_price_List;
       state.selling_price = action.payload.selling_price;
       state.base_price = action.payload.base_price;
       state.error = "";
@@ -74,6 +74,6 @@ export const fetchChats = createAsyncThunk(
   },
 });
 
-export const { incrementMessagesCount, openChat, addMessage } = brandsSlice.actions;
+export const { incrementMessagesCount, openChat, addMessage } = chatSlice.actions;
 
-export default brandsSlice.reducer;
+export default chatSlice.reducer;
