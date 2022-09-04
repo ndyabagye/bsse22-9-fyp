@@ -77,6 +77,8 @@ while True:
         print("|===================== The Program End here! =====================|")
         exit()
 
+
+
     else:
         if ints[0]['intent'] == "negotiate":      #checks to see the intent of the chatbot
             figures = re.findall(r'\d+', message)   #finds all the numbers in the message
@@ -90,4 +92,5 @@ while True:
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
+                print(asking_price, old_price_list, display_value, last_price,offer_list)
     print("| Bot:", res)
