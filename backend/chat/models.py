@@ -72,9 +72,8 @@ class ChatBot(models.Model):
                 print("")
                 print(chatbot_response)
                 print("")
-                
-
                 return chatbot_response
+        return res
 
     
     def clean_up_sentence(sentence):
