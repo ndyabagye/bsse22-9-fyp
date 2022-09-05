@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product,access.product,model_product,,1,1,1,1
+access_brand,access.brand,model_brand,,1,1,1,1
+access_car_model,access.car.model,model_car_model,,1,1,1,1
+access_category,access.category,model_category,,1,1,1,1
+access_order,access.order,model_order,,1,1,1,1
