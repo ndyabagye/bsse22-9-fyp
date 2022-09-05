@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--===============CATEGORY SEARCH===================-->
+    <record id="category_search" model="ir.ui.view"> 
+        <field name="name">category.search</field>
+        <field name="model">category</field> 
+        <field name="arch" type="xml">
+            <search string="Category"> 
+                <field name="name" string ="Name"/>
+                <field name="description" string ="Description"/>
+            </search>
+        </field>
+    </record>
+
+    <!--===============CATEGORY FORM VIEW===================-->
+    <record id="category_form" model="ir.ui.view">
+        <field name="name">category.form</field>
+        <field name="model">category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <group string = "Category Information">
+                        <group>
+                            <field name="name" placeholder="Name"/>
+                            <field name="description" placeholder="Provide a brief description of the category"/>
+                        </group>
+                        <group>
+                        
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--===============CATEGORY TREE VIEW===================-->
+    <record id="category_tree" model="ir.ui.view">
+        <field name="name">category.tree</field>
+        <field name="model">category</field>
+        <field name="arch" type="xml">
+            <tree string="Category">
+                <field name="name"/>
+                <field name="description" string ="Description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--===========================CATEGORY STATUS ACTION WINDOW========================-->
+    <record id="category_action" model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">category</field>
+        <field name="view_mode">tree,form,search</field> 
+        <field name="search_view_id" ref="category_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Category
+            </p>
+        </field>
+    </record>
+</odoo>
