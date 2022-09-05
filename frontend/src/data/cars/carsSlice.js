@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   cars: [],
   filteredCars: [],
+  selectedCar: [],
   error: null,
 };
 
@@ -29,6 +30,12 @@ export const carsSlice = createSlice({
           action.payload.length > 0 ? filteredCars : [...state.cars],
       };
     },
+    setSelectedCar: (state, action) => {
+      return {
+        ...state,
+        selectedCar: action.payload,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCars.pending, (state) => {
@@ -47,6 +54,6 @@ export const carsSlice = createSlice({
   },
 });
 
-export const { filterByName} = carsSlice.actions;
+export const { filterByName, setSelectedCar } = carsSlice.actions;
 
 export default carsSlice.reducer;

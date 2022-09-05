@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../Shared/Layout";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchChats,
@@ -9,19 +9,28 @@ import {
   openChat,
 } from "../../data/chat/chatSlice";
 import { Launcher } from "../../chat";
+import { setSelectedCar } from "../../data/cars/carsSlice";
+import { Button } from "flowbite-react";
 
 export default function SingleProduct() {
   const params = useParams();
+  const dispatch = useDispatch();
 
   const singleProduct = useSelector((state) => {
     const allCars = state?.cars?.cars;
     // console.log("params", params.id);
-    return allCars.find((car) => Number(car.id) === Number(params.id));
+    const singleCar = allCars.find(
+      (car) => Number(car.id) === Number(params.id)
+    );
+    return singleCar;
   });
+
+  useEffect(() => {
+    dispatch(setSelectedCar(singleProduct));
+  }, [dispatch, singleProduct]);
 
   const chatState = useSelector((state) => state.chats);
   console.log("Chat State", chatState);
-  const dispatch = useDispatch();
 
   // useEffect(()=> {
   //   const initialFormData = new FormData();
@@ -138,8 +147,11 @@ export default function SingleProduct() {
   return (
     <Layout>
       <div className="w-full h-full">
-        <div className="grid grid-cols-3 gap-2 bg-gray-300 p-2">
-          <div id="image" className="col-span-1 ">
+        <Link to="/">
+        <Button className="mx-2" gradientMonochrome="cyan">Go Back</Button>
+        </Link>
+        <div className="grid grid-cols-5 gap-2 p-2">
+          <div id="image" className="col-span-2">
             <img
               src={singleProduct.img_url}
               className="h-full w-full object-cover rounded-md"
@@ -148,12 +160,30 @@ export default function SingleProduct() {
           </div>
           <div
             id="details"
-            className="col-span-2 bg-red-400 flex justify-start p-2"
+            className="col-span-3 flex justify-start p-2 w-full"
           >
-            <div className="flex flex-col">
-              <h3 className="text-center text-gray-700 font-semibold">
+            <div className="flex flex-col w-full">
+              <h3 className=" text-gray-700 text-3xl font-normal capitalize pb-5 border-b border-gray-300">
                 {singleProduct.make}
               </h3>
+              <h3 className=" text-gray-700 text-2xl font-normal capitalize py-3 border-b border-gray-300">
+                {singleProduct.model}
+              </h3>
+              <h3 className=" text-gray-700 text-2xl font-normal capitalize py-3 border-b border-gray-300">
+                {singleProduct.year}
+              </h3>
+              <p className="text-base border-b border-300 py-3">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
+                ipsam aliquid eaque ullam quaerat laboriosam magni, eum
+                explicabo distinctio ea, mollitia, officia quod in. Magnam hic
+                repellendus nemo ratione ad.
+              </p>
+              <div className="py-4 flex space-x-4">
+                <Button>Add To Cart</Button>
+                <Link to="/checkout">
+                <Button color="purple">Checkout</Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -175,8 +205,7 @@ export default function SingleProduct() {
             pinMessage={{
               imageUrl:
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
-              title:
-                "Chat Format",
+              title: "Chat Format",
               text: "Please use a format of Make it {intended price}",
             }}
             placeholder="Type here..."
