@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function ProductCard({ car }) {
-  console.log("car", car);
+  // console.log("car", car);
   return (
     <div className="flex flex-col border shadow-sm border-gray-300 bg-white rounded-sm">
       <div className="bg-gray-200 h-36 w-full">

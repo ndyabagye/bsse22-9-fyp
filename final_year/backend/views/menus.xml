@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="Autocar" 
+        sequence="1" 
+        action="backend_action" 
+        id="menu_action_autocar"/>
+
+    <menuitem 
+        action="backend_action" 
+        id="dashboard" 
+        parent="backend.menu_action_autocar" 
+        name="Dashboard" 
+        sequence="1" 
+    />
+
+    <menuitem name="Products" 
+        sequence="2" 
+        parent="backend.menu_action_autocar" 
+        action="product_action" 
+        id="menu_action_product"/>
+
+    <menuitem name="Orders" 
+        sequence="3" 
+        parent="backend.menu_action_autocar" 
+        action="order_action" 
+        id="menu_action_order"/>
+
+    <menuitem name="Categories" 
+        sequence="4" 
+        parent="backend.menu_action_autocar" 
+        action="category_action" 
+        id="menu_action_category"/>
+
+    <menuitem name="Brands" 
+        sequence="5" 
+        parent="backend.menu_action_autocar" 
+        action="brand_action" 
+        id="menu_action_brand"/>
+    
+    <menuitem name="Car Models" 
+        sequence="6" 
+        parent="backend.menu_action_autocar" 
+        action="car_model_action" 
+        id="menu_action_car_model"/>
+    
+</odoo>

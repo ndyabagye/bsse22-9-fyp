@@ -2,6 +2,7 @@ import random
 
 def lower_price(asking_price, old_price_list, display_value, last_price):
     
+    
     if (display_value <= asking_price):
         print(display_value)
         return "Deal!"

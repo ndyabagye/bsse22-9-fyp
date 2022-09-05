@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--===============BRAND SEARCH===================-->
+    <record id="car_model_search" model="ir.ui.view"> 
+        <field name="name">car.model.search</field>
+        <field name="model">car.model</field> 
+        <field name="arch" type="xml">
+            <search string="Model"> 
+                <field name="name" string ="Name"/>
+                <field name="brand_id" string ="Brand"/>
+                <field name="description" string ="Description"/>
+            </search>
+        </field>
+    </record>
+
+    <!--===============BRAND FORM VIEW===================-->
+    <record id="car_model_form" model="ir.ui.view">
+        <field name="name">car.model.form</field>
+        <field name="model">car.model</field>
+        <field name="arch" type="xml">
+            <form string="Model">
+                <sheet>
+                    <group string = "Model Information">
+                        <group>
+                            <field name="name" placeholder="Name"/>
+                            <field name="brand_id" string ="Brand"/>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Provide a brief description of the car model"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--===============BRAND TREE VIEW===================-->
+    <record id="car_model_tree" model="ir.ui.view">
+        <field name="name">car.model.tree</field>
+        <field name="model">car.model</field>
+        <field name="arch" type="xml">
+            <tree string="Model">
+                <field name="name"/>
+                <field name="brand_id" string ="Brand"/>
+                <field name="description" placeholder="Provide a brief description of the car model"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--===========================BRAND STATUS ACTION WINDOW========================-->
+    <record id="car_model_action" model="ir.actions.act_window">
+        <field name="name">Model</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">car.model</field>
+        <field name="view_mode">tree,form,search</field> 
+        <field name="search_view_id" ref="car_model_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Model
+            </p>
+        </field>
+    </record>
+
+</odoo>
