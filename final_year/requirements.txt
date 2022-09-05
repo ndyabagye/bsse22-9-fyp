@@ -1,0 +1,144 @@
+Babel==2.9.1  # min version = 2.6.0 (Focal with security backports)
+chardet==3.0.4
+decorator==4.4.2
+docutils==0.16
+ebaysdk==2.1.5
+freezegun==0.3.11; python_version < '3.8'
+freezegun==0.3.15; python_version >= '3.8'
+gevent==1.5.0 ; python_version == '3.7'
+gevent==20.9.0 ; python_version > '3.7' and python_version <= '3.9'
+gevent==21.8.0 ; python_version > '3.9'  # (Jammy)
+greenlet==0.4.15 ; python_version == '3.7'
+greenlet==0.4.17 ; python_version > '3.7' and python_version <= '3.9'
+greenlet==1.1.2 ; python_version  > '3.9'  # (Jammy)
+idna==2.8
+Jinja2==2.11.3 # min version = 2.10.1 (Focal - with security backports)
+libsass==0.18.0
+lxml==4.6.5 # min version = 4.5.0 (Focal - with security backports)
+MarkupSafe==1.1.0
+num2words==0.5.6
+ofxparse==0.19; python_version <= '3.9'
+ofxparse==0.21; python_version > '3.9'  # (Jammy)
+passlib==1.7.3 # min version = 1.7.2 (Focal with security backports)
+Pillow==9.0.1  # min version = 7.0.0 (Focal with security backports)
+polib==1.1.0
+psutil==5.6.7 # min version = 5.5.1 (Focal with security backports)
+psycopg2==2.7.7; sys_platform != 'win32' and python_version < '3.8'
+psycopg2==2.8.6; sys_platform == 'win32' or python_version >= '3.8'
+pydot==1.4.1
+pyopenssl==19.0.0
+PyPDF2==1.26.0
+pypiwin32 ; sys_platform == 'win32'
+pyserial==3.4
+python-dateutil==2.7.3
+python-ldap==3.4.0 ; sys_platform != 'win32'  # min version = 3.2.0 (Focal with security backports)
+python-stdnum==1.13
+pytz==2019.3
+pyusb==1.0.2
+qrcode==6.1
+reportlab==3.5.59 # version < 3.5.54 are not compatible with Pillow 8.1.2 and 3.5.59 is bullseye
+requests==2.25.1 # versions < 2.25 aren't compatible w/ urllib3 1.26. Bullseye = 2.25.1. min version = 2.22.0 (Focal)
+urllib3==1.26.5 # indirect / min version = 1.25.8 (Focal with security backports)
+vobject==0.9.6.1
+Werkzeug==0.16.1 ; python_version <= '3.9'
+Werkzeug==2.0.2 ; python_version > '3.9'  # (Jammy)
+xlrd==1.1.0; python_version < '3.8'
+xlrd==1.2.0; python_version >= '3.8'
+XlsxWriter==1.1.2
+xlwt==1.3.*
+zeep==3.4.0
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+absl-py==1.1.0
+asgiref==3.3.4
+asttokens==2.0.5
+astunparse==1.6.3
+backcall==0.2.0
+cachetools==5.2.0
+certifi==2021.5.30
+cffi==1.15.1
+charset-normalizer==2.1.0
+click==8.1.3
+cryptography==37.0.4
+cycler==0.11.0
+debugpy==1.6.2
+defusedxml==0.7.1
+Django==3.2.4
+django-allauth==0.51.0
+django-cors-headers==3.13.0
+django-rest-auth==0.9.5
+djangorestframework==3.13.1
+entrypoints==0.4
+executing==0.8.3
+Flask==2.1.2
+flatbuffers==1.12
+fonttools==4.34.4
+gast==0.4.0
+google-auth==2.9.1
+google-auth-oauthlib==0.4.6
+google-pasta==0.2.0
+grpcio==1.47.0
+h5py==3.7.0
+ipykernel==6.15.1
+ipython==8.4.0
+itsdangerous==2.1.2
+jedi==0.18.1
+joblib==1.1.0
+jupyter-client==7.3.4
+jupyter-core==4.11.1
+keras==2.9.0
+Keras-Preprocessing==1.1.2
+kiwisolver==1.4.3
+libclang==14.0.1
+Markdown==3.3.7
+matplotlib==3.5.2
+matplotlib-inline==0.1.3
+nest-asyncio==1.5.5
+nltk==3.7
+numpy==1.23.1
+oauthlib==3.2.0
+opt-einsum==3.3.0
+packaging==21.3
+pandas==1.4.3
+parso==0.8.3
+pexpect==4.8.0
+pickleshare==0.7.5
+prompt-toolkit==3.0.30
+protobuf==3.19.4
+ptyprocess==0.7.0
+pure-eval==0.2.2
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+pycparser==2.21
+Pygments==2.12.0
+PyJWT==2.4.0
+pyparsing==3.0.9
+python3-openid==3.2.0
+pyzmq==23.2.0
+regex==2022.7.9
+requests==2.25.1
+requests-oauthlib==1.3.1
+rsa==4.8
+scikit-learn==1.1.1
+scipy==1.8.1
+six==1.16.0
+sqlparse==0.4.1
+stack-data==0.3.0
+stripe==2.58.0
+tensorboard==2.9.1
+tensorboard-data-server==0.6.1
+tensorboard-plugin-wit==1.8.1
+tensorflow==2.9.1
+tensorflow-estimator==2.9.0
+tensorflow-io-gcs-filesystem==0.26.0
+termcolor==1.1.0
+threadpoolctl==3.1.0
+tornado==6.2
+tqdm==4.64.0
+traitlets==5.3.0
+typing_extensions==4.3.0
+urllib3==1.26.5
+wcwidth==0.2.5
+wrapt==1.14.1
+catboost==1.0.6
+bs4==0.0.1
