@@ -90,4 +90,6 @@ while True:
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
-    print("| Bot:", res)
+    print("Old price list: ", old_price_list)
+    print("Offer list:     ", offer_list)
+    print("| Bot:   ", res)
