@@ -7,9 +7,9 @@
         <field name="arch" type="xml">
             <search string="Order"> 
                 <field name="code"/>
-                <field name="product_id"/>
-                <field name="fname" string ="First Name"/>
-                <field name="lname" string ="Last Name"/>
+                <field name="product_id"  
+                    options="{'no_open':True,'no_quick_create':True,'no_create': True, 'no_create_edit':True}" />
+                <field name="name" string ="Name"/>
                 <field name="email" string ="Email"/>
                 <field name="phone" string ="Phone"/>
                 <field name="address" string ="Address"/>
@@ -37,8 +37,7 @@
                     <group string = "Order Information">
                         <group>
                             <field name="product_id"/>
-                            <field name="fname" string ="First Name"/>
-                            <field name="lname" string ="Last Name"/>
+                            <field name="name" string ="Name"/>
                         </group>
                         <group>
                             <field name="email" string ="Email"/>
@@ -61,8 +60,7 @@
                 <field name="image" widget="image"/>
                 <field name="code"/>
                 <field name="product_id"/>
-                <field name="fname" string ="First Name"/>
-                <field name="lname" string ="Last Name"/>
+                <field name="name" string ="Name"/>
                 <field name="email" string ="Email"/>
                 <field name="phone" string ="Phone"/>
                 <field name="address" string ="Address"/>

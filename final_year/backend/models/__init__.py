@@ -6,8 +6,4 @@ from . import product
 from . import category
 from . import car_model
 from . import order
-
-
 from . import prediction
-#from . import chat
-#from . import negotiation

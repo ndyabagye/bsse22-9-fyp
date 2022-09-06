@@ -19,6 +19,13 @@ urlpatterns = [
     path('all', views.all_products, name="all_products"),
     path('<int:product_id>', views.get_product, name="Get Product"),
     
+    #---ORDER URLS --- all urls that return product objects
+    path('order', views.make_order, name="Make Order"),
+    #path('orders', views.get_orders, name="Get Orders"),
+    
+    #---REGISTER URLS --- all urls that return product objects
+    path('register', views.register_user, name="Register User"),
+
     #---SEND TO CHAT---#
     path('sendChat', views.send_chat, name="send_chat"),
 

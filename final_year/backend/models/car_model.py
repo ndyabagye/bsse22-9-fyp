@@ -7,5 +7,5 @@ class CarModel(models.Model):
     _order = 'name'
 
     name = fields.Char('Name', required=True) 
-    brand_id = fields.Many2one('brand', string = 'Brand')
+    brand_id = fields.Many2one('brand', string = 'Brand', required=True)
     description = fields.Text()

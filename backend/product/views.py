@@ -155,7 +155,52 @@ def get_product(request, product_id):
     )
     
     return JsonResponse(records,safe=False)
+    
+#--ORDER URLS-----#
+@csrf_exempt 
+def make_order(request):
+    if request.method == 'POST':
+        client_response = request.POST
+        order = {}
+        for i in client_response:        
+            order[i] = client_response[i]
+        uid = common.authenticate(db, username, password, {})
+        id = models.execute_kw(db, uid, password, 
+            'order', 'create', [order])
+        if type(id) == int:
+            return HttpResponse(id)
+    return HttpResponse("not saved")
 
+
+
+#-----REGISTRATION
+@csrf_exempt
+def register_user(request):
+    if request.method == 'POST':
+        client_response = request.POST
+        registration = {}
+        for i in client_response:        
+            registration[i] = client_response[i]
+
+        
+        del registration['confirm_password']
+        registration['company_ids'] = [1]
+        registration['company_id'] = 1
+
+        print("") 
+        print(registration)
+        print("")
+
+        uid = common.authenticate(db, username, password, {})   
+        user_id = models.execute_kw(db, uid, password,
+            'res.users', 
+            'create', [
+                registration
+            ])
+
+    if type(user_id) == int:
+            return HttpResponse(user_id)
+    return HttpResponse("not saved")
 
 #-----CHAT URLS----#
 @csrf_exempt 
