@@ -14,7 +14,7 @@ class Predictor(models.Model):
     _name = 'predictor'
     
     def predict(self,car_values):
-        path = os.path.expanduser('/opt/odoo15/final_year/backend/models/columns.csv')
+        path = f'{os.path.dirname(__file__)}/columns.csv'
         columns_file = open(path, 'r')
         cars = pd.read_csv(columns_file)
 
@@ -36,12 +36,11 @@ class Predictor(models.Model):
         }
 
         
-        model = CatBoostRegressor()      # parameters not required.
-        model.load_model(os.path.join('/opt/odoo15/final_year/backend/models/', 'car_model'))
+        model = CatBoostRegressor() 
+        predict_model_path = f'{os.path.dirname(__file__)}/car_model'
+        model.load_model(predict_model_path)
 
 
-        estCars = car_values
-        
         testCars = pd.DataFrame.from_records([testCars])
 
         testCars['age'] = datetime.now().year - testCars['year'] 

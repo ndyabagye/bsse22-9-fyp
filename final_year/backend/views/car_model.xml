@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <search string="Model"> 
                 <field name="name" string ="Name"/>
-                <field name="brand_id" string ="Brand"/>
+                <field name="brand_id" string ="Brand" 
+                    options="{'no_open':True,'no_quick_create':True,'no_create': True, 'no_create_edit':True}" />
                 <field name="description" string ="Description"/>
             </search>
         </field>
