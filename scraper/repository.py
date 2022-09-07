@@ -8,7 +8,7 @@ class Repository:
     #init method to create connection to database traderdb
     def __init__(self, db):
         self.db = db
-        self.conn = psycopg2.connect(dbname=db, user='postgres', password='password', host='localhost', port='5432')
+        self.conn = psycopg2.connect(dbname=db, user='admin', password='password', host='localhost', port='5432')
         self.cur = self.conn.cursor()
         self.create_table()
 
