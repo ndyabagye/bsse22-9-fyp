@@ -9,6 +9,9 @@ import BackendLayout from "../components/BackendLayout";
 import TableFooter from "../../Shared/TableFooter/tableFooter";
 import TableLength from "../../Shared/TableLength/tableLength";
 import { Link } from "react-router-dom";
+import { Button } from "flowbite-react";
+// import { fetchBrands } from "../../data/brands/brandsSlice";
+// import { useDispatch } from "react-redux";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -23,6 +26,7 @@ export default function Products() {
   const { slice, range } = useTable(filteredProducts, page, rowsPerPage);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [ProductsPerPage] = useState(10);
+  // const dispatch = useDispatch();
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -30,6 +34,7 @@ export default function Products() {
     setProducts(res.data.products);
     setFilteredProducts(res.data.products);
     setLoading(false);
+    // dispatch(fetchBrands());
   };
   useEffect(() => {
     fetchProducts();
@@ -194,20 +199,22 @@ export default function Products() {
                         {product?.discountPercentage}
                       </div>
                     </td>
-                    <td className="py-4 px-3 space-x-2">
+                    <td className="py-4 px-3 space-x-2 flex ">
                       {openEditForm?.status}
-                      <button
-                        className="font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-200 p-2 rounded-md"
+                      <Button
+                      pill={true}
+                      size='xs'
                         onClick={() => handleEdit(true, product)}
                       >
                         Edit
-                      </button>
-                      <button
-                        className="font-medium text-red-600 hover:text-red-800 hover:bg-red-200 p-2 rounded-md"
+                      </Button>
+                      <Button color='failure'
+                      pill={true}
+                      size='xs'
                         onClick={() => handleEdit(true, product)}
                       >
                         Delete
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
