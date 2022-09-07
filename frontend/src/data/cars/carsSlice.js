@@ -4,15 +4,22 @@ import axios from "axios";
 const initialState = {
   loading: false,
   cars: [],
+  singleCar:[],
   filteredCars: [],
   error: null,
 };
 
 export const fetchCars = createAsyncThunk("brands/fetchCars", async () => {
   return await axios
-    .get("https://private-anon-c877e400b8-carsapi1.apiary-mock.com/cars")
+    .get("http://localhost:8000/product/all")
     .then((res) => res.data);
 });
+
+export const fetchSingleCar = createAsyncThunk('brands/fetchSingleCar', async (id) => {
+  return await axios
+  .get(`http://localhost:8000/product/${id}`)
+  .then((res)=> res.data);
+})
 
 export const carsSlice = createSlice({
   name: "cars",
@@ -31,6 +38,7 @@ export const carsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // fetch all cars
     builder.addCase(fetchCars.pending, (state) => {
       state.loading = true;
     });
@@ -42,6 +50,21 @@ export const carsSlice = createSlice({
     builder.addCase(fetchCars.rejected, (state, action) => {
       state.loading = false;
       state.cars = [];
+      state.error = action.error.message;
+    });
+
+    // fetch single car
+    builder.addCase(fetchSingleCar.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchSingleCar.fulfilled, (state, action) => {
+      state.loading = false;
+      state.singleCar = action.payload;
+      state.error = "";
+    });
+    builder.addCase(fetchSingleCar.rejected, (state, action) => {
+      state.loading = false;
+      state.singleCar = [];
       state.error = action.error.message;
     });
   },

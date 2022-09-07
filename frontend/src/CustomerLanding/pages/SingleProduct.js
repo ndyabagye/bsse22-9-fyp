@@ -8,20 +8,29 @@ import {
   addMessage,
   openChat,
 } from "../../data/chat/chatSlice";
+import { fetchSingleCar } from "../../data/cars/carsSlice";
+
 import { Launcher } from "../../chat";
 
 export default function SingleProduct() {
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const singleProduct = useSelector((state) => {
-    const allCars = state?.cars?.cars;
-    // console.log("params", params.id);
-    return allCars.find((car) => Number(car.id) === Number(params.id));
-  });
+  useEffect(() => {
+    dispatch(fetchSingleCar(params.id))
+  }, [params, dispatch])
+
+  const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
+
+
+  // const singleProduct = useSelector((state) => {
+  //   const allCars = state?.cars?.cars;
+  //   // console.log("params", params.id);
+  //   return allCars.find((car) => Number(car.id) === Number(params.id));
+  // });
 
   const chatState = useSelector((state) => state.chats);
   console.log("Chat State", chatState);
-  const dispatch = useDispatch();
 
   // useEffect(()=> {
   //   const initialFormData = new FormData();
@@ -135,13 +144,14 @@ export default function SingleProduct() {
 
   // console.log("Single Product", singleProduct);
 
+    console.log('single product', singleProduct.brand_id);
   return (
     <Layout>
       <div className="w-full h-full">
         <div className="grid grid-cols-3 gap-2 bg-gray-300 p-2">
           <div id="image" className="col-span-1 ">
             <img
-              src={singleProduct.img_url}
+              src={'data:image/jpeg;base64,' + singleProduct?.image}
               className="h-full w-full object-cover rounded-md"
               alt=""
             />
@@ -151,8 +161,8 @@ export default function SingleProduct() {
             className="col-span-2 bg-red-400 flex justify-start p-2"
           >
             <div className="flex flex-col">
-              <h3 className="text-center text-gray-700 font-semibold">
-                {singleProduct.make}
+              <h3 className="text-center text-gray-700 text-xl font-semibold">
+                {singleProduct.brand_id[1]}
               </h3>
             </div>
           </div>
