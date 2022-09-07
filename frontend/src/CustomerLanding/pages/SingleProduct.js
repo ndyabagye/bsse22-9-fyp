@@ -8,29 +8,23 @@ import {
   addMessage,
   openChat,
 } from "../../data/chat/chatSlice";
+import { fetchSingleCar } from "../../data/cars/carsSlice";
+
 import { Launcher } from "../../chat";
-import { setSelectedCar } from "../../data/cars/carsSlice";
 import { Button } from "flowbite-react";
 
 export default function SingleProduct() {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const singleProduct = useSelector((state) => {
-    const allCars = state?.cars?.cars;
-    // console.log("params", params.id);
-    const singleCar = allCars.find(
-      (car) => Number(car.id) === Number(params.id)
-    );
-    return singleCar;
-  });
-
   useEffect(() => {
-    dispatch(setSelectedCar(singleProduct));
-  }, [dispatch, singleProduct]);
+    console.log('Dispatch here')
+    dispatch(fetchSingleCar(params.id))
+  }, [params, dispatch])
 
+  const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.chats);
-  console.log("Chat State", chatState);
+  // console.log("Chat State", chatState);
 
   // useEffect(()=> {
   //   const initialFormData = new FormData();
@@ -144,6 +138,7 @@ export default function SingleProduct() {
 
   // console.log("Single Product", singleProduct);
 
+    // console.log('single product', singleProduct.brand_id);
   return (
     <Layout>
       <div className="w-full h-full">
@@ -153,8 +148,8 @@ export default function SingleProduct() {
         <div className="grid grid-cols-5 gap-2 p-2">
           <div id="image" className="col-span-2">
             <img
-              src={singleProduct.img_url}
-              className="h-full w-full object-cover rounded-md"
+              src={'data:image/jpeg;base64,' + singleProduct?.image}
+              className="h-72 w-full object-cover rounded-md"
               alt=""
             />
           </div>
@@ -162,21 +157,22 @@ export default function SingleProduct() {
             id="details"
             className="col-span-3 flex justify-start p-2 w-full"
           >
-            <div className="flex flex-col w-full">
-              <h3 className=" text-gray-700 text-3xl font-normal capitalize pb-5 border-b border-gray-300">
-                {singleProduct.make}
+            <div className="flex flex-col">
+              <h3 className="text-center text-2xl font-semibold">
+                {singleProduct?.brand_id[1]}, {singleProduct?.car_model_id ? singleProduct.car_model_id[1] : ''}
               </h3>
-              <h3 className=" text-gray-700 text-2xl font-normal capitalize py-3 border-b border-gray-300">
-                {singleProduct.model}
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Category : {singleProduct?.category ? singleProduct?.category_id[1] : 'No category registered'}
               </h3>
-              <h3 className=" text-gray-700 text-2xl font-normal capitalize py-3 border-b border-gray-300">
-                {singleProduct.year}
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Vendor :  {singleProduct?.vendor_id ? singleProduct?.vendor_id[1] : 'No vendor registered'}
+              </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Transmission :  {singleProduct?.transmission ? singleProduct?.transmission: 'No transmission registered'}
               </h3>
               <p className="text-base border-b border-300 py-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
-                ipsam aliquid eaque ullam quaerat laboriosam magni, eum
-                explicabo distinctio ea, mollitia, officia quod in. Magnam hic
-                repellendus nemo ratione ad.
+                {singleProduct?.description ? singleProduct?.description : 'No description'}
+                {/* {singleProduct?.description} */}
               </p>
               <div className="py-4 flex space-x-4">
                 <Button>Add To Cart</Button>
@@ -205,7 +201,8 @@ export default function SingleProduct() {
             pinMessage={{
               imageUrl:
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
-              title: "Chat Format",
+              title:
+                "Chat Format",
               text: "Please use a format of Make it {intended price}",
             }}
             placeholder="Type here..."

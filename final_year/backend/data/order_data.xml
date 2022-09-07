@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   
+    <!-- Sequence -->
+    <record id="order_sequence" model="ir.sequence">
+        <field name="name">Order Sequence</field>
+        <field name="code">order.sequence</field>
+        <field name="active">TRUE</field>
+        <field name="prefix">ORD</field>
+        <field name="padding">4</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

@@ -39,13 +39,14 @@ export default function SideBar() {
           <ul className="space-y-2 h-screen overflow-y-scroll w-full">
             {brands?.brands?.map((brand) => (
               <li key={brand.name} className="">
-                <Link to={`/category/${brand.name}`}>
+                <Link to={`/brand/${brand.id}`}>
                   <div className="flex items-center p-2 space-x-2 rounded-lg hover:bg-gray-200">
-                    {/* <img
-                      src={brand.img_url}
+                    <img
+                    src={'data:image/jpeg;base64,' + brand?.brand_logo}
+                      // src={brand.img_url}
                       alt=""
-                      className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    /> */}
+                      className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white rounded-full"
+                    />
                     <span className="ml-3 text-base font-normal text-gray-900 capitalize">
                       {brand.name}
                     </span>

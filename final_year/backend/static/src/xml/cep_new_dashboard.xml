@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="CepNewDashboard">
+        <main class="main-content">
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-sm-3 mb-sm-0 mb-4" style="border-radius: 20px;">
+                        <a id="open_brands" type="object">
+                            <div class="card" style="border-radius: 20px;">
+                                <div class="card-body p-3" style="border-radius: 15px;">
+                                    <div class="row" >
+                                        <div class="col-sm-8">
+                                            <div class="numbers">
+                                                <p class="mb-0 text-capitalize font-weight-bold top_card_label">Brands</p>
+                                                <h5 class="font-weight-bolder mb-0 ">
+                                                    <span id="brand_count" class="top_card_count"></span>
+                                                    <span id="ticket_increase" class="text-success text-sm font-weight-bolder">+0%</span>
+                                                </h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4 text-end">
+                                            <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                                                <i class="mdi mdi-ticket text-lg opacity-10"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3 mb-sm-0 mb-4">
+                        <a id="open_products" type="object">
+                            <div class="card">
+                                <div class="card-body p-3" style="border-radius: 15px;">
+                                    <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold top_card_label">Products</p>
+                                        <h5 class="font-weight-bolder mb-0">
+                                            <span id="product_count" class="top_card_count"></span>
+                                            <span class="text-success text-sm font-weight-bolder">+0%</span>
+                                        </h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 text-end">
+                                        <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                                        <i class="mdi mdi-ticket-confirmation text-lg opacity-10" ></i>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3 mb-sm-0 mb-4">
+                        <a id="open_vendors" type="object">
+                            <div class="card">
+                                <div class="card-body p-3" style="border-radius: 15px;">
+                                    <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold top_card_label">Vendors</p>
+                                        <h5 class="font-weight-bolder mb-0 ">
+                                            <span id="vendor_count" class="top_card_count"></span>
+                                            <span class="text-danger text-sm font-weight-bolder">-0%</span>
+                                        </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 text-end">
+                                        <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                                            <i class="mdi mdi-arrange-bring-to-front text-lg opacity-10" ></i>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-3 mb-sm-0 mb-4">
+                        <a id="open_orders" type="object">
+                            <div class="card">
+                                <div class="card-body p-3" style="border-radius: 15px;">
+                                    <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold top_card_label">Orders</p>
+                                        <h5 class="font-weight-bolder mb-0">
+                                            <span id="order_count" class="top_card_count"></span>
+                                            <span class="text-success text-sm font-weight-bolder">+0%</span>
+                                        </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 text-end">
+                                        <div class="icon icon-shape bg-primary shadow text-center border-radius-md">
+                                            
+                                            <i class="mdi mdi-account text-lg opacity-10" ></i>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="home-tab">
+                            <div class="tab-content tab-content-basic">
+                                <div class = "row">
+                                    
+                                    <!--Most Sold Brand-->
+                                    <div class="col-md-4 grid-margin stretch-card ">
+                                        <div class="card card-rounded ">
+                                            <a id="open_filing_report" type="object">
+                                                <div class="card-body" style="border-radius: 15px;">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <div>
+                                                                    <p class="graph_label card-title card-title-dash ">Most Sold Brand</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3">
+                                                                <canvas id="feedBackFilingReport" height="300"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--Most expensive brand-->
+                                    <div class="col-md-4 grid-margin stretch-card">
+                                        <div class="card card-rounded">
+                                            <a id="open_feedback_by_source" type="object">
+                                                <div class="card-body" style="border-radius: 15px;">
+                                                    <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <p class="card-title card-title-dash graph_label">Most Expensive Brand</p>
+                                                        </div>
+                                                        <canvas class="my-auto" id="feedBackSource" height="200"></canvas>
+                                                        <div id="doughnut-chart-legend" class="mt-5 text-center"></div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--Orders per month, last five months-->
+                                    <div class="col-md-4 grid-margin stretch-card">
+                                        <div class="card card-rounded">
+                                            <a id="open_issues_resolved" type="object">        
+                                                <div class="card-body" style="border-radius: 15px;">
+                                                    <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <div>
+                                                            <p class="card-title card-title-dash graph_label">Orders per Month</p>
+                                                        </div>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                        <canvas id="feedBackSolved" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <script src="/cep_mgmt/static/src/js/Chart.min.js" type="text/javascript"></script>
+            <script src="/cep_mgmt/static/src/js/progressbar.min.js" type="text/javascript"></script>
+            <script src="/cep_mgmt/static/src/js/dashboard.js" type="text/javascript"></script>
+        </main>
+    </t>
+</templates>

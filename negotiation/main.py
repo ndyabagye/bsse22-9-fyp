@@ -62,17 +62,14 @@ print("|=========================== State your price ================|")
 
 old_price_list = [0]
 offer_list = [0]
-display_value = 100000
-last_price = 70000
+display_value = 15000000
+last_price = 12000000
 
 while True:
     message = input("| You: ").lower()
-    ints = predict_class(message)
-    print(ints[0]['intent'])
-    res = get_response(ints, intents)
-        
-    # if message == "bye" or message == "goodbye" or message == "deal":
-    if ints[0]['intent'] == "goodbye" or ints[0]['intent'] == "deal":
+    if message == "bye" or message == "Goodbye" or message == "deal":
+        ints = predict_class(message)
+        res = get_response(ints, intents)
         print("| Bot:", res)
         print("|===================== The Program End here! =====================|")
         exit()
@@ -92,5 +89,6 @@ while True:
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
-                print(asking_price, old_price_list, display_value, last_price,offer_list)
-    print("| Bot:", res)
+    print("Old price list: ", old_price_list)
+    print("Offer list:     ", offer_list)
+    print("| Bot:   ", res)
