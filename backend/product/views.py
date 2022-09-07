@@ -18,29 +18,29 @@ import xmlrpc.client
 
 url = 'http://localhost:8069'
 db = 'finalyear'
-username = 'jkigula@icloud.com'
-password = 'ni3r-mauh-xdwn'
+username = 'ndyabagyehenrytusi@gmail.com'
+password = 'root'
 
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
 #---BRAND URLS---#
 def all_brands(request):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'brand', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'brand',
+        'search_read',
         [[]], {
             'fields': ['id', 'name', 'slug','description','brand_logo']
         }
     )
-    
+
     return JsonResponse(records,safe=False)
 
 def brand_products(request,brand_id):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'product', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'product',
+        'search_read',
         [[['brand_id','=',brand_id]]], {
             'fields': [
                 'id',
@@ -65,21 +65,21 @@ def brand_products(request,brand_id):
 #---CATEGORY URLS---#
 def all_categories(request):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'category', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'category',
+        'search_read',
         [[]], {
             'fields': ['id', 'name', 'description']
         }
     )
-    
+
     return JsonResponse(records,safe=False)
 
 def category_products(request,category_id):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'product', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'product',
+        'search_read',
         [[['category_id','=',category_id]]], {
             'fields': [
                 'id',
@@ -104,9 +104,9 @@ def category_products(request,category_id):
 #---PRODUCT URLS---#
 def all_products(request):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'product', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'product',
+        'search_read',
         [[['status','=',True]]], {
             'fields': [
                 'id',
@@ -126,14 +126,14 @@ def all_products(request):
             ]
         }
     )
-    
+
     return JsonResponse(records,safe=False)
 
 def get_product(request, product_id):
     uid = common.authenticate(db, username, password, {})
-    records = models.execute_kw(db, uid, password, 
-        'product', 
-        'search_read', 
+    records = models.execute_kw(db, uid, password,
+        'product',
+        'search_read',
         [[['id','=',product_id]]], {
             'fields': [
                 'id',
@@ -153,19 +153,19 @@ def get_product(request, product_id):
             ]
         }
     )
-    
+
     return JsonResponse(records,safe=False)
-    
+
 #--ORDER URLS-----#
-@csrf_exempt 
+@csrf_exempt
 def make_order(request):
     if request.method == 'POST':
         client_response = request.POST
         order = {}
-        for i in client_response:        
+        for i in client_response:
             order[i] = client_response[i]
         uid = common.authenticate(db, username, password, {})
-        id = models.execute_kw(db, uid, password, 
+        id = models.execute_kw(db, uid, password,
             'order', 'create', [order])
         if type(id) == int:
             return HttpResponse(id)
@@ -179,21 +179,21 @@ def register_user(request):
     if request.method == 'POST':
         client_response = request.POST
         registration = {}
-        for i in client_response:        
+        for i in client_response:
             registration[i] = client_response[i]
 
-        
+
         del registration['confirm_password']
         registration['company_ids'] = [1]
         registration['company_id'] = 1
 
-        print("") 
+        print("")
         print(registration)
         print("")
 
-        uid = common.authenticate(db, username, password, {})   
+        uid = common.authenticate(db, username, password, {})
         user_id = models.execute_kw(db, uid, password,
-            'res.users', 
+            'res.users',
             'create', [
                 registration
             ])
@@ -203,7 +203,7 @@ def register_user(request):
     return HttpResponse("not saved")
 
 #-----CHAT URLS----#
-@csrf_exempt 
+@csrf_exempt
 def send_chat(request):
     chat_response = {}
     if request.method == 'POST':
