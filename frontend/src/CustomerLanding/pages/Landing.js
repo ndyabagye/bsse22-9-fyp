@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Shared/Layout";
 import Banner from "../../Shared/Banner";
@@ -13,6 +13,7 @@ export default function Landing() {
   useEffect(() => {
     dispatch(fetchCars());
   }, [dispatch]);
+
 
   return (
     <Layout>
@@ -41,6 +42,8 @@ export default function Landing() {
           </>
         ) : null}
       </div>
+
+
     </Layout>
   );
 }

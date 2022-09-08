@@ -146,10 +146,10 @@ class Scraper:
         return car_list
 
 
-    # async def main(self):
-    # cars = await asyncio.gather(self.get_jumia_cars(),
-    #     get_jiji_cars(this))
+      #async def main(self):
+      #cars = await asyncio.gather(self.get_jumia_cars(),
+         #get_jiji_cars(this))
 
-    # asyncio.run(
-    #     main()
-    # )
+     #asyncio.run(
+        # main()
+     #)

@@ -12,6 +12,8 @@ import { fetchSingleCar } from "../../data/cars/carsSlice";
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
+import Chart from "../components/Chart";
+
 
 export default function SingleProduct() {
   const params = useParams();
@@ -20,10 +22,23 @@ export default function SingleProduct() {
   useEffect(() => {
     console.log('Dispatch here')
     dispatch(fetchSingleCar(params.id))
-  }, [params, dispatch])
+  }, [params, dispatch]);
+
+  // useEffect(() => {
+  //   const fetchPrices = async () => {
+  //     const res = await fetch("https://api.coincap.io/v2/assets/?limit=5")
+  //     const data = await res.json()
+  //     console.log(data)
+  //   }
+  //   fetchPrices()
+  // }, []);
+
+  // const [chartData, setChartData] = useState({})
+
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.chats);
+
   // console.log("Chat State", chatState);
 
   // useEffect(()=> {
@@ -72,24 +87,24 @@ export default function SingleProduct() {
   //   }));
   // }
 
-  function onFilesSelected(fileList) {
-    const objectURL = window.URL.createObjectURL(fileList[0]);
+  // function onFilesSelected(fileList) {
+  //   const objectURL = window.URL.createObjectURL(fileList[0]);
 
-    setState((state) => ({
-      ...state,
-      messageList: [
-        ...state.messageList,
-        {
-          type: "file",
-          author: "me",
-          data: {
-            url: objectURL,
-            fileName: fileList[0].name,
-          },
-        },
-      ],
-    }));
-  }
+  //   setState((state) => ({
+  //     ...state,util
+  //     messageList: [
+  //       ...state.messageList,
+  //       {
+  //         type: "file",
+  //         author: "me",
+  //         data: {
+  //           url: objectURL,
+  //           fileName: fileList[0].name,
+  //         },
+  //       },
+  //     ],
+  //   }));
+  // }
 
   function sendMessage(text) {
     console.log("text", text);
@@ -191,7 +206,7 @@ export default function SingleProduct() {
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
             }}
             onMessageWasSent={onMessageWasSent}
-            onFilesSelected={onFilesSelected}
+            // onFilesSelected={onFilesSelected}
             messageList={chatState.messageList}
             newMessagesCount={chatState.newMessagesCount}
             onClick={onClick}
@@ -208,6 +223,8 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
+        <Chart  />
+
       </div>
     </Layout>
   );
