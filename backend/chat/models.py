@@ -15,20 +15,20 @@ import os
 from negotiation.models import Negotiator
 
 class ChatBot(models.Model):
-    
+
     lemmatizer = WordNetLemmatizer()
     words = pickle.load(open(os.path.join(PROJECT_ROOT, 'words.pkl'), 'rb'))
     intents = json.loads(open(os.path.join(PROJECT_ROOT, 'intents.json')).read())
     classes = pickle.load(open(os.path.join(PROJECT_ROOT, 'classes.pkl'), 'rb'))
     model = load_model(os.path.join(PROJECT_ROOT, 'chatbotmodel.h5'))
-                        
+
     def chat(client_response):
-        for i in client_response:        
+        for i in client_response:
             client_response[i] = client_response[i][0]
 
         old_price_list = client_response['old_price_list'].split(",")
         offer_list = client_response['offer_list'].split(",")
-        
+
         x = 0
         for i in old_price_list:
             old_price_list[x] = int(old_price_list[x])
@@ -43,12 +43,12 @@ class ChatBot(models.Model):
         selling_price = int(client_response['selling_price'])
 
         message = client_response['client_response'].lower()
-        
+
         ints = ChatBot.predict_class(message)
         print("")
         print(ints)
         print("")
-        
+
         res = ChatBot.get_response(ints, ChatBot.intents)
         if message == "bye" or message == "Goodbye" or message == "deal":
             res = ChatBot.get_response(ints, ChatBot.intents)
@@ -73,14 +73,17 @@ class ChatBot(models.Model):
                     }
                     return chatbot_response
                 else:
-                    
-                    client_offer = float(figures[0])
+
+                    client_offer = int(figures[0])
                     old_price_list.append(client_offer)
                     reply = Negotiator.lower_price(client_offer, old_price_list, selling_price, base_price)
+                    print('')
+                    print(reply)
+                    print("")
                     ai_response = reply[0]
                     offer_list.append(reply[1])
                     selling_price = reply[1]
-                
+
                 chatbot_response = {
                     'ai_response': ai_response,
                     'offer_list': offer_list,
@@ -89,7 +92,7 @@ class ChatBot(models.Model):
                     'base_price':base_price,
                 }
                 return chatbot_response
-        
+
         chatbot_response = {
             'ai_response': res,
             'offer_list': offer_list,
@@ -105,19 +108,19 @@ class ChatBot(models.Model):
 
         if ints[0]['intent'] == "goodbye" or ints[0]['intent'] == "deal":
             return res
-        elif ints[0]['intent'] == "negotiate": 
+        elif ints[0]['intent'] == "negotiate":
             figures = re.findall(r'\d+', message)   #finds all the numbers in the message
             if len(figures) == 0:
                 return res
             else:
                 client_offer = float(figures[0])
-                
+
                 old_price_list.append(client_offer)
                 reply = Negotiator.lower_price(client_offer, old_price_list, selling_price, base_price)
                 ai_response = reply[0]
                 offer_list.append(reply[1])
                 selling_price = reply[1]
-                
+
                 chatbot_response = {
                     'ai_response': ai_response,
                     'offer_list': offer_list,
@@ -133,7 +136,7 @@ class ChatBot(models.Model):
 
         return res"""
 
-    
+
     def clean_up_sentence(sentence):
         sentence_words = nltk.word_tokenize(sentence)
         sentence_words = [ChatBot.lemmatizer.lemmatize(word)  for word in sentence_words]

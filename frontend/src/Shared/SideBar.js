@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchBrands } from "../data/brands/brandsSlice";
 import Loader from "./Loader";
 
 export default function SideBar() {
-  const brands = useSelector((state) => state.brands, shallowEqual);
+  const brands = useSelector((state) => state.brands);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -30,11 +30,6 @@ export default function SideBar() {
             <Loader />
           </div>
         )}
-        {!brands.loading && brands.error ? (
-          <div className="flex items-center justify-center h-full">
-            <Loader />
-          </div>
-        ) : null}
         {!brands.loading && brands?.brands.length ? (
           <ul className="space-y-2 h-screen overflow-y-scroll w-full">
             {brands?.brands?.map((brand) => (
@@ -42,8 +37,7 @@ export default function SideBar() {
                 <Link to={`/brand/${brand.id}`}>
                   <div className="flex items-center p-2 space-x-2 rounded-lg hover:bg-gray-200">
                     <img
-                    src={'data:image/jpeg;base64,' + brand?.brand_logo}
-                      // src={brand.img_url}
+                      src={"data:image/jpeg;base64," + brand?.brand_logo}
                       alt=""
                       className="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white rounded-full"
                     />
@@ -55,6 +49,11 @@ export default function SideBar() {
               </li>
             ))}
           </ul>
+        ) : null}
+        {!brands.loading && brands.error ? (
+          <div className="flex items-center justify-center h-full">
+            <Loader />
+          </div>
         ) : null}
       </div>
     </aside>
