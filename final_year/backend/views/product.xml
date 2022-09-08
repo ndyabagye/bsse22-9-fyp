@@ -42,7 +42,7 @@
                         <group>
                             <field name="transmission" string ="Transmission"/>
                             <field name="mileage" string ="Mileage"/>
-                            <field name="year" string ="Year of Make"/>
+                            <field name="year" string ="Year of Make" required="1"/>
                             <field name="hp" string ="Horsepower"/>
                             <field name="offer_type" string ="OfferType"/>
                             <field name="fuel" string ="Fuel"/> 
@@ -50,15 +50,15 @@
                     </group>
                     <group string = "Pricing Information">
                         <group>
-                            <field name="base_price" string ="Base Price"/>
-                            <field name="selling_price" string ="Selling Price"/>
+                            <field name="predicted_price" force_save="1"/>
+                            <field name="selling_price" string ="Selling Price (Display Price)"/>
+                            <field name="base_price" string ="Base Price(Last Price)"/>
                             <button 
                                 name="predict_price"  
                                 string="Predict Price" 
                                 type="object" 
                                 class="oe_highlight" 
                                 data-hotkey="g"/>
-                    
 
                         </group>
                         <group>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- *********************Vendor Product Rule******************* -->
+    <record id="vendor_product_rule" model="ir.rule">
+        <field name="name">Record Rules For Vendor Products</field>
+        <field ref="model_product" name="model_id"/>
+        <field name="domain_force">[('vendor_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('backend.group_vendor'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- *********************Vendor Order Rule******************* -->
+    <record id="vendor_order_rule" model="ir.rule">
+        <field name="name">Record Rules For Vendor Orders</field>
+        <field ref="model_order" name="model_id"/>
+        <field name="domain_force">[('vendor_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('backend.group_vendor'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    
+    <!-- *********************Admin Product Rule ******************* -->
+    <record id="admin_product_rule" model="ir.rule">
+        <field name="name">Admin Product Rule</field>
+        <field ref="model_product" name="model_id"/>
+        <field name="domain_force">[]</field>
+        <field name="groups" eval="[(4, ref('backend.group_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="admin_order_rule" model="ir.rule">
+        <field name="name">Admin Order Rule</field>
+        <field ref="model_order" name="model_id"/>
+        <field name="domain_force">[]</field>
+        <field name="groups" eval="[(4, ref('backend.group_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

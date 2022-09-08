@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../Shared/Layout";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchChats,
+import { fetchSingleCar, fetchChats,
   incrementMessagesCount,
   addMessage,
-  openChat,
-} from "../../data/chat/chatSlice";
-import { fetchSingleCar } from "../../data/cars/carsSlice";
+  openChat, } from "../../data/cars/carsSlice";
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
@@ -37,123 +34,29 @@ export default function SingleProduct() {
 
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
-  const chatState = useSelector((state) => state.chats);
-
-  // console.log("Chat State", chatState);
-
-  // useEffect(()=> {
-  //   const initialFormData = new FormData();
-  //   initialFormData.append('client_response', '');
-  //   initialFormData.append('old_price_list', 0);
-  //   initialFormData.append('offer_list', 0);
-  //   initialFormData.append('base_price', 70000);
-  //   initialFormData.append('selling_price', 100000);
-  //   dispatch(fetchChats(initialFormData))
-  // },[dispatch]);
-
-  const [state, setState] = useState({
-    messageList: [],
-    newMessagesCount: 0,
-    isOpen: false,
-    fileUpload: true,
-  });
-
-  console.log("state", state);
+  const chatState = useSelector((state) => state.cars);
 
   function onMessageWasSent(message) {
-    console.log("Chat state message", message);
-    // console.log('message is', message);
     const formData = new FormData();
     formData.append("client_response", message.data.text);
     formData.append("old_price_list", chatState.old_price_list);
     formData.append("offer_list", chatState.offer_list);
-    // product base price
     formData.append("base_price", chatState.base_price);
-    // product selling price
     formData.append("selling_price", chatState.selling_price);
     message = {
       author: "me",
       type: "text",
       data: { text: message.data.text },
     };
+    console.log('final meesssga e', message);
     dispatch(addMessage(message));
     dispatch(fetchChats(formData));
   }
 
-  // function onMessageWasSent(message) {
-  //   setState((state) => ({
-  //     ...state,
-  //     messageList: [...state.messageList, message],
-  //   }));
-  // }
-
-  // function onFilesSelected(fileList) {
-  //   const objectURL = window.URL.createObjectURL(fileList[0]);
-
-  //   setState((state) => ({
-  //     ...state,util
-  //     messageList: [
-  //       ...state.messageList,
-  //       {
-  //         type: "file",
-  //         author: "me",
-  //         data: {
-  //           url: objectURL,
-  //           fileName: fileList[0].name,
-  //         },
-  //       },
-  //     ],
-  //   }));
-  // }
-
-  function sendMessage(text) {
-    console.log("text", text);
-    if (text.length > 0) {
-      incrementMessagesCount();
-      const formData = new FormData();
-      formData.append("client_response", text);
-      formData.append("old_price_list", text);
-      formData.append("offer_list", text);
-      formData.append("base_price", text);
-      formData.append("selling_price", text);
-      dispatch(fetchChats(formData));
-    }
-  }
-  // function sendMessage(text) {
-  //   if (text.length > 0) {
-  //     const newMessagesCount = state.isOpen
-  //       ? state.newMessagesCount
-  //       : state.newMessagesCount + 1;
-
-  //     setState((state) => ({
-  //       ...state,
-  //       newMessagesCount: newMessagesCount,
-  //       messageList: [
-  //         ...state.messageList,
-  //         {
-  //           author: "them",
-  //           type: "text",
-  //           data: { text },
-  //         },
-  //       ],
-  //     }));
-  //   }
-  // }
-
   function onClick() {
     dispatch(openChat());
   }
-  // function onClick() {
-  //   setState((state) => ({
-  //     ...state,
-  //     isOpen: !state.isOpen,
-  //     newMessagesCount: 0,
-  //   }));
-  // }
 
-  // console.log("Single Product", singleProduct);
-
-    // console.log('single product', singleProduct.brand_id);
   return (
     <Layout>
       <div className="w-full h-full">
@@ -190,7 +93,7 @@ export default function SingleProduct() {
                 {/* {singleProduct?.description} */}
               </p>
               <div className="py-4 flex space-x-4">
-                <Button>Add To Cart</Button>
+                <Button onClick={onClick}>Negotiate</Button>
                 <Link to="/checkout">
                 <Button color="purple">Checkout</Button>
                 </Link>

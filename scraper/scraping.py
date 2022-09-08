@@ -1,4 +1,3 @@
-import repository
 import requests
 import util
 from bs4 import BeautifulSoup
@@ -16,7 +15,6 @@ class Scraper:
     beforward_url = 'https://www.beforward.jp'
 
     def __init__(self, jumia_url, jiji_url, beforward_url):
-        self.repo = repository.Repository()
         self.jumia_url = jumia_url
         self.jiji_url = jiji_url
         self.beforward_url = beforward_url
@@ -145,11 +143,9 @@ class Scraper:
         
         return car_list
 
+    async def main(self):
+        cars = await asyncio.gather(self.get_jumia_cars(), self.get_jiji_cars())
 
-      #async def main(self):
-      #cars = await asyncio.gather(self.get_jumia_cars(),
-         #get_jiji_cars(this))
-
-     #asyncio.run(
-        # main()
-     #)
+asyncio.run(
+    Scraper.main()
+)
