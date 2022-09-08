@@ -43,6 +43,63 @@ class ChatBot(models.Model):
         selling_price = int(client_response['selling_price'])
 
         message = client_response['client_response'].lower()
+        
+        ints = ChatBot.predict_class(message)
+        print("")
+        print(ints)
+        print("")
+        
+        res = ChatBot.get_response(ints, ChatBot.intents)
+        if message == "bye" or message == "Goodbye" or message == "deal":
+            res = ChatBot.get_response(ints, ChatBot.intents)
+            chatbot_response = {
+                'ai_response': res,
+                'offer_list': offer_list,
+                'old_price_List': old_price_list,
+                'selling_price': selling_price,
+                'base_price':base_price,
+            }
+            return chatbot_response
+        else:
+            if ints[0]['intent'] == "negotiate":      #checks to see the intent of the chatbot
+                figures = re.findall(r'\d+', message)   #finds all the numbers in the message
+                if len(figures) == 0:
+                    chatbot_response = {
+                        'ai_response': ai_response,
+                        'offer_list': offer_list,
+                        'old_price_List': old_price_list,
+                        'selling_price': selling_price,
+                        'base_price':base_price,
+                    }
+                    return chatbot_response
+                else:
+                    
+                    client_offer = float(figures[0])
+                    old_price_list.append(client_offer)
+                    reply = Negotiator.lower_price(client_offer, old_price_list, selling_price, base_price)
+                    ai_response = reply[0]
+                    offer_list.append(reply[1])
+                    selling_price = reply[1]
+                
+                chatbot_response = {
+                    'ai_response': ai_response,
+                    'offer_list': offer_list,
+                    'old_price_List': old_price_list,
+                    'selling_price': selling_price,
+                    'base_price':base_price,
+                }
+                return chatbot_response
+        
+        chatbot_response = {
+            'ai_response': res,
+            'offer_list': offer_list,
+            'old_price_List': old_price_list,
+            'selling_price': selling_price,
+            'base_price':base_price,
+        }
+        return chatbot_response
+
+        """message = client_response['client_response'].lower()
         ints = ChatBot.predict_class(message)
         res = ChatBot.get_response(ints, ChatBot.intents)
 
@@ -73,7 +130,8 @@ class ChatBot(models.Model):
                 print(chatbot_response)
                 print("")
                 return chatbot_response
-        return res
+
+        return res"""
 
     
     def clean_up_sentence(sentence):
