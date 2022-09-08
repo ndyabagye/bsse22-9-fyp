@@ -13,191 +13,75 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
         contentTemplate: 'CepNewDashboard',
         
         events:{
-            'click #open_tickets': 'open_tickets',
-            'click #open_leads': 'open_leads',
-            'click #open_opportunities': 'open_opportunities',
-            'click #open_customers': 'open_customers',
-            'click #open_filing_report':'open_filing_report',
-            
-            'click #open_feedback_by_source':'open_feedback_by_source',
-            'click #open_issues_resolved':'open_issues_resolved',
-            'click #open_closed_feedback':'open_closed_feedback',
-
-            'click #open_feedback_bar_graph' : 'open_feedback_bar_graph',
-            'click #open_feedback_line_graph': 'open_feedback_line_graph'
+            'click #open_brands': 'open_brands',
+            'click #open_products': 'open_products',
+            'click #open_vendors': 'open_vendors',
+            'click #open_orders': 'open_orders',
         },
 
-        open_feedback_line_graph: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Feedback'),
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_feedback_bar_graph: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Feedback'),
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_closed_feedback: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Closed Feedback'),
-                    domain: ['|',['stage_id','=',4],['stage_id','=',5]],
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_issues_resolved: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Issues Resolved'),
-                    domain: ['|',['stage_id','=',4],['stage_id','=',5]],
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_feedback_by_source: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Feedback By Source'),
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_filing_report: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "product",
-                method: "click_tickets",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'product',
-                    name: _t('Feedback'),
-                    views: [[false, 'list'], [false, 'form']],
-                    type: 'ir.actions.act_window',
-                });
-            })
-        },
-
-        open_customers: function (ev) {
+        open_orders: function (ev) {
             var posted = false;
             var self = this;
             //var company = odoo.session_info.user_context.allowed_company_ids;
             rpc.query({
-                model: "res.partner",
-                method: "click_customers",
+                model: "order",
+                method: "click_orders",
             }).then(function (result) {
                 self.do_action({
-                    res_model: 'res.partner',
-                    name: _t('Customers'),
-                    domain: [['company_ids','in',company],['customer','=',true]],
-                    views: [[false, 'kanban'],[false, 'list'], [false, 'form']],
+                    res_model: 'order',
+                    name: _t('Orders'),
+                    domain: [],
+                    views: [[false, 'list'], [false, 'form']],
                     type: 'ir.actions.act_window',
                 });
             })
         },
         
-        open_opportunities: function (ev) {
+        open_vendors: function (ev) {
             var posted = false;
             var self = this;
             rpc.query({
-                model: "crm.lead",
-                method: "click_opportunities",
+                model: "res.partner",
+                method: "click_vendors",
             }).then(function (result) {
                 self.do_action({
-                    res_model: 'crm.lead',
-                    name: _t('Opportunities'),
-                    domain: ['|',['type','=','opportunity'],['type','=',false]],      
+                    res_model: 'res.partner',
+                    name: _t('Vendors'),
+                    domain: [],      
                     views: [[false, 'list'], [false, 'form']],
                     type: 'ir.actions.act_window',
-                    context:{
-                        'default_type':'opportunity',
-                        'search_default_type': 'opportunity',
-                        'search_default_to_process':1,
-                    }
                 });
             })
         },
 
-        open_leads: function (ev) {
-            var posted = false;
-            var self = this;
-            rpc.query({
-                model: "crm.lead",
-                method: "click_leads",
-            }).then(function (result) {
-                self.do_action({
-                    res_model: 'crm.lead',
-                    name: _t('Leads'),
-                    
-                    domain: ['|',['type','=','lead'],['type','=',false]],
-                    views: [[result.lead_list_id, 'list'],[result.lead_form_id,'form']],
-                    type: 'ir.actions.act_window',
-                    context:{
-                        'default_type':'lead',
-                        'search_default_type': 'lead',
-                        'search_default_to_process':1,
-                    }
-                });
-            })
-        },
-        
-        open_tickets: function (ev) {
+        open_products: function (ev) {
             var posted = false;
             var self = this;
             rpc.query({
                 model: "product",
-                method: "click_tickets",
+                method: "click_products",
             }).then(function (result) {
                 self.do_action({
                     res_model: 'product',
-                    name: _t('Feedback'),
+                    name: _t('Products'),
+                    
+                    domain: [],
+                    views: [[false, 'list'],[false,'form']],
+                    type: 'ir.actions.act_window'
+                });
+            })
+        },
+        
+        open_brands: function (ev) {
+            var posted = false;
+            var self = this;
+            rpc.query({
+                model: "brand",
+                method: "click_brands",
+            }).then(function (result) {
+                self.do_action({
+                    res_model: 'brand',
+                    name: _t('Brand'),
                     views: [[false, 'list'], [false, 'form']],
                     type: 'ir.actions.act_window',
                 });
@@ -209,75 +93,53 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
             //var uid = odoo.session_info.user_context;
             $.when(this._super())
                 .then(function (ev) {
-                    //Count tickets
+                    
+                    //Count brands
                     rpc.query({                        
-                        model: "product",
-                        method: "get_ticket_count",
-                        args:[uid]
+                        model: "brand",
+                        method: "get_brand_count",
                     })
                     .then(function (result) {
-                        if(!$('#tickets_count_added').length){    
-                            $('#tickets_count').append('<span id ="tickets_count_added">' + result.cep_tickets_count + '</span>');
+                        if(!$('#brand_count_added').length){    
+                            $('#brand_count').append('<span id ="brand_count_added">' + result.brand_count + '</span>');
                         }
                     });
 
                 
-                    //Count closed tickets
+                    //Count product
                     rpc.query({                        
                         model: "product",
-                        method: "get_ticket_closed_count",
-                        args:[uid]
+                        method: "get_product_count",
                     })
                     .then(function (result) {
-                        if(!$('#closed_feedback_added').length){    
-                            $('#closed_feedback').append('<span id ="closed_feedback_added">' + result.cep_tickets_closed_count + '</span>');  
-                        }
-
-                        if(!$('#closed_feeback_percentage_added').length){   
-                            $('#closed_feeback_percentage').append('<span id ="closed_feeback_percentage_added">' + result.closed_percentage + ' %</span>'); 
-                        }
-
-                        if(!$('#lead_opportunity_percentage_added').length){    
-                            $('#lead_opportunity_percentage').append('<span id ="lead_opportunity_percentage_added">' + result.lead_opp + ' %</span>');
+                        if(!$('#product_count_added').length){    
+                            $('#product_count').append('<span id ="product_count_added">' + result.product_count + '</span>');  
                         }
                     });
 
-                    //Count leads
-                    rpc.query({                        
-                        model: "crm.lead",
-                        method: "get_lead_count",
-                        args:[uid],
-                    })
-                    .then(function (result) {
-                        if(!$('#leads_count_added').length){    
-                            $('#leads_count').append('<span id = "leads_count_added">' + result.cep_leads_count + '</span>');
-                        }
-                    });
-
-                    //Count opportunities
-                    rpc.query({                        
-                        model: "crm.lead",
-                        method: "get_opportunity_count",
-                        args:[uid],
-                    })
-                    .then(function (result) {
-                        if(!$('#opportunities_count_added').length){    
-                            $('#opportunities_count').append('<span id="opportunities_count_added">' + result.cep_opportunities_count + '</span>');
-                        }
-                    });
-
-                    //Count customers
+                    //Count vendors
                     rpc.query({                        
                         model: "res.partner",
-                        method: "get_customer_count",
-                        args:[uid],
+                        method: "get_vendor_count",
                     })
                     .then(function (result) {
-                        if(!$('#customers_count_added').length){    
-                            $('#customers_count').append('<span id="customers_count_added">' + result.cep_customers_count + '</span>');
+                        if(!$('#vendor_count_added').length){    
+                            $('#vendor_count').append('<span id = "vendor_count_added">' + result.vendor_count + '</span>');
                         }
                     });
 
+                    //Count orders
+                    rpc.query({                        
+                        model: "order",
+                        method: "get_order_count",
+                    })
+                    .then(function (result) {
+                        if(!$('#order_count_added').length){    
+                            $('#order_count').append('<span id="order_count_added">' + result.order_count + '</span>');
+                        }
+                    });
+
+                    
                     //Feedback Filing Report
                     rpc.query({
                         model: "product",

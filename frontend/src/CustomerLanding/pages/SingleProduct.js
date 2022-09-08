@@ -1,22 +1,30 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../Shared/Layout";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchChats, incrementMessagesCount, addMessage, openChat } from "../../data/chat/chatSlice";
+import {
+  fetchChats,
+  incrementMessagesCount,
+  addMessage,
+  openChat,
+} from "../../data/chat/chatSlice";
+import { fetchSingleCar } from "../../data/cars/carsSlice";
+
 import { Launcher } from "../../chat";
+import { Button } from "flowbite-react";
 
 export default function SingleProduct() {
   const params = useParams();
-
-  const singleProduct = useSelector((state) => {
-    const allCars = state?.cars?.cars;
-    // console.log("params", params.id);
-    return allCars.find((car) => Number(car.id) === Number(params.id));
-  });
-
-  const chatState = useSelector((state)=> state.chats);
-  console.log('Chat State', chatState)
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('Dispatch here')
+    dispatch(fetchSingleCar(params.id))
+  }, [params, dispatch])
+
+  const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
+  const chatState = useSelector((state) => state.chats);
+  // console.log("Chat State", chatState);
 
   // useEffect(()=> {
   //   const initialFormData = new FormData();
@@ -28,7 +36,6 @@ export default function SingleProduct() {
   //   dispatch(fetchChats(initialFormData))
   // },[dispatch]);
 
-
   const [state, setState] = useState({
     messageList: [],
     newMessagesCount: 0,
@@ -36,23 +43,24 @@ export default function SingleProduct() {
     fileUpload: true,
   });
 
-  console.log('state', state);
+  console.log("state", state);
 
   function onMessageWasSent(message) {
+    console.log("Chat state message", message);
     // console.log('message is', message);
     const formData = new FormData();
-    formData.append('client_response', message.data.text);
-    formData.append('old_price_list', 0);
-    formData.append('offer_list', 0);
+    formData.append("client_response", message.data.text);
+    formData.append("old_price_list", chatState.old_price_list);
+    formData.append("offer_list", chatState.offer_list);
     // product base price
-    formData.append('base_price', 70000);
+    formData.append("base_price", chatState.base_price);
     // product selling price
-    formData.append('selling_price', 100000);
-    message= {
-      author: 'me',
-      type:'text',
-      data:message.data.text
-    }
+    formData.append("selling_price", chatState.selling_price);
+    message = {
+      author: "me",
+      type: "text",
+      data: { text: message.data.text },
+    };
     dispatch(addMessage(message));
     dispatch(fetchChats(formData));
   }
@@ -83,16 +91,16 @@ export default function SingleProduct() {
     }));
   }
 
-  function sendMessage(text){
-    console.log('text', text)
-    if(text.length > 0){
+  function sendMessage(text) {
+    console.log("text", text);
+    if (text.length > 0) {
       incrementMessagesCount();
       const formData = new FormData();
-      formData.append('client_response', text);
-      formData.append('old_price_list', text);
-      formData.append('offer_list', text);
-      formData.append('base_price', text);
-      formData.append('selling_price', text);
+      formData.append("client_response", text);
+      formData.append("old_price_list", text);
+      formData.append("offer_list", text);
+      formData.append("base_price", text);
+      formData.append("selling_price", text);
       dispatch(fetchChats(formData));
     }
   }
@@ -117,8 +125,8 @@ export default function SingleProduct() {
   //   }
   // }
 
-  function onClick(){
-    dispatch(openChat())
+  function onClick() {
+    dispatch(openChat());
   }
   // function onClick() {
   //   setState((state) => ({
@@ -130,25 +138,48 @@ export default function SingleProduct() {
 
   // console.log("Single Product", singleProduct);
 
+    // console.log('single product', singleProduct.brand_id);
   return (
     <Layout>
       <div className="w-full h-full">
-        <div className="grid grid-cols-3 gap-2 bg-gray-300 p-2">
-          <div id="image" className="col-span-1 ">
+        <Link to="/">
+        <Button className="mx-2" gradientMonochrome="cyan">Go Back</Button>
+        </Link>
+        <div className="grid grid-cols-5 gap-2 p-2">
+          <div id="image" className="col-span-2">
             <img
-              src={singleProduct.img_url}
-              className="h-full w-full object-cover rounded-md"
+              src={'data:image/jpeg;base64,' + singleProduct?.image}
+              className="h-72 w-full object-cover rounded-md"
               alt=""
             />
           </div>
           <div
             id="details"
-            className="col-span-2 bg-red-400 flex justify-start p-2"
+            className="col-span-3 flex justify-start p-2 w-full"
           >
             <div className="flex flex-col">
-              <h3 className="text-center text-gray-700 font-semibold">
-                {singleProduct.make}
+              <h3 className="text-center text-2xl font-semibold">
+                {singleProduct?.brand_id[1]}, {singleProduct?.car_model_id ? singleProduct.car_model_id[1] : ''}
               </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Category : {singleProduct?.category ? singleProduct?.category_id[1] : 'No category registered'}
+              </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Vendor :  {singleProduct?.vendor_id ? singleProduct?.vendor_id[1] : 'No vendor registered'}
+              </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Transmission :  {singleProduct?.transmission ? singleProduct?.transmission: 'No transmission registered'}
+              </h3>
+              <p className="text-base border-b border-300 py-3">
+                {singleProduct?.description ? singleProduct?.description : 'No description'}
+                {/* {singleProduct?.description} */}
+              </p>
+              <div className="py-4 flex space-x-4">
+                <Button>Add To Cart</Button>
+                <Link to="/checkout">
+                <Button color="purple">Checkout</Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -171,8 +202,8 @@ export default function SingleProduct() {
               imageUrl:
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
               title:
-                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-              text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                "Chat Format",
+              text: "Please use a format of Make it {intended price}",
             }}
             placeholder="Type here..."
           />

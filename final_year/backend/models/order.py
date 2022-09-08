@@ -15,8 +15,7 @@ class Order(models.Model):
         for rec in self:
             rec.name = rec.code
 
-    fname = fields.Char("First Name")
-    lname = fields.Char("Last Name") 
+    name = fields.Char("Name") 
     email = fields.Char("Email")
     address = fields.Char("Address")
     phone = fields.Char("Contact") 
@@ -51,3 +50,19 @@ class Order(models.Model):
     def _prepare_order_code(self, values):
         seq = self.env["ir.sequence"]
         return seq.next_by_code("order.sequence") or "/"
+
+    @api.model
+    def click_orders(self):
+        result = {
+            'event':'clicked',
+        }
+        return result
+
+    @api.model
+    def get_order_count(self):
+        order_count = self.env['order'].search_count([])
+        
+        records = {
+            'order_count':order_count,
+        }
+        return  records

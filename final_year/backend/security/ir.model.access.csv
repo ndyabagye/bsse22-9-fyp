@@ -4,3 +4,5 @@ access_brand,access.brand,model_brand,,1,1,1,1
 access_car_model,access.car.model,model_car_model,,1,1,1,1
 access_category,access.category,model_category,,1,1,1,1
 access_order,access.order,model_order,,1,1,1,1
+
+access_predictor,access.predictor,model_predictor,,1,1,1,1

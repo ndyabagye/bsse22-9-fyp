@@ -36,9 +36,8 @@ export default function Landing() {
         {!cars.loading && cars?.cars.length ? (
           <>
             {cars?.cars.map((car) => {
-              return <ProductCard key={car.id} car={car} />;
+              return <ProductCard key={car.id} car={car} />
             })}
-            ;
           </>
         ) : null}
       </div>
