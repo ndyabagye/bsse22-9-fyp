@@ -9,6 +9,8 @@ import { fetchSingleCar, fetchChats,
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
+import Chart from "../components/Chart";
+
 
 export default function SingleProduct() {
   const params = useParams();
@@ -17,7 +19,19 @@ export default function SingleProduct() {
   useEffect(() => {
     console.log('Dispatch here')
     dispatch(fetchSingleCar(params.id))
-  }, [params, dispatch])
+  }, [params, dispatch]);
+
+  // useEffect(() => {
+  //   const fetchPrices = async () => {
+  //     const res = await fetch("https://api.coincap.io/v2/assets/?limit=5")
+  //     const data = await res.json()
+  //     console.log(data)
+  //   }
+  //   fetchPrices()
+  // }, []);
+
+  // const [chartData, setChartData] = useState({})
+
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
@@ -112,6 +126,8 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
+        <Chart  />
+
       </div>
     </Layout>
   );
