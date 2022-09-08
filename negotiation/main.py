@@ -67,8 +67,9 @@ last_price = 12000000
 
 while True:
     message = input("| You: ").lower()
+    ints = predict_class(message)
+    res = get_response(ints, intents)
     if message == "bye" or message == "Goodbye" or message == "deal":
-        ints = predict_class(message)
         res = get_response(ints, intents)
         print("| Bot:", res)
         print("|===================== The Program End here! =====================|")
@@ -77,6 +78,7 @@ while True:
 
 
     else:
+        print(ints)
         if ints[0]['intent'] == "negotiate":      #checks to see the intent of the chatbot
             figures = re.findall(r'\d+', message)   #finds all the numbers in the message
             if len(figures) == 0:
