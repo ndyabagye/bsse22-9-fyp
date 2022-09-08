@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Shared/Layout";
 import Banner from "../../Shared/Banner";
@@ -7,13 +7,15 @@ import { fetchCars } from "../../data/cars/carsSlice";
 import Loader from "../../Shared/Loader";
 
 export default function Landing() {
-  const cars = useSelector((state) => state.cars);
-
   const dispatch = useDispatch();
+  const [counter] =useState(1);
+
+
   useEffect(() => {
     dispatch(fetchCars());
-  }, [dispatch]);
+  }, []);
 
+  const cars = useSelector((state) => state.cars);
   return (
     <Layout>
       <div className="px-4 py-2 h-max mx-10 bg-white gap-1 border border-gray-300 rounded-sm">

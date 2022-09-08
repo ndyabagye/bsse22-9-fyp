@@ -130,7 +130,13 @@ def all_products(request):
     return JsonResponse(records,safe=False)
 
 def get_product(request, product_id):
+    print('')
+    print('hshahsa')
+    print('')
     uid = common.authenticate(db, username, password, {})
+    print('')
+    print(uid)
+    print('')
     records = models.execute_kw(db, uid, password,
         'product',
         'search_read',

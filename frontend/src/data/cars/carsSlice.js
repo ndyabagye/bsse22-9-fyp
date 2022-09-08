@@ -94,6 +94,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchCars.rejected, (state, action) => {
+      console.log('error', action);
       state.loading = false;
       state.cars = [];
       state.error = action.error.message;
@@ -111,6 +112,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchSingleCar.rejected, (state, action) => {
+      console.log('error', action);
       state.loading = false;
       state.singleCar = [];
       state.error = action.error.message;

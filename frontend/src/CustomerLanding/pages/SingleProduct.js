@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Layout from "../../Shared/Layout";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,9 +15,8 @@ export default function SingleProduct() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Dispatch here')
     dispatch(fetchSingleCar(params.id))
-  }, [params, dispatch])
+  }, [params])
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
