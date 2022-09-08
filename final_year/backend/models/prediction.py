@@ -24,6 +24,7 @@ class Predictor(models.Model):
         else: 
             fuel = 'Diesel'
 
+        
         testCars = {
             'mileage':  car_values.mileage,
             'make':     car_values.brand_id.name.capitalize(),
@@ -32,7 +33,7 @@ class Predictor(models.Model):
             'gear':     car_values.transmission.capitalize(),
             'offerType': car_values.offer_type.capitalize(),
             'hp':        car_values.hp,
-            'year':      car_values.year.year,
+            'year':      int(car_values.year),
         }
 
         

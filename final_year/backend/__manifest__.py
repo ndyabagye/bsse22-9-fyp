@@ -21,6 +21,7 @@
 
         #--------security files--------#
         'security/security.xml',
+        'security/security_record_rules.xml',
         'security/ir.model.access.csv',
 
         #--------views--------#

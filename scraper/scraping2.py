@@ -199,7 +199,6 @@ def get_beforward_car_make(make_name):
         #models = self.fetch_beforward_models(make)
     return ""
 
-
 #fetch beforward model given make_id
 def fetch_beforward_model(make_id, model):
     r = requests.get('https://www.beforward.jp/ajax/maker_to_model_upper/'+ make_id)
@@ -227,12 +226,26 @@ async def main():
 #    cars = await asyncio.gather(get_jumia_cars(),get_jiji_cars())
     # jumia_cars = await get_jumia_cars()
     # jiji_cars = await get_jiji_cars()
-    cars = await get_beforward_cars('toyota', 'probox', '2003','2012') #pass in the mo, make and year
-    print(util.std(cars))
-    jiji_model_cars = await get_jiji_cars_by_make_model('toyota','probox','2003','2012')
-    print(util.std(jiji_model_cars))
-    jumia_model_cars = await fetch_jumia_cars_by_make_model('toyota','probox','2003', '2012')
-    print(util.std(jumia_model_cars))
+    beforward_model_cars = await get_beforward_cars('toyota', 'probox', '2003','2003') #pass in the mo, make and year
+    print("Be forward")
+    print(beforward_model_cars[0])
+    print(len(beforward_model_cars))
+    #print(util.std(beforward_model))
+    print("")
+    
+    jiji_model_cars = await get_jiji_cars_by_make_model('toyota','probox','2003','2003')
+    print("Jiji Cars")
+    print(jiji_model_cars[0])
+    print(len(jiji_model_cars))
+    #print(util.std(jiji_model_cars))
+    print("")
+    
+    jumia_model_cars = await fetch_jumia_cars_by_make_model('toyota','probox','2003', '2003')
+    print("Jumia")
+    print(jumia_model_cars[0])
+    print(len(jumia_model_cars))
+    #print(util.std(jumia_model_cars))
+    print("")
 
 asyncio.run(
     main()
