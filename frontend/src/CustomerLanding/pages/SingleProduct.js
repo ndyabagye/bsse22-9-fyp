@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../Shared/Layout";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchChats,
+// import {
+//   fetchChats,
+//   incrementMessagesCount,
+//   addMessage,
+//   openChat,
+// } from "../../data/chat/chatSlice";
+import { fetchSingleCar, fetchChats,
   incrementMessagesCount,
   addMessage,
-  openChat,
-} from "../../data/chat/chatSlice";
-import { fetchSingleCar } from "../../data/cars/carsSlice";
+  openChat, } from "../../data/cars/carsSlice";
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
@@ -23,7 +26,7 @@ export default function SingleProduct() {
   }, [params, dispatch])
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
-  const chatState = useSelector((state) => state.chats);
+  const chatState = useSelector((state) => state.cars);
   // console.log("Chat State", chatState);
 
   // useEffect(()=> {
@@ -36,14 +39,14 @@ export default function SingleProduct() {
   //   dispatch(fetchChats(initialFormData))
   // },[dispatch]);
 
-  const [state, setState] = useState({
-    messageList: [],
-    newMessagesCount: 0,
-    isOpen: false,
-    fileUpload: true,
-  });
+  // const [state, setState] = useState({
+  //   messageList: [],
+  //   newMessagesCount: 0,
+  //   isOpen: false,
+  //   fileUpload: true,
+  // });
 
-  console.log("state", state);
+  // console.log("state", state);
 
   function onMessageWasSent(message) {
     console.log("Chat state message", message);
@@ -72,24 +75,24 @@ export default function SingleProduct() {
   //   }));
   // }
 
-  function onFilesSelected(fileList) {
-    const objectURL = window.URL.createObjectURL(fileList[0]);
+  // function onFilesSelected(fileList) {
+  //   const objectURL = window.URL.createObjectURL(fileList[0]);
 
-    setState((state) => ({
-      ...state,
-      messageList: [
-        ...state.messageList,
-        {
-          type: "file",
-          author: "me",
-          data: {
-            url: objectURL,
-            fileName: fileList[0].name,
-          },
-        },
-      ],
-    }));
-  }
+  //   setState((state) => ({
+  //     ...state,
+  //     messageList: [
+  //       ...state.messageList,
+  //       {
+  //         type: "file",
+  //         author: "me",
+  //         data: {
+  //           url: objectURL,
+  //           fileName: fileList[0].name,
+  //         },
+  //       },
+  //     ],
+  //   }));
+  // }
 
   function sendMessage(text) {
     console.log("text", text);
@@ -175,7 +178,7 @@ export default function SingleProduct() {
                 {/* {singleProduct?.description} */}
               </p>
               <div className="py-4 flex space-x-4">
-                <Button>Add To Cart</Button>
+                <Button onClick={onClick}>Negotiate</Button>
                 <Link to="/checkout">
                 <Button color="purple">Checkout</Button>
                 </Link>
@@ -191,7 +194,7 @@ export default function SingleProduct() {
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
             }}
             onMessageWasSent={onMessageWasSent}
-            onFilesSelected={onFilesSelected}
+            // onFilesSelected={onFilesSelected}
             messageList={chatState.messageList}
             newMessagesCount={chatState.newMessagesCount}
             onClick={onClick}
