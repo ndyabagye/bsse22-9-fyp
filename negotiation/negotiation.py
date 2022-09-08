@@ -13,7 +13,7 @@ def lower_price(asking_price, old_price_list, display_value, last_price):
             return ["We recommend you to increase your offer or try out another product.", display_value]
 
         elif(asking_price > last_price): #if customer offers a price lower than the bot's offer
-            if len(old_price_list) >= random.choice(3,5):
+            if len(old_price_list) >= random.randint(3,5):
                 display_value = asking_price
                 return ["Ok we will have a deal"]
             display_value = negotiate(random.uniform(0,1/3), display_value, asking_price, old_price_list[-2])
