@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../components/ProductCard";
 import { useEffect } from "react";
 import { fetchBrandProducts } from "../../data/brands/brandsSlice";
-import NotFoundSvg from '../assets/notFound.svg';
+// import NotFoundSvg from '../assets/notFound.svg';
 import NotFoundPng from '../assets/notFound1.png';
 export default function SingleCategory() {
   const params = useParams();
@@ -16,13 +16,16 @@ export default function SingleCategory() {
     dispatch(fetchBrandProducts(params.id));
   }, [dispatch, params]);
 
-  const brandProducts = useSelector((state) => state.brands?.brandProducts);
+  const brands = useSelector((state) =>  state?.brands?.brands);
+  const brandProducts = useSelector((state) => state?.brands?.brandProducts);
 
-  console.log("brandProducts", brandProducts);
+  const activeBrand = brands.filter(brand => Number(brand?.id) === Number(params?.id));
+
+  console.log("brands", activeBrand);
   return (
     <Layout>
       <h4 className="text-2xl font-medium px-8 mt-8 capitalize">
-        Brand : {params.id}
+        Brand : {activeBrand[0].name}
       </h4>
       {brandProducts.length > 0 && (
         <div className="grid grid-cols-5 2xl:grid-cols-6 px-8 gap-2 2xl:gap-3 mt-4">

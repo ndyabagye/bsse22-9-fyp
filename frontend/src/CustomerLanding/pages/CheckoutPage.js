@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../../Shared/Layout'
+// import Layout from '../../Shared/Layout'
 import Header from '../../Shared/Header';
 import Footer from '../../Shared/Footer';
 import { useSelector } from 'react-redux'
