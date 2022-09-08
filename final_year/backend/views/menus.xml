@@ -3,7 +3,12 @@
     <menuitem name="Autocar" 
         sequence="1" 
         action="backend_action" 
-        id="menu_action_autocar"/>
+        id="menu_action_autocar"
+    />
+
+    <record id="backend.menu_action_autocar" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_admin'))]"/>
+    </record>
 
     <menuitem 
         action="backend_action" 
@@ -12,6 +17,11 @@
         name="Dashboard" 
         sequence="1" 
     />
+
+    <record id="backend.dashboard" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_admin'))]"/>
+    </record>
+
 
     <menuitem name="Products" 
         sequence="2" 
@@ -30,17 +40,55 @@
         parent="backend.menu_action_autocar" 
         action="category_action" 
         id="menu_action_category"/>
+    
+    <record id="backend.menu_action_category" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_admin'))]"/>
+    </record>
+
 
     <menuitem name="Brands" 
         sequence="5" 
         parent="backend.menu_action_autocar" 
         action="brand_action" 
         id="menu_action_brand"/>
+
+    <record id="backend.menu_action_brand" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_admin'))]"/>
+    </record>
+
     
     <menuitem name="Car Models" 
         sequence="6" 
         parent="backend.menu_action_autocar" 
         action="car_model_action" 
         id="menu_action_car_model"/>
+
+    <record id="backend.menu_action_car_model" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_admin'))]"/>
+    </record>
+
+
+    <menuitem name="Autocar" 
+        sequence="1" 
+        action="product_action" 
+        id="menu_action_autocar_vendor"
+    />
+
+    <record id="backend.menu_action_autocar_vendor" model="ir.ui.menu">
+        <field name="groups_id" eval="[(5,0),(4, ref('backend.group_vendor'))]"/>
+    </record>
+
+    <menuitem name="Products" 
+        sequence="2" 
+        parent="backend.menu_action_autocar_vendor" 
+        action="product_action" 
+        id="menu_action_product_vendor"/>
+
+    <menuitem name="Orders" 
+        sequence="3" 
+        parent="backend.menu_action_autocar_vendor" 
+        action="order_action" 
+        id="menu_action_order_vendor"/>
+
     
 </odoo>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class Product(models.Model):
     _name = 'product'
@@ -54,24 +55,64 @@ class Product(models.Model):
         string="Offer Type",
         default="new", required="true"
     )
-    year = fields.Date("Year of Make", required="true")
+    
+    year = fields.Selection(
+        selection=[
+            ("2022","2022"),
+            ("2021","2021"),
+            ("2020","2020"),
+            ("2019","2019"),
+            ("2019","2019"),
+            ("2018","2018"),
+            ("2017","2017"),
+            ("2016","2016"),
+            ("2015","2015"),
+            ("2014","2014"),
+            ("2013","2013"),
+            ("2012","2012"),
+            ("2011","2011"),
+            ("2010","2010"),
+            ("2009","2009"),
+            ("2008","2008"),
+            ("2007","2007"),
+            ("2006","2006"),
+            ("2005","2005"),
+            ("2004","2004"),
+            ("2003","2003"),
+            ("2002","2002"),
+            ("2001","2001"),
+            ("2000","2000"),
+            ("1999","1999"),
+            ("1998","1998"),
+            ("1997","1997"),
+            ("1996","1996"),
+            ("1995","1995"),
+            ("1994","1994"),
+            ("1993","1993"),
+            ("1992","1992"),
+        ],
+        string="Estimated Year of Completion"
+    )
+
     mileage = fields.Integer(default=0, required="true")
     hp = fields.Integer('Horsepower',default=0, required="true")
     status = fields.Boolean(default=False)
+    scraped = fields.Boolean(default=False)
     
+    predicted_price = fields.Integer('Predicted Price', readonly=True,store=True)
     selling_price = fields.Integer(default=1000000)
     @api.constrains('selling_price')
     def _check_selling(self):    
-        if self.selling_price < 1000000:
-            raise ValidationError('Please enter a  base price greater than 1,000,000')
-        elif self.selling_price <= self.base_price:
-            raise ValidationError('Base price must be less than selling price')
+        if self.selling_price < 1000000 and self.status == True:
+            raise ValidationError('Please enter a selling price greater than 1,000,000')
+        elif self.selling_price <= self.base_price and self.status == True:
+            raise ValidationError('Selling price(Display Price) must be greater than base price for negotiator to work')
     
     base_price = fields.Integer(default=1000000)
     @api.constrains('base_price')
     def _check_base(self):    
-        if self.base_price < 1000000:
-            raise ValidationError('Please enter a  base price greater than 1,000,000')
+        if self.base_price < 1000000 and self.status == True:
+            raise ValidationError('Please enter a base price greater than 1,000,000')
 
     profit = fields.Char(default="0%", compute="compute_profit")
     
@@ -89,7 +130,7 @@ class Product(models.Model):
         Predictor = self.env['predictor']
         price_returned = Predictor.predict(self) # calls the predict function in class predict with car values e.g make, model
         self.write({
-            'selling_price': price_returned
+            'predicted_price': price_returned
         })
     
     @api.model

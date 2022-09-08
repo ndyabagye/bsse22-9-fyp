@@ -3,7 +3,6 @@ import json
 import pickle
 import numpy as np
 import re
-
 import nltk
 from nltk.stem import WordNetLemmatizer
 import negotiation
