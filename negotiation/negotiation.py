@@ -2,7 +2,7 @@ import random
 
 def lower_price(asking_price, old_price_list, display_value, last_price):
     if (asking_price >= display_value): #if a customer offers a price higher than the bot's offer
-        return ["Deal!", display_value]
+        return ["Ok we will have a deal",display_value]
 
     else:
         if (asking_price <= old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old offer
@@ -17,6 +17,8 @@ def lower_price(asking_price, old_price_list, display_value, last_price):
                 return ["Ok we will have a deal",display_value]
             display_value = negotiate(random.uniform(0,1/3), display_value, asking_price, old_price_list[-2])
             return ["I can only do.... "+ str(display_value) +" ugx |]\n\t Deal or No deal!", display_value]
+        else:
+            return ["Please add a little more we are almost there.", display_value]
 
 def negotiate(fraction, old_offer, asking_price, old_price):
 

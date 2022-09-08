@@ -9,6 +9,8 @@ import { fetchSingleCar, fetchChats,
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
+import Chart from "../components/Chart";
+
 
 export default function SingleProduct() {
   const params = useParams();
@@ -20,6 +22,7 @@ export default function SingleProduct() {
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
+  const navigateToCheckout = useSelector((state) => state.cars?.checkout);
 
   function onMessageWasSent(message) {
     const formData = new FormData();
@@ -82,6 +85,7 @@ export default function SingleProduct() {
                 <Link to="/checkout">
                 <Button color="purple">Checkout</Button>
                 </Link>
+                {/* {'navigate ' + navigateToCheckout} */}
               </div>
             </div>
           </div>
@@ -111,6 +115,8 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
+        <Chart  />
+
       </div>
     </Layout>
   );

@@ -16,6 +16,7 @@ export default function Landing() {
   }, []);
 
   const cars = useSelector((state) => state.cars);
+
   return (
     <Layout>
       <div className="px-4 py-2 h-max mx-10 bg-white gap-1 border border-gray-300 rounded-sm">
@@ -43,6 +44,8 @@ export default function Landing() {
           </>
         ) : null}
       </div>
+
+
     </Layout>
   );
 }
