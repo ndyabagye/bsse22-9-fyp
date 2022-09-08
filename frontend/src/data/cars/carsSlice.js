@@ -22,6 +22,7 @@ const initialState = {
   newMessagesCount: 0,
   isOpen: false,
   fileUpload: true,
+  checkout: false,
 };
 
 export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
@@ -137,6 +138,9 @@ export const carsSlice = createSlice({
           type: "text",
         },
       ];
+      if(action.payload.ai_response === "Ok we will have a deal"){
+        state.checkout = true;
+      }
     });
     builder.addCase(fetchChats.rejected, (state, action) => {
       state.loading = false;

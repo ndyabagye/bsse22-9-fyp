@@ -21,20 +21,9 @@ export default function SingleProduct() {
     dispatch(fetchSingleCar(params.id))
   }, [params, dispatch]);
 
-  // useEffect(() => {
-  //   const fetchPrices = async () => {
-  //     const res = await fetch("https://api.coincap.io/v2/assets/?limit=5")
-  //     const data = await res.json()
-  //     console.log(data)
-  //   }
-  //   fetchPrices()
-  // }, []);
-
-  // const [chartData, setChartData] = useState({})
-
-
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
+  const navigateToCheckout = useSelector((state) => state.cars?.checkout);
 
   function onMessageWasSent(message) {
     const formData = new FormData();
@@ -97,6 +86,7 @@ export default function SingleProduct() {
                 <Link to="/checkout">
                 <Button color="purple">Checkout</Button>
                 </Link>
+                {'navigate ' + navigateToCheckout}
               </div>
             </div>
           </div>
