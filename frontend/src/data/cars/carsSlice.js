@@ -22,6 +22,7 @@ const initialState = {
   newMessagesCount: 0,
   isOpen: false,
   fileUpload: true,
+  checkout: false,
 };
 
 export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
@@ -94,6 +95,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchCars.rejected, (state, action) => {
+      console.log('error', action);
       state.loading = false;
       state.cars = [];
       state.error = action.error.message;
@@ -111,6 +113,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchSingleCar.rejected, (state, action) => {
+      console.log('error', action);
       state.loading = false;
       state.singleCar = [];
       state.error = action.error.message;
@@ -137,6 +140,9 @@ export const carsSlice = createSlice({
           type: "text",
         },
       ];
+      if(action.payload.ai_response === "Ok we will have a deal"){
+        state.checkout = true;
+      }
     });
     builder.addCase(fetchChats.rejected, (state, action) => {
       state.loading = false;

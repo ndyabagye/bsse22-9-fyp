@@ -9,23 +9,11 @@ import random
 class Negotiator(models.Model):
 
     def lower_price(asking_price, old_price_list, display_value, last_price):
-        print('')
-        print('asking_price: '+ str(asking_price))
-        print(' old_price_list: '+ str(old_price_list))
-        print(' display_value: '+ str(display_value))
-        print(' last_price: '+str(last_price))
-        print('')
 
         if (asking_price >= display_value): #if a customer offers a price higher than the bot's offer
             return ["Ok we will have a deal", display_value]
 
         else:
-            print('')
-            print('old_price_list[-2]: '+ str(old_price_list[-2]))
-            print(' 2/3*(last_price): '+ str(2/3*(last_price)))
-            print('')
-
-            print(asking_price > last_price)
 
             if (asking_price <= old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old
                 return ["You can't lower the price from your initial offer. Our offer is still "+str(display_value)  , display_value]

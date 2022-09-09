@@ -10,7 +10,7 @@ export default function SideBar() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBrands());
-  }, [dispatch]);
+  }, []);
 
   return (
     <aside className="w-full h-full" aria-label="Sidebar">

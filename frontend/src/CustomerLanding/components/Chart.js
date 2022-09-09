@@ -25,7 +25,7 @@ const DynamicChart = () => {
             setChartData({
                 labels: empAge,
                 datasets: [{
-                                             label: 'level of thicceness',
+                                             label: 'Price History',
                                              data: empSal,
                                              backgroundColor: [
                                                  'rgba(255, 99, 132, 0.2)',
@@ -87,7 +87,7 @@ const DynamicChart = () => {
         .catch(err =>{
             console.log(err);
         })
-        
+
     }
     useEffect(() => {
         Chart();
@@ -96,7 +96,7 @@ const DynamicChart = () => {
           <div className="App">
               <h1>Bar Chart</h1>
               <div>
-                {haveData === true && 
+                {haveData === true &&
                   <Line
                     data={chartData}
                     options={{

@@ -20,7 +20,7 @@ async def fetch_jumia_car(car):
     product_request = requests.get(jumia_url + product_link)
     product_soup = BeautifulSoup(product_request.text, 'html.parser')
     price = product_soup.select_one('#priceSection > span:nth-child(3) > span:nth-child(1)')['content']
-    brand = product_soup.select_one('.new-attr-style > h3:nth-child(1) > span:nth-child(1) > a:nth-child(1)') 
+    brand = product_soup.select_one('.new-attr-style > h3:nth-child(1) > span:nth-child(1) > a:nth-child(1)')
     model = product_soup.select_one('.new-attr-style > h3:nth-child(2) > span:nth-child(1)')
     transmission = product_soup.select_one('.new-attr-style > h3:nth-child(3) > span:nth-child(1)')
     fuel  = product_soup.select_one('.new-attr-style > h3:nth-child(4) > span:nth-child(1)')
@@ -34,7 +34,7 @@ async def fetch_jumia_car(car):
     car_dict['fuel'] = fuel.text if fuel != None else ''
     car_dict['year'] = year.text if year != None else ''
     car_dict['mileage'] = mileage.text if mileage != None else ''
-    
+
     return car_dict
 
 #Fetch all cars from jumia page by page
@@ -73,13 +73,13 @@ async def fetch_jumia_cars_by_make_model(make, model, frm_year, to_year):
             if slug == util.get_slug(model):
                 model_id = name['value']
                 break
-        
+
         cars_url = 'https://deals.jumia.ug/posts/search?attributes[cars][make]={}&attributes[cars][model]={}&attributes[cars][yearMin]={}&attributes[cars][yearMax]={}'.format(make_id, model_id, frm_year, to_year)
         r = requests.get(cars_url)
         soup = BeautifulSoup(r.text, 'html.parser')
         cars = soup.select('article.post-holder.product-click')
         results = await asyncio.gather(*map(fetch_jumia_car,cars)) #run loop cocurrent to fetch jumia cars
-        
+
         return results
 
     except requests.exceptions.ConnectionError:
@@ -109,14 +109,14 @@ async def fetch_jiji_car(car):
             car_dict['year'] = value
         elif attr['name'] == 'Mileage':
             car_dict['mileage'] = value
-    
+
     return car_dict
 
 #fetch specific car model based on year of manufacture  from jiji
 async def get_jiji_cars_by_make_model(make, model, frm_year, to_year):
     try:
         url = 'https://jiji.ug/api_web/v1/listing?slug=cars&filter_attr_1_make=' +make.capitalize()+ '&filter_attr_2_model='+ model.capitalize()+ '&filter_attr_119_year_of_manufacture__min=' +frm_year+ '&filter_attr_119_year_of_manufacture__max='+to_year+ '&webp=true'
-        r = requests.get(url) 
+        r = requests.get(url)
         cars = r.json()['adverts_list']['adverts']
         results = await asyncio.gather(*map(fetch_jiji_car,cars))
         return results
@@ -132,9 +132,9 @@ async def get_jiji_cars_by_make_model(make, model, frm_year, to_year):
 async def get_jiji_cars():
     counter = 1
     car_list = []
-    while True: 
+    while True:
         try:
-            r = requests.get(jiji_url +'/api_web/v1/listing?slug=cars&webp=false&page='+ str(counter)) 
+            r = requests.get(jiji_url +'/api_web/v1/listing?slug=cars&webp=false&page='+ str(counter))
             cars = r.json()['adverts_list']['adverts']
             results = await asyncio.gather(*map(fetch_jiji_car,cars))
             car_list += results
@@ -148,7 +148,7 @@ async def get_jiji_cars():
         except requests.exceptions.TooManyRedirects:
             print("Too Many Redirects")
             break
-    
+
     return car_list
 
 
@@ -227,25 +227,22 @@ async def main():
     # jumia_cars = await get_jumia_cars()
     # jiji_cars = await get_jiji_cars()
     beforward_model_cars = await get_beforward_cars('toyota', 'probox', '2003','2003') #pass in the mo, make and year
-    print("Be forward")
-    print(beforward_model_cars[0])
-    print(len(beforward_model_cars))
-    print("Standard Dev:" + util.std(beforward_model_cars))
     print("")
-    
+    print("Be forward")
+    print('No. of cars: '+ str(len(beforward_model_cars)))
+    print('Standard Deviation: ' + str(int(util.std(beforward_model_cars))))
+    beforward_model_cars[0].pop('price')
+    print(beforward_model_cars)
+    print("")
+
     jiji_model_cars = await get_jiji_cars_by_make_model('toyota','probox','2003','2003')
     print("Jiji Cars")
-    print(jiji_model_cars[0])
-    print(len(jiji_model_cars))
-    print("Standard Dev:" + util.std(jiji_model_cars))
+    print('No. of cars: '+ str(len(jiji_model_cars)))
+    print('Standard Deviation: ' + str(int(util.std(jiji_model_cars))))
+    jiji_model_cars[0].pop('price')
+    print(jiji_model_cars)
     print("")
-    
-    jumia_model_cars = await fetch_jumia_cars_by_make_model('toyota','probox','2003', '2003')
-    print("Jumia")
-    print(jumia_model_cars[0])
-    print(len(jumia_model_cars))
-    print("Standard Dev:" + util.std(jumia_model_cars))
-    print("")
+
 
 asyncio.run(
     main()

@@ -15,18 +15,17 @@ export default function SingleCategory() {
 
   useEffect(() => {
     dispatch(fetchBrandProducts(params.id));
-  }, [dispatch, params]);
+  }, [params]);
 
   const brands = useSelector((state) =>  state?.brands?.brands);
   const brandProducts = useSelector((state) => state?.brands?.brandProducts);
-
   const activeBrand = brands.filter(brand => Number(brand?.id) === Number(params?.id));
 
   console.log("brands", activeBrand);
   return (
     <Layout>
       <h4 className="text-2xl font-medium px-8 mt-8 capitalize">
-        Brand : {activeBrand[0].name}
+        Brand : {activeBrand[0]?.name}
       </h4>
       {/* {brandProducts.length > 0 && (
         <div className="grid grid-cols-5 2xl:grid-cols-6 px-8 gap-2 2xl:gap-3 mt-4">

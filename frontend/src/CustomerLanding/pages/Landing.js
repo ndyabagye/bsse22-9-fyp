@@ -7,13 +7,15 @@ import { fetchCars } from "../../data/cars/carsSlice";
 import Loader from "../../Shared/Loader";
 
 export default function Landing() {
-  const cars = useSelector((state) => state.cars);
-
   const dispatch = useDispatch();
+  const [counter] =useState(1);
+
+
   useEffect(() => {
     dispatch(fetchCars());
-  }, [dispatch]);
+  }, []);
 
+  const cars = useSelector((state) => state.cars);
 
   return (
     <Layout>

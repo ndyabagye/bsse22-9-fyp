@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Layout from "../../Shared/Layout";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import { fetchSingleCar, fetchChats,
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
-import Chart from "../components/Chart";
+// import Chart from "../components/Chart";
 
 
 export default function SingleProduct() {
@@ -17,24 +17,12 @@ export default function SingleProduct() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Dispatch here')
     dispatch(fetchSingleCar(params.id))
-  }, [params, dispatch]);
-
-  // useEffect(() => {
-  //   const fetchPrices = async () => {
-  //     const res = await fetch("https://api.coincap.io/v2/assets/?limit=5")
-  //     const data = await res.json()
-  //     console.log(data)
-  //   }
-  //   fetchPrices()
-  // }, []);
-
-  // const [chartData, setChartData] = useState({})
-
+  }, [params])
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
+  const navigateToCheckout = useSelector((state) => state.cars?.checkout);
 
   function onMessageWasSent(message) {
     const formData = new FormData();
@@ -88,6 +76,12 @@ export default function SingleProduct() {
               <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
                 Transmission :  {singleProduct?.transmission ? singleProduct?.transmission: 'No transmission registered'}
               </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Mileage : {singleProduct?.mileage ? singleProduct?.mileage: 'No mileage registered'} miles
+              </h3>
+               <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Price : UGX {singleProduct?.selling_price ? singleProduct?.selling_price: 'No price registered'}
+              </h3>
               <p className="text-base border-b border-300 py-3">
                 {singleProduct?.description ? singleProduct?.description : 'No description'}
                 {/* {singleProduct?.description} */}
@@ -97,6 +91,7 @@ export default function SingleProduct() {
                 <Link to="/checkout">
                 <Button color="purple">Checkout</Button>
                 </Link>
+                {/* {'navigate ' + navigateToCheckout} */}
               </div>
             </div>
           </div>
@@ -126,7 +121,7 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
-        <Chart  />
+        {/* <Chart  /> */}
 
       </div>
     </Layout>
