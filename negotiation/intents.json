@@ -3,7 +3,7 @@
   "patterns": ["hello","hey","hi","good day","Greetings","what's up?","how is it going?","How are you"],
   "responses": ["Hello!","Hey!","What can I do for you?"]
   },
-  
+
   {"tag": "name",
   "patterns": ["what is your name","name","what's your name","who are you","what should I call you"],
   "responses": ["You can call me Jane","I'm Jane","I'm Jane your car assistant"]
@@ -37,6 +37,10 @@
   {"tag": "generic",
   "patterns": ["why are you expensive","expensive","too high ", "why cant you", "Please reduce"],
   "responses": ["The times are hard, but it's a good deal","The times are difficult, perhaps consider another car"]
-  }
+  },
 
+  {"tag": "deal",
+  "patterns": ["deal","its a deal","okay deal ", "we have a deal"],
+  "responses": ["Ok we will have a deal"]
+  }
 ]}

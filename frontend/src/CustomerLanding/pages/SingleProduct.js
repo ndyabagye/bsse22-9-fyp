@@ -9,7 +9,7 @@ import { fetchSingleCar, fetchChats,
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
-import Chart from "../components/Chart";
+// import Chart from "../components/Chart";
 
 
 export default function SingleProduct() {
@@ -76,6 +76,12 @@ export default function SingleProduct() {
               <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
                 Transmission :  {singleProduct?.transmission ? singleProduct?.transmission: 'No transmission registered'}
               </h3>
+              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Mileage : {singleProduct?.mileage ? singleProduct?.mileage: 'No mileage registered'} miles
+              </h3>
+               <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+                Price : UGX {singleProduct?.selling_price ? singleProduct?.selling_price: 'No price registered'}
+              </h3>
               <p className="text-base border-b border-300 py-3">
                 {singleProduct?.description ? singleProduct?.description : 'No description'}
                 {/* {singleProduct?.description} */}
@@ -115,7 +121,7 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
-        <Chart  />
+        {/* <Chart  /> */}
 
       </div>
     </Layout>
