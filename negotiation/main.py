@@ -84,6 +84,18 @@ while True:
             print("| Bot:", res)
             print("|===================== The Program End here! =====================|")
             exit()
+    
+    elif message.isnumeric():
+        figures = float(message)
+        asking_price = float(figures)
+        old_price_list.append(asking_price)
+        reply = negotiation.lower_price(asking_price, old_price_list, display_value, last_price)
+        res = reply[0]
+        offer_list.append(reply[1])
+        display_value = reply[1]
+        print("Old price list: ", old_price_list)
+        print("Offer list:     ", offer_list)
+        print("| Bot:   ", res)
 
     else:
         res = get_response(ints, intents)
@@ -100,6 +112,6 @@ while True:
                 res = reply[0]
                 offer_list.append(reply[1])
                 display_value = reply[1]
-    print("Old price list: ", old_price_list)
-    print("Offer list:     ", offer_list)
-    print("| Bot:   ", res)
+        print("Old price list: ", old_price_list)
+        print("Offer list:     ", offer_list)
+        print("| Bot:   ", res)
