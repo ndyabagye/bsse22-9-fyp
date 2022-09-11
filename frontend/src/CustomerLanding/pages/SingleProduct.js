@@ -11,14 +11,14 @@ import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
 // import Chart from "../components/Chart";
 
-
 export default function SingleProduct() {
   const params = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchSingleCar(params.id))
-  }, [params])
+  // useEffect(() => {
+  //   console.log('params', params);
+  //   dispatch(fetchSingleCar(params?.id))
+  // }, [dispatch, params])
 
   const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
@@ -44,6 +44,10 @@ export default function SingleProduct() {
   function onClick() {
     dispatch(openChat());
   }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
   return (
     <Layout>
@@ -80,7 +84,7 @@ export default function SingleProduct() {
                 Mileage : {singleProduct?.mileage ? singleProduct?.mileage: 'No mileage registered'} miles
               </h3>
                <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Price : UGX {singleProduct?.selling_price ? singleProduct?.selling_price: 'No price registered'}
+                Price : UGX {singleProduct?.selling_price ? numberWithCommas(singleProduct?.selling_price): 'No price registered'}
               </h3>
               <p className="text-base border-b border-300 py-3">
                 {singleProduct?.description ? singleProduct?.description : 'No description'}

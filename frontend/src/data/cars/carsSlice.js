@@ -4,9 +4,9 @@ import axios from "axios";
 const initialState = {
   loading: false,
   cars: [],
-  singleCar:[],
+  singleCar: [],
   filteredCars: [],
-  selectedCar: '',
+  selectedCar: "",
   error: null,
 
   //chat slice data
@@ -31,11 +31,14 @@ export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
     .then((res) => res.data);
 });
 
-export const fetchSingleCar = createAsyncThunk('cars/fetchSingleCar', async (id) => {
-  return await axios
-  .get(`http://localhost:8000/product/${id}`)
-  .then((res)=> res.data);
-});
+export const fetchSingleCar = createAsyncThunk(
+  "cars/fetchSingleCar",
+  async (id) => {
+    return await axios
+      .get(`http://localhost:8000/product/${id}`)
+      .then((res) => res.data);
+  }
+);
 
 export const fetchChats = createAsyncThunk(
   "chats/fetchChats",
@@ -48,7 +51,6 @@ export const fetchChats = createAsyncThunk(
 );
 
 const currentUser = "me";
-
 
 export const carsSlice = createSlice({
   name: "cars",
@@ -95,7 +97,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchCars.rejected, (state, action) => {
-      console.log('error', action);
+      console.log("error", action);
       state.loading = false;
       state.cars = [];
       state.error = action.error.message;
@@ -113,7 +115,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchSingleCar.rejected, (state, action) => {
-      console.log('error', action);
+      console.log("error", action);
       state.loading = false;
       state.singleCar = [];
       state.error = action.error.message;
@@ -140,7 +142,7 @@ export const carsSlice = createSlice({
           type: "text",
         },
       ];
-      if(action.payload.ai_response === "Ok we will have a deal"){
+      if (action.payload.ai_response === "Ok we will have a deal") {
         state.checkout = true;
       }
     });
@@ -151,6 +153,12 @@ export const carsSlice = createSlice({
   },
 });
 
-export const { filterByName, setSelectedCar,  incrementMessagesCount, openChat, addMessage  } = carsSlice.actions;
+export const {
+  filterByName,
+  setSelectedCar,
+  incrementMessagesCount,
+  openChat,
+  addMessage,
+} = carsSlice.actions;
 
 export default carsSlice.reducer;
