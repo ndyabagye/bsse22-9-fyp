@@ -2,6 +2,7 @@ import random
 
 def lower_price(asking_price, old_price_list, display_value, last_price):
     if (asking_price >= display_value): #if a customer offers a price higher than the bot's offer
+        asking_price = display_value
         return ["Ok we will have a deal",display_value]
 
     else:
