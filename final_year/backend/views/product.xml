@@ -6,6 +6,7 @@
         <field name="model">product</field> 
         <field name="arch" type="xml">
             <search string="Product"> 
+                <filter string="Product" name="scraped_products" domain="[('scraped','=',False)]"/>
                 <field name="brand_id" string ="Brand"/>
                 <field name="car_model_id" string ="Model"/>            
             </search>
@@ -131,6 +132,7 @@
         <field name="res_model">product</field>
         <field name="view_mode">tree,form,search</field> 
         <field name="search_view_id" ref="product_search"/>
+        <field name="context">{"search_default_filter_scraped_products":False}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new Product

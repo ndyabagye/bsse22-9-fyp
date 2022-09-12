@@ -4,6 +4,8 @@ from odoo.exceptions import ValidationError
 from datetime import datetime
 import requests
 import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class Product(models.Model):
     _name = 'product'
@@ -187,6 +189,38 @@ class Product(models.Model):
                 rec.x_css ='<style>.o_form_button_edit {display: none !important;}</style>'
             else:
                 rec.x_css = False
+
+    @api.model
+    def get_products_by_month(self):
+        products_dict = []
+        products_labels = []
+        current_date = datetime.now()
+        y = 1
+        products_labels.append(current_date.strftime("%b - %y"))
+        productsnumber = self.env['product'].search_count([
+                    ('create_date', '>=', current_date.strftime('%Y-%m-01')),
+                    ('create_date', '<', (current_date + relativedelta(months=1)).strftime('%Y-%m-01'))
+                ])
+        
+        products_dict.append(productsnumber)        
+        
+        while y <= 4:
+            date2 =  current_date - relativedelta(months=y)
+            products_labels.append(date2.strftime("%b - %y"))
+            productsnumber = self.env['product'].search_count([
+                    ('create_date', '>=', date2.strftime('%Y-%m-01')),
+                    ('create_date', '<', (date2 + relativedelta(months=1)).strftime('%Y-%m-01')),
+            ])
+            products_dict.append(productsnumber)
+            y = y+1
+        products_dict.reverse()
+        products_labels.reverse()
+        
+        records = { 
+            'products_labels':products_labels,
+            'products_dict':products_dict,
+        }
+        return  records
 
 #-----------observed price lines model----------#
 class ScrapedPriceLines(models.Model):

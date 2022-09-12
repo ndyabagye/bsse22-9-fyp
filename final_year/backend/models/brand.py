@@ -26,3 +26,16 @@ class Brand(models.Model):
             'brand_count':brand_count,
         }
         return  records
+
+
+    @api.model
+    def most_common_brand(self):
+        brand_dict = []
+        brand_labels = []
+        
+        
+        records = { 
+            'brand_labels':brand_labels,
+            'brand_dict':brand_dict,
+        }
+        return  records
