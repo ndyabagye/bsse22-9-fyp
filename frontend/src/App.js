@@ -10,7 +10,8 @@ import Users from "./AdminBackend/pages/Users";
 import Products from "./AdminBackend/pages/Products";
 import AddProductPage from "./AdminBackend/pages/AddProductPage";
 import SingleCategory from './CustomerLanding/pages/SingleCategory';
-import CheckoutPage from './CustomerLanding/pages/CheckoutPage';
+// import CheckoutPage from './CustomerLanding/pages/CheckoutPage';
+import CheckoutPage from './CustomerLanding/pages/Checkout';
 
 function App() {
   // const [token ,setToken] = useState();
