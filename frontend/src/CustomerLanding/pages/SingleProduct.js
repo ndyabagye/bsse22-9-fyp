@@ -1,28 +1,43 @@
 import React, { useEffect } from "react";
 import Layout from "../../Shared/Layout";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSingleCar, fetchChats,
-  incrementMessagesCount,
+import {
+  fetchChats,
   addMessage,
-  openChat, } from "../../data/cars/carsSlice";
+  openChat,
+  setCar,
+} from "../../data/cars/carsSlice";
+
+import { useGetCarQuery } from "../../data/apiSlice";
 
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
+import Loader from "../../Shared/Loader";
 // import Chart from "../components/Chart";
-
 
 export default function SingleProduct() {
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { data: car, isFetching, isSuccess } = useGetCarQuery(params?.id);
 
   useEffect(() => {
-    dispatch(fetchSingleCar(params.id))
-  }, [params])
+    if (isSuccess) {
+      console.log("car is", car);
+      dispatch(setCar(car));
+    }
+  }, [dispatch, car, isSuccess]);
 
-  const singleProduct = useSelector((state) => state?.cars?.singleCar[0]);
   const chatState = useSelector((state) => state.cars);
   const navigateToCheckout = useSelector((state) => state.cars?.checkout);
+
+  useEffect(() => {
+    if (navigateToCheckout === true) {
+      setTimeout(navigate("/checkout"), 2000);
+    }
+  }, [navigateToCheckout, navigate]);
 
   function onMessageWasSent(message) {
     const formData = new FormData();
@@ -36,7 +51,7 @@ export default function SingleProduct() {
       type: "text",
       data: { text: message.data.text },
     };
-    console.log('final meesssga e', message);
+    console.log("final meesssga e", message);
     dispatch(addMessage(message));
     dispatch(fetchChats(formData));
   }
@@ -45,57 +60,88 @@ export default function SingleProduct() {
     dispatch(openChat());
   }
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  let content;
+
+  if (isFetching) {
+    content = (
+      <div className="h-full-w-full flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  } else if (isSuccess) {
+    content = (
+      <>
+        <div id="image" className="col-span-2">
+          <img
+            src={"data:image/jpeg;base64," + car[0]?.image}
+            className="h-72 w-full object-cover rounded-md"
+            alt=""
+          />
+        </div>
+        <div id="details" className="col-span-3 flex justify-start p-2 w-full">
+          <div className="flex flex-col">
+            <h3 className="text-center text-2xl font-semibold">
+              {car[0]?.brand_id[1]},{" "}
+              {car[0]?.car_model_id ? car[0].car_model_id[1] : ""}
+            </h3>
+            <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+              Category :{" "}
+              {car[0]?.category_id
+                ? car[0]?.category_id[1]
+                : "No category registered"}
+            </h3>
+            <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+              Vendor :{" "}
+              {car[0]?.vendor_id
+                ? car[0]?.vendor_id[1]
+                : "No vendor registered"}
+            </h3>
+            <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+              Transmission :{" "}
+              {car[0]?.transmission
+                ? car[0]?.transmission
+                : "No transmission registered"}
+            </h3>
+            <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+              Mileage :{" "}
+              {car[0]?.mileage ? car[0]?.mileage : "No mileage registered"}{" "}
+              miles
+            </h3>
+            <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
+              Price : UGX{" "}
+              {car[0]?.selling_price
+                ? numberWithCommas(car[0]?.selling_price)
+                : "No price registered"}
+            </h3>
+            <p className="text-base border-b border-300 py-3">
+              {car[0]?.description ? car[0]?.description : "No description"}
+              {/* {singleProduct?.description} */}
+            </p>
+            <div className="py-4 flex space-x-4">
+              <Button onClick={onClick}>Negotiate</Button>
+              <Link to="/checkout">
+                <Button color="purple">Checkout</Button>
+              </Link>
+              {/* {'navigate ' + navigateToCheckout} */}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
   return (
     <Layout>
       <div className="w-full h-full">
         <Link to="/">
-        <Button className="mx-2" gradientMonochrome="cyan">Go Back</Button>
+          <Button className="mx-2" gradientMonochrome="cyan">
+            Go Back
+          </Button>
         </Link>
-        <div className="grid grid-cols-5 gap-2 p-2">
-          <div id="image" className="col-span-2">
-            <img
-              src={'data:image/jpeg;base64,' + singleProduct?.image}
-              className="h-72 w-full object-cover rounded-md"
-              alt=""
-            />
-          </div>
-          <div
-            id="details"
-            className="col-span-3 flex justify-start p-2 w-full"
-          >
-            <div className="flex flex-col">
-              <h3 className="text-center text-2xl font-semibold">
-                {singleProduct?.brand_id[1]}, {singleProduct?.car_model_id ? singleProduct.car_model_id[1] : ''}
-              </h3>
-              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Category : {singleProduct?.category ? singleProduct?.category_id[1] : 'No category registered'}
-              </h3>
-              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Vendor :  {singleProduct?.vendor_id ? singleProduct?.vendor_id[1] : 'No vendor registered'}
-              </h3>
-              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Transmission :  {singleProduct?.transmission ? singleProduct?.transmission: 'No transmission registered'}
-              </h3>
-              <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Mileage : {singleProduct?.mileage ? singleProduct?.mileage: 'No mileage registered'} miles
-              </h3>
-               <h3 className=" text-gray-700 text-base font-normal capitalize py-3 border-b border-gray-300">
-                Price : UGX {singleProduct?.selling_price ? singleProduct?.selling_price: 'No price registered'}
-              </h3>
-              <p className="text-base border-b border-300 py-3">
-                {singleProduct?.description ? singleProduct?.description : 'No description'}
-                {/* {singleProduct?.description} */}
-              </p>
-              <div className="py-4 flex space-x-4">
-                <Button onClick={onClick}>Negotiate</Button>
-                <Link to="/checkout">
-                <Button color="purple">Checkout</Button>
-                </Link>
-                {/* {'navigate ' + navigateToCheckout} */}
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="grid grid-cols-5 gap-2 p-2">{content}</div>
         <div id="negotiation" className="flex">
           <Launcher
             agentProfile={{
@@ -114,15 +160,13 @@ export default function SingleProduct() {
             pinMessage={{
               imageUrl:
                 "https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png",
-              title:
-                "Chat Format",
+              title: "Chat Format",
               text: "Please use a format of Make it {intended price}",
             }}
             placeholder="Type here..."
           />
         </div>
         {/* <Chart  /> */}
-
       </div>
     </Layout>
   );

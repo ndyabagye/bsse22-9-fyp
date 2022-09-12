@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useGetCarQuery } from "../apiSlice";
 
 const initialState = {
   loading: false,
   cars: [],
-  singleCar:[],
+  singleCar: [],
   filteredCars: [],
-  selectedCar: '',
+  selectedCar: "",
   error: null,
 
   //chat slice data
@@ -31,11 +32,14 @@ export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
     .then((res) => res.data);
 });
 
-export const fetchSingleCar = createAsyncThunk('cars/fetchSingleCar', async (id) => {
-  return await axios
-  .get(`http://localhost:8000/product/${id}`)
-  .then((res)=> res.data);
-});
+export const fetchSingleCar = createAsyncThunk(
+  "cars/fetchSingleCar",
+  async (id) => {
+    return await axios
+      .get(`http://localhost:8000/product/${id}`)
+      .then((res) => res.data);
+  }
+);
 
 export const fetchChats = createAsyncThunk(
   "chats/fetchChats",
@@ -46,8 +50,6 @@ export const fetchChats = createAsyncThunk(
       .then((res) => res.data);
   }
 );
-
-const currentUser = "me";
 
 
 export const carsSlice = createSlice({
@@ -83,6 +85,12 @@ export const carsSlice = createSlice({
       console.log("Message is", message.payload);
       state.messageList = [...state.messageList, message.payload];
     },
+    setCar(state, action){
+      state.loading = false;
+      state.singleCar = action.payload;
+      state.base_price = action.payload[0].base_price;
+      state.selling_price = action.payload[0].selling_price;
+    }
   },
   extraReducers: (builder) => {
     // fetch all cars
@@ -95,7 +103,7 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchCars.rejected, (state, action) => {
-      console.log('error', action);
+      console.log("error", action);
       state.loading = false;
       state.cars = [];
       state.error = action.error.message;
@@ -113,7 +121,6 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchSingleCar.rejected, (state, action) => {
-      console.log('error', action);
       state.loading = false;
       state.singleCar = [];
       state.error = action.error.message;
@@ -140,7 +147,7 @@ export const carsSlice = createSlice({
           type: "text",
         },
       ];
-      if(action.payload.ai_response === "Ok we will have a deal"){
+      if (action.payload.ai_response === "Ok we will have a deal") {
         state.checkout = true;
       }
     });
@@ -151,6 +158,13 @@ export const carsSlice = createSlice({
   },
 });
 
-export const { filterByName, setSelectedCar,  incrementMessagesCount, openChat, addMessage  } = carsSlice.actions;
+export const {
+  filterByName,
+  setSelectedCar,
+  incrementMessagesCount,
+  openChat,
+  addMessage,
+  setCar,
+} = carsSlice.actions;
 
 export default carsSlice.reducer;

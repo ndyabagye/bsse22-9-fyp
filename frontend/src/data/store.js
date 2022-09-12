@@ -1,12 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 import brandsSlice from './brands/brandsSlice';
 import carsSlice from './cars/carsSlice';
-// import chatSlice from './chat/chatSlice';
+import { apiSlice } from './apiSlice';
 
 export const store =configureStore({
     reducer:{
         brands: brandsSlice,
         cars: carsSlice,
-        // chats: chatSlice,
+        [apiSlice.reducerPath]: apiSlice.reducer
     },
+    middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(apiSlice.middleware)
 })
