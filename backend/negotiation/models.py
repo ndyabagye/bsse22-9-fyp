@@ -9,13 +9,11 @@ import random
 class Negotiator(models.Model):
 
     def lower_price(asking_price, old_price_list, display_value, last_price):
-
         if (asking_price >= display_value): #if a customer offers a price higher than the bot's offer
             return ["Ok we will have a deal", display_value]
-
         else:
 
-            if (asking_price <= old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old
+            if (asking_price < old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old
                 return ["You can't lower the price from your initial offer. Our offer is still "+str(display_value)  , display_value]
 
             elif (asking_price < 2/3*(last_price)): #if customer offers a very low price from that expected
@@ -28,12 +26,11 @@ class Negotiator(models.Model):
                     return ["Ok we will have a deal",display_value]
                 display_value = Negotiator.negotiate(random.uniform(0,1/3), display_value, asking_price, old_price_list[-2])
                 return ["I can only do.... "+ str(display_value) +" ugx |]\n\t Deal or No deal!", display_value]
-
             else:
                 return ["Please increase your price just a little more", display_value]
 
-    def negotiate(fraction, old_offer, asking_price, old_price):
 
+    def negotiate(fraction, old_offer, asking_price, old_price):
         #if the buyer lowers his/her offer than what he/she previously offered, the bot sticks to the old offer.
         if (asking_price <= old_price):
             return old_offer

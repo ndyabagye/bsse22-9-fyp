@@ -13,7 +13,8 @@
                 <field name="email" string ="Email"/>
                 <field name="phone" string ="Phone"/>
                 <field name="address" string ="Address"/>
-                <field name="vendor_id"/>            
+                <field name="vendor_id"/>
+                <field name="final_price"/>            
             </search>
         </field>
     </record>
@@ -46,6 +47,17 @@
                             <field name="vendor_id"/> 
                         </group>
                     </group>
+                    <group string = "Pricing Information">
+                        <group>
+                            <field name="base_price" string ="Base Price(Last Price)"/>
+                            <field name="final_price" string ="Final Price (Price Agreed)"/>
+                        </group>
+                        <group>
+                            <field name="profit" string ="Profit" 
+                            readonly="1"
+                            />
+                        </group>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -65,6 +77,7 @@
                 <field name="phone" string ="Phone"/>
                 <field name="address" string ="Address"/>
                 <field name="vendor_id"/>
+                <field name="final_price"/>
             </tree>
         </field>
     </record>

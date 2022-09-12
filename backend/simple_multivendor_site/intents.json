@@ -25,7 +25,7 @@
   },
 
   {"tag": "negotiate",
-  "patterns": ["I only have","I have","make it","reduce it to ", "I can give you", "Please reduce","bargain"],
+  "patterns": ["I only have","I have","make it","reduce it to ", "I can give you", "Please reduce","bargain", "offer", "my offer is", "i wll offer you", "i can give you", "i will give you"],
   "responses": ["Yes we can, what's your offer?","Yes please we can, depends on your price."]
   },
 
