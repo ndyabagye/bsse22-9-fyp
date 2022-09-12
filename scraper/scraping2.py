@@ -7,8 +7,6 @@ import util
 from bs4 import BeautifulSoup
 from urllib import response
 
-
-
 jumia_url = 'https://deals.jumia.ug'
 jiji_url =  'https://jiji.ug'
 beforward_url = 'https://beforward.jp'
