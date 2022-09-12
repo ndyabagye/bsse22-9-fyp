@@ -22,7 +22,20 @@ class Order(models.Model):
     product_id = fields.Many2one('product')
     vendor_id = fields.Many2one(related = "product_id.vendor_id")
     image = fields.Image(related = "product_id.image")
-
+    
+    final_price = fields.Integer(string = "Final Price", required=True)
+    base_price = fields.Integer(related = "product_id.base_price")
+    profit = fields.Char(default="0%", compute="compute_profit")
+    
+    @api.depends('final_price','base_price')
+    def compute_profit(self):
+        for rec in self:
+            if rec.final_price > 0 and rec.base_price > 0:
+                profit = ((rec.final_price - rec.base_price) / rec.base_price) * 100
+                rec.profit = str(round(profit,0)) + "%"
+            else:
+                rec.profit = '0%'
+    
     state = fields.Selection([
         ('ordered', 'Ordered'),
         ('delivered', 'Delivered'),

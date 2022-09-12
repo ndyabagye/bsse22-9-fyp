@@ -18,8 +18,8 @@ import xmlrpc.client
 
 url = 'http://localhost:8069'
 db = 'finalyear'
-username = 'ndyabagyehenrytusi@gmail.com'
-password = 'root'
+username = 'jkigula@icloud.com'
+password = 'ni3r-mauh-xdwn'
 
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))

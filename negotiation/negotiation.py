@@ -5,7 +5,7 @@ def lower_price(asking_price, old_price_list, display_value, last_price):
         return ["Ok we will have a deal",display_value]
 
     else:
-        if (asking_price <= old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old offer
+        if (asking_price < old_price_list[-2]):  #if customer lowers the price from the initial one then stick to the old offer
             return ["You can't lower the price from your initial offer. Our offer is still "+str(display_value)  , display_value]
 
         elif (asking_price < 2/3*(last_price)): #if customer offers a very low price from that expected

@@ -66,14 +66,13 @@ last_price = 12000000
 
 while True:
     message = input("| You: ").lower()
+    message = message.replace(",","")
     ints = predict_class(message)
     
     if float(ints[0]['probability']) < 0.4:
         ints[0]["intent"] = 'invalid'
     
-    print("here")
-    print(ints)
-    print("")
+    message = message.replace(",","")
     if message == "bye" or message == "Goodbye" or message == "deal":
         if len(offer_list) == 1:
             print("| Bot:", "Ok we will have a deal")
