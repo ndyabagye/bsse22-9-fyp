@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'predictor',
     'negotiation',
     'chat',
+    'scraper',
 ]
 
 MIDDLEWARE = [

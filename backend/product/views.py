@@ -179,6 +179,8 @@ def make_order(request):
 
 
 
+
+
 #-----REGISTRATION
 @csrf_exempt
 def register_user(request):
