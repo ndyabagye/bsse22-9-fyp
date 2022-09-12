@@ -44,10 +44,10 @@ export default function Banner() {
     />
   </Carousel>
   <div id="small-cards" className="grid grid-cols-4 gap-2 mt-4">
-    <div className="bg-orange-300 rounded-md flex h-20"></div>
-    <div className="bg-orange-300 rounded-md flex h-20"></div>
-    <div className="bg-orange-300 rounded-md flex h-20"></div>
-    <div className="bg-orange-300 rounded-md flex h-20"></div>
+    <div className="bg-orange-300 rounded-md flex h-20 text-gray-800 text-2xl items-center justify-center">Deals!</div>
+    <div className="bg-orange-300 rounded-md flex h-20 text-gray-800 text-2xl items-center justify-center">Deals!</div>
+    <div className="bg-orange-300 rounded-md flex h-20 text-gray-800 text-2xl items-center justify-center">Deals!</div>
+    <div className="bg-orange-300 rounded-md flex h-20 text-gray-800 text-2xl items-center justify-center">Deals!</div>
   </div>
 </div></>
   );

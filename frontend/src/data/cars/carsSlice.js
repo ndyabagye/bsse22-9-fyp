@@ -90,6 +90,9 @@ export const carsSlice = createSlice({
       state.singleCar = action.payload;
       state.base_price = action.payload[0].base_price;
       state.selling_price = action.payload[0].selling_price;
+    },
+    clearCheckout(state) {
+      state.checkout = false;
     }
   },
   extraReducers: (builder) => {
@@ -165,6 +168,7 @@ export const {
   openChat,
   addMessage,
   setCar,
+  clearCheckout,
 } = carsSlice.actions;
 
 export default carsSlice.reducer;

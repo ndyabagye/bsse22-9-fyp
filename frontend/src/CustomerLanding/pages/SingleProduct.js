@@ -7,6 +7,7 @@ import {
   addMessage,
   openChat,
   setCar,
+  clearCheckout,
 } from "../../data/cars/carsSlice";
 
 import { useGetCarQuery } from "../../data/apiSlice";
@@ -14,7 +15,7 @@ import { useGetCarQuery } from "../../data/apiSlice";
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
 import Loader from "../../Shared/Loader";
-// import Chart from "../components/Chart";
+import Chart from "../components/Chart";
 
 export default function SingleProduct() {
   const params = useParams();
@@ -22,6 +23,10 @@ export default function SingleProduct() {
   const navigate = useNavigate();
 
   const { data: car, isFetching, isSuccess } = useGetCarQuery(params?.id);
+
+  useEffect(() => {
+    dispatch(clearCheckout());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -35,7 +40,7 @@ export default function SingleProduct() {
 
   useEffect(() => {
     if (navigateToCheckout === true) {
-      setTimeout(navigate("/checkout"), 2000);
+      setTimeout(() => navigate("/checkout"), 2000);
     }
   }, [navigateToCheckout, navigate]);
 
@@ -166,7 +171,7 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
-        {/* <Chart  /> */}
+        <Chart />
       </div>
     </Layout>
   );
