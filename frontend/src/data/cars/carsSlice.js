@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useGetCarQuery } from "../apiSlice";
 
 const initialState = {
   loading: false,
@@ -50,7 +51,6 @@ export const fetchChats = createAsyncThunk(
   }
 );
 
-const currentUser = "me";
 
 export const carsSlice = createSlice({
   name: "cars",
@@ -85,6 +85,12 @@ export const carsSlice = createSlice({
       console.log("Message is", message.payload);
       state.messageList = [...state.messageList, message.payload];
     },
+    setCar(state, action){
+      state.loading = false;
+      state.singleCar = action.payload;
+      state.base_price = action.payload[0].base_price;
+      state.selling_price = action.payload[0].selling_price;
+    }
   },
   extraReducers: (builder) => {
     // fetch all cars
@@ -115,7 +121,6 @@ export const carsSlice = createSlice({
       state.error = "";
     });
     builder.addCase(fetchSingleCar.rejected, (state, action) => {
-      console.log("error", action);
       state.loading = false;
       state.singleCar = [];
       state.error = action.error.message;
@@ -159,6 +164,7 @@ export const {
   incrementMessagesCount,
   openChat,
   addMessage,
+  setCar,
 } = carsSlice.actions;
 
 export default carsSlice.reducer;

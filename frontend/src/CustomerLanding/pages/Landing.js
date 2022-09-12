@@ -1,21 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Shared/Layout";
 import Banner from "../../Shared/Banner";
 import ProductCard from "../components/ProductCard";
-import { fetchCars } from "../../data/cars/carsSlice";
+// import { fetchCars } from "../../data/cars/carsSlice";
 import Loader from "../../Shared/Loader";
 
+import { useGetCarsQuery } from "../../data/apiSlice";
+
 export default function Landing() {
-  const dispatch = useDispatch();
-  const [counter] =useState(1);
+  const {
+    data: cars,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetCarsQuery();
 
+  console.log('hello world', cars);
 
-  useEffect(() => {
-    dispatch(fetchCars());
-  }, []);
+  let content
 
-  const cars = useSelector((state) => state.cars);
+  if (isLoading) {
+    content = <Loader />
+  } else if (isSuccess) {
+    content = cars.map(car => <ProductCard key={car?.id} car={car} />)
+  } else if (isError) {
+    content = <div>{error.toString()}</div>
+  }
+
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchCars());
+  // }, [dispatch]);
+
+  // const cars = useSelector((state) => state.cars);
 
   return (
     <Layout>
@@ -26,7 +45,8 @@ export default function Landing() {
       </div>
       <h4 className="text-2xl font-medium px-8 mt-8">Products</h4>
       <div className="grid grid-cols-5 2xl:grid-cols-6 px-8 gap-2 2xl:gap-3 mt-4">
-        {cars.loading && (
+        {content}
+        {/* {cars.loading && (
           <div className="flex items-center justify-center h-full col-span-5 2xl:col-span-6">
             <Loader />
           </div>
@@ -36,13 +56,13 @@ export default function Landing() {
             <Loader />
           </div>
         ) : null}
-        {!cars.loading && cars?.cars.length ? (
+        {!cars.loading && cars?.cars?.length > 0 ? (
           <>
             {cars?.cars.map((car) => {
               return <ProductCard key={car.id} car={car} />
             })}
           </>
-        ) : null}
+        ) : null} */}
       </div>
 
 
