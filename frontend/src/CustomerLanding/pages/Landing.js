@@ -1,9 +1,7 @@
 import React from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Shared/Layout";
 import Banner from "../../Shared/Banner";
 import ProductCard from "../components/ProductCard";
-// import { fetchCars } from "../../data/cars/carsSlice";
 import Loader from "../../Shared/Loader";
 
 import { useGetCarsQuery } from "../../data/apiSlice";
@@ -17,12 +15,12 @@ export default function Landing() {
     error,
   } = useGetCarsQuery();
 
-  console.log('hello world', cars);
-
   let content
 
   if (isLoading) {
-    content = <Loader />
+    content = <div className="h-full w-full flex items-center justify-center">
+      <Loader/>
+    </div>
   } else if (isSuccess) {
     content = cars.map(car => <ProductCard key={car?.id} car={car} />)
   } else if (isError) {

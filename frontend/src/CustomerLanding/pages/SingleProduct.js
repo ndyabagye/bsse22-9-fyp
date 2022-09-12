@@ -7,6 +7,7 @@ import {
   addMessage,
   openChat,
   setCar,
+  clearCheckout,
 } from "../../data/cars/carsSlice";
 
 import { useGetCarQuery } from "../../data/apiSlice";
@@ -24,6 +25,10 @@ export default function SingleProduct() {
   const { data: car, isFetching, isSuccess } = useGetCarQuery(params?.id);
 
   useEffect(() => {
+    dispatch(clearCheckout());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (isSuccess) {
       console.log("car is", car);
       dispatch(setCar(car));
@@ -35,7 +40,7 @@ export default function SingleProduct() {
 
   useEffect(() => {
     if (navigateToCheckout === true) {
-      setTimeout(() => navigate("/checkout"), 3000);
+      setTimeout(() => navigate("/checkout"), 2000);
     }
   }, [navigateToCheckout, navigate]);
 
@@ -166,7 +171,7 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
-        <Chart  />
+        <Chart />
       </div>
     </Layout>
   );

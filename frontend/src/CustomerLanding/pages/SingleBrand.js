@@ -18,7 +18,7 @@ export default function SingleCategory() {
   let content
 
 if(isFetching){
-  content = (<div className="h-full-w-full flex items-center justify-center">
+  content = (<div className="h-full w-full flex items-center justify-center">
     <Loader />
   </div>)
 } else if(isSuccess){
