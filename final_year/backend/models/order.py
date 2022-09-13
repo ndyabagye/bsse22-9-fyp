@@ -1,6 +1,8 @@
 import django.db
 from pkg_resources import require
 from odoo import models, fields, api
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class Order(models.Model):
 
@@ -77,5 +79,41 @@ class Order(models.Model):
         
         records = {
             'order_count':order_count,
+        }
+        return  records
+
+
+    @api.model
+    def orders_per_month(self):
+        print("")
+        print("hhshs")
+        print("")
+        orders_dict = []
+        orders_labels = []
+        current_date = datetime.now()
+        y = 1
+        orders_labels.append(current_date.strftime("%b - %y"))
+        ordersnumber = self.env['order'].search_count([
+                    ('create_date', '>=', current_date.strftime('%Y-%m-01')),
+                    ('create_date', '<', (current_date + relativedelta(months=1)).strftime('%Y-%m-01'))
+                ])
+        
+        orders_dict.append(ordersnumber)        
+        
+        while y <= 4:
+            date2 =  current_date - relativedelta(months=y)
+            orders_labels.append(date2.strftime("%b - %y"))
+            ordersnumber = self.env['order'].search_count([
+                    ('create_date', '>=', date2.strftime('%Y-%m-01')),
+                    ('create_date', '<', (date2 + relativedelta(months=1)).strftime('%Y-%m-01')),
+            ])
+            orders_dict.append(ordersnumber)
+            y = y+1
+        orders_dict.reverse()
+        orders_labels.reverse()
+        
+        records = { 
+            'orders_labels':orders_labels,
+            'orders_dict':orders_dict,
         }
         return  records

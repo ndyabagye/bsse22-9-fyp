@@ -13,6 +13,17 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+    <record id="vendor_scraped_product_rule" model="ir.rule">
+        <field name="name">Record Rules For Vendor Scraped Products</field>
+        <field ref="model_product" name="model_id"/>
+        <field name="domain_force">[('scraped','=',True)]</field>
+        <field name="groups" eval="[(4, ref('backend.group_vendor'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
     <!-- *********************Vendor Order Rule******************* -->
     <record id="vendor_order_rule" model="ir.rule">
         <field name="name">Record Rules For Vendor Orders</field>

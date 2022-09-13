@@ -14,4 +14,5 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('location/', include('location.urls')),
     path('users/', include('users.urls')),
+    path('scraper/', include('scraper.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

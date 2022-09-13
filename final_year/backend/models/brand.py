@@ -26,3 +26,24 @@ class Brand(models.Model):
             'brand_count':brand_count,
         }
         return  records
+
+
+    @api.model
+    def most_common_brand(self):
+        brand_dict = []
+        brand_labels = []
+
+        brands = self.env['brand'].sudo().search([])
+        for i in brands:
+            productsnumber = self.env['product'].search_count([
+                    ('brand_id', '=', i.id),
+                ])        
+            if productsnumber > 0:
+                brand_labels.append(i.name)
+                brand_dict.append(productsnumber)
+
+        records = { 
+            'brand_labels':brand_labels,
+            'brand_dict':brand_dict,
+        }
+        return  records
