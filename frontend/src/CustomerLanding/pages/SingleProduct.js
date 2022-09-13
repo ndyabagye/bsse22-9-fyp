@@ -15,7 +15,7 @@ import { useGetCarQuery } from "../../data/apiSlice";
 import { Launcher } from "../../chat";
 import { Button } from "flowbite-react";
 import Loader from "../../Shared/Loader";
-import Chart from "../components/Chart";
+// import Chart from "../components/Chart";
 
 export default function SingleProduct() {
   const params = useParams();
@@ -128,9 +128,6 @@ export default function SingleProduct() {
             </p>
             <div className="py-4 flex space-x-4">
               <Button onClick={onClick}>Negotiate</Button>
-              <Link to="/checkout">
-                <Button color="purple">Checkout</Button>
-              </Link>
               {/* {'navigate ' + navigateToCheckout} */}
             </div>
           </div>
@@ -171,7 +168,7 @@ export default function SingleProduct() {
             placeholder="Type here..."
           />
         </div>
-        <Chart />
+        {/* <Chart /> */}
       </div>
     </Layout>
   );
