@@ -243,8 +243,6 @@ async def main():
     print(beforward_model_cars[0])
     print("")"""
 
-    
-
     jiji_model_cars = await get_jiji_cars_by_make_model('toyota','harrier','2006','2006')
     print("Jiji Cars")
     jiji_number = len(jiji_model_cars)

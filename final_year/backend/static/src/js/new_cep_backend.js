@@ -223,30 +223,46 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                         model: "brand",
                         method: "most_common_brand",
                     }).then(function (result) {
-                        var tickets_labels = result.tickets_labels; // Add data values to array                       
-                        var tickets_dict = result.tickets_dict; // Add labels to array
+                        var brand_labels = result.brand_labels; // Add data values to array                       
+                        var brand_dict = result.brand_dict; // Add labels to array
                         
                         
                         if ($("#feedBackSource").length) {
                             var feedBackSourceCanvas = $("#feedBackSource").get(0).getContext("2d");
+                            var ict_unit = [];
+                            var efficiency = [];
+                            var coloR = [];
+                            var coloB = [];
+                            var dynamicColors = function() {
+                                var r = Math.floor(Math.random() * 255);
+                                var g = Math.floor(Math.random() * 255);
+                                var b = Math.floor(Math.random() * 255);
+                                var rcolor = "rgb(" + r + "," + g + "," + b + "," + 1 + ")";
+                                var bcolor = "rgb(" + r + "," + g + "," + b + "," + 1 + ")";
+                                return [rcolor, bcolor];
+                            };
+    
+    
+                            for (var i in brand_labels) {
+                                ict_unit.push("ICT Unit " + brand_labels[i].ict_unit);
+                                efficiency.push(brand_labels[i].efficiency);
+                                var thecolor = dynamicColors();
+                                coloR.push(thecolor[0]);
+                                coloB.push(thecolor[1]);
+                            }
+
                             var doughnutPieData = {
                               datasets: [{
-                                data: tickets_dict,
-                                backgroundColor: [
-                                  "#1F3BB3",
-                                  "#FDD0C7",
-                                ],
-                                borderColor: [
-                                  "#1F3BB3",
-                                  "#FDD0C7",
-                                ],
+                                data: brand_dict,
+                                backgroundColor:coloR,
+                                borderColor: coloB,
                               }],
                         
                               // These labels appear in the legend and in the tooltips when hovering different arcs
-                              labels: tickets_labels,   
+                              labels: brand_labels,   
                             };
                             var doughnutPieOptions = {
-                              cutoutPercentage: 50,
+                               cutoutPercentage: 50,
                               animationEasing: "easeOutBounce",
                               animateRotate: true,
                               animateScale: false,
