@@ -2,6 +2,10 @@
 from odoo import fields, models, api
 from odoo.exceptions import ValidationError
 from datetime import datetime
+import requests
+import json
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 class Product(models.Model):
     _name = 'product'
@@ -19,13 +23,13 @@ class Product(models.Model):
             else:
                 car.name = 'CAR'
 
-    category_id = fields.Many2one('category', string = 'Category', required="true")
-    vendor_id = fields.Many2one('res.users', string = 'Vendor', required="true")
-    brand_id = fields.Many2one('brand', string = 'Brand', required="true")
-    car_model_id = fields.Many2one('car.model', string = 'Model', required="true")
+    category_id = fields.Many2one('category', string = 'Category')
+    vendor_id = fields.Many2one(related='create_uid', string = 'Vendor')
+    brand_id = fields.Many2one('brand', string = 'Brand')
+    car_model_id = fields.Many2one('car.model', string = 'Model')
     
     description = fields.Text('Description')
-    image =  fields.Image("Image", required="true")
+    image =  fields.Image("Image")
     image2 =  fields.Image("Image 2")
     image3 =  fields.Image("Image 3")
     transmission = fields.Selection(
@@ -35,7 +39,6 @@ class Product(models.Model):
             ],
         string="Transmission",
         default="automatic",
-         required="true"
     )
     fuel = fields.Selection(
         selection=[
@@ -43,8 +46,7 @@ class Product(models.Model):
                 ("diesel", "Diesel"),
             ],
         string="Fuel",
-        default="petrol",
-        required="true"
+        default="petrol"
     )
 
     offer_type = fields.Selection(
@@ -53,7 +55,7 @@ class Product(models.Model):
                 ("new", "New"),
             ],
         string="Offer Type",
-        default="new", required="true"
+        default="new",
     )
     
     year = fields.Selection(
@@ -94,8 +96,8 @@ class Product(models.Model):
         string="Estimated Year of Completion"
     )
 
-    mileage = fields.Integer(default=0, required="true")
-    hp = fields.Integer('Horsepower',default=0, required="true")
+    mileage = fields.Integer(default=0)
+    hp = fields.Integer('Horsepower',default=0)
     status = fields.Boolean(default=False)
     scraped = fields.Boolean(default=False)
     
@@ -132,7 +134,26 @@ class Product(models.Model):
         self.write({
             'predicted_price': price_returned
         })
-    
+
+    def scrape_price(self):
+        url = 'http://localhost:8000/scraper/scrape'
+        data = {
+            "make": self.brand_id.name.lower(),
+            "car_model": self.car_model_id.name.lower(),
+            "year": str(self.year)     
+        }
+        value = requests.post(url, data=data)
+        scraped_lines = self.env["scraped.price.line"]
+        value = json.loads(value.content)
+        for i in value['data']:
+            line = {
+                'source':i['source'],
+                'price': int(i['price']),
+                'number_scraped':int(i['number_scraped']),
+                'product_id':self.id,
+            }
+            line_result = scraped_lines.sudo().create(line)
+        
     @api.model
     def click_products(self):
         result = {
@@ -148,3 +169,72 @@ class Product(models.Model):
             'product_count':product_count,
         }
         return  records
+
+    scraped_price_lines_ids = fields.One2many(
+        'scraped.price.line', 
+        'product_id',
+        string='Scraped Price Line'
+    )
+
+    x_css = fields.Html(
+        sanitize=False,
+        compute='_compute_css',
+        store=False,
+    )
+
+    def _compute_css(self):
+        for rec in self:
+            # To Remove Edit Option
+            if rec.scraped == True :            
+                rec.x_css ='<style>.o_form_button_edit {display: none !important;}</style>'
+            else:
+                rec.x_css = False
+
+    @api.model
+    def get_products_by_month(self):
+        products_dict = []
+        products_labels = []
+        current_date = datetime.now()
+        y = 1
+        products_labels.append(current_date.strftime("%b - %y"))
+        productsnumber = self.env['product'].search_count([
+                    ('create_date', '>=', current_date.strftime('%Y-%m-01')),
+                    ('create_date', '<', (current_date + relativedelta(months=1)).strftime('%Y-%m-01'))
+                ])
+        
+        products_dict.append(productsnumber)        
+        
+        while y <= 4:
+            date2 =  current_date - relativedelta(months=y)
+            products_labels.append(date2.strftime("%b - %y"))
+            productsnumber = self.env['product'].search_count([
+                    ('create_date', '>=', date2.strftime('%Y-%m-01')),
+                    ('create_date', '<', (date2 + relativedelta(months=1)).strftime('%Y-%m-01')),
+            ])
+            products_dict.append(productsnumber)
+            y = y+1
+        products_dict.reverse()
+        products_labels.reverse()
+        
+        records = { 
+            'products_labels':products_labels,
+            'products_dict':products_dict,
+        }
+        return  records
+
+#-----------observed price lines model----------#
+class ScrapedPriceLines(models.Model):
+    _name = 'scraped.price.line'
+    _description = 'Scraped Price Lines'
+    _order = "create_date desc"
+    product_id = fields.Many2one(
+        'product', 
+        string='Product', 
+        ondelete="cascade"
+    )
+    source = fields.Char('Source')    
+    price = fields.Integer('Scraped Price')
+    number_scraped = fields.Integer("Number of cars")
+    
+
+    

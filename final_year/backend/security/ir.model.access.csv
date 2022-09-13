@@ -18,3 +18,5 @@ access_order_admin,access.order,model_order,group_admin,1,1,1,1
 access_predictor_vendor,access.predictor,model_predictor,group_vendor,1,0,0,0
 access_predictor_admin,access.predictor,model_predictor,group_admin,1,1,1,1
 
+access_scraped_price,access.scraped.line,model_scraped_price_line,,1,0,1,0
+

@@ -3,24 +3,48 @@ import json
 import asyncio
 import time
 import sqlite3
-import util
 from bs4 import BeautifulSoup
 from urllib import response
-import xmlrpc.client
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt # import
 
-url = 'http://localhost:8069'
-db = 'finalyear'
-username = 'jkigula@icloud.com'
-password = 'ni3r-mauh-xdwn'
-
-common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
-models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
 
 jumia_url = 'https://deals.jumia.ug'
 jiji_url =  'https://jiji.ug'
 beforward_url = 'https://beforward.jp'
 
-#fetch jumia car
+import re
+import math
+
+
+#get generate slug from text
+def get_slug(text):
+    slug = text.lower()
+    slug = re.sub(r'[^\w\s]', '', slug)
+    slug = re.sub(r'\s+', '-', slug)
+    return slug
+
+#get variance of data
+def variance(data, ddof=0):
+    n = len(data)
+    mean = sum(data) / n
+    return sum((x - mean) ** 2 for x in data) / (n - ddof)
+
+#get the standard deviation
+def std(data):
+    data = get_car_costs(data)
+    var = variance(data)
+    std_dev = math.sqrt(var)
+    return std_dev
+
+def get_car_costs(carList): 
+    return list(map(get_unit_cost, carList))
+
+def get_unit_cost(car):
+    return car['price']
+
+
 async def fetch_jumia_car(car):
     car_dict = {} #store car details
     product_link = car.select_one('a.post-link.post-vip')["href"]
@@ -69,15 +93,15 @@ async def get_jumia_cars():
 #fetch jumia cars by make, model and years of manufacture
 async def fetch_jumia_cars_by_make_model(make, model, frm_year, to_year):
     try:
-        url = 'https://deals.jumia.ug/cars/' + util.get_slug(make)
+        url = 'https://deals.jumia.ug/cars/' + get_slug(make)
         r = requests.get(url)
         soup = BeautifulSoup(r.text, 'html.parser')
-        make_id = soup.select_one('option[data-slug="{}"]'.format(util.get_slug(make)))['value']
+        make_id = soup.select_one('option[data-slug="{}"]'.format(get_slug(make)))['value']
         model_id = 0
         models = soup.select_one('select[name="attributes[cars][model]"]').find_all('option')
         for name in models:
-            slug = util.get_slug(name.text)
-            if slug == util.get_slug(model):
+            slug = get_slug(name.text)
+            if slug == get_slug(model):
                 model_id = name['value']
                 break
 
@@ -198,7 +222,7 @@ def get_beforward_car_make(make_name):
             continue
         #remove everything after last space
         name = raw[:raw.find('\xa0')]
-        slug = util.get_slug(name)
+        slug = get_slug(name)
 
         #compare slug with make
         if slug == make_name:
@@ -214,93 +238,54 @@ def fetch_beforward_model(make_id, model):
 
     #get model id which matches model
     for result in results:
-        if result['model'] == util.get_slug(model):
+        if result['model'] == get_slug(model):
             return result['id']
 
     return 0
 
-def return_model( car):
-    model = util.get_slug(car['name'])
+def return_model(car):
+    model = get_slug(car['name'])
     return {'id': car['id'], 'model': model}
 
-# async def fetch_beforward_cars(make, model):
-#     r = requests.get('https://www.beforward.jp/stocklist/make=' + make +'/model=' + model)
-#     soup = BeautifulSoup(r.text, 'html.parser')
-#     cars = soup.select('tr.stocklist-row')
-#     print(cars)
+@csrf_exempt
+def scrape(request):
+    if request.method == 'POST':
+        car_vals = request.POST
+        async def main(make,car_model,year):
+            try:
+                values = []
+                beforward_model_cars = await get_beforward_cars(make,car_model,year,year) #pass in the mo, make and year
+                beforward_number = len(beforward_model_cars)
+                beforward_price = int(std(beforward_model_cars))
+                car = {
+                    'source':'Beforward',
+                    'price': beforward_price,
+                    'number_scraped':beforward_number,
+                }
+                values.append(car)
 
-async def main():
-#    cars = await asyncio.gather(get_jumia_cars(),get_jiji_cars())
-    # jumia_cars = await get_jumia_cars()
-    # jiji_cars = await get_jiji_cars()
-    """beforward_model_cars = await get_beforward_cars('toyota', 'probox', '2003','2003') #pass in the mo, make and year
-    print("")
-    print("Be forward")
-    print('No. of cars: '+ str(len(beforward_model_cars)))
-    beforward_price = int(util.std(beforward_model_cars))
-    print('Standard Deviation: ' + str(beforward_price))
-    beforward_model_cars[0].pop('price')
-    print(beforward_model_cars[0])
-    print("")"""
+                jiji_model_cars = await get_jiji_cars_by_make_model(make,car_model,year,year)
+                jiji_number = len(jiji_model_cars)
+                jiji_price = int(std(jiji_model_cars))
+                car = {
+                    'source':'Jiji',
+                    'price': jiji_price,
+                    'number_scraped':jiji_number,
+                }
+                values.append(car)
+                return values
+            except:
+                values = [{
+                    'source':'No data',
+                    'price': 0,
+                    'number_scraped':0,
+                }]
+                return values
+            
 
+        price = {  "data": asyncio.run(
+            main(car_vals['make'],car_vals['car_model'],car_vals['year'])
+        )}
+        
+    return JsonResponse(price)
     
-
-    jiji_model_cars = await get_jiji_cars_by_make_model('toyota','harrier','2006','2006')
-    print("Jiji Cars")
-    jiji_number = len(jiji_model_cars)
-    print('No. of cars: '+ str(jiji_number))
-    jiji_price = int(util.std(jiji_model_cars))
-    print('Standard Deviation: ' + str(jiji_price))
-    jiji_model_cars[0].pop('price')
-    print(jiji_model_cars[0])
-    print("")
-
-    uid = common.authenticate(db, username, password, {})
-    brand = models.execute_kw(db, uid, password, 
-            'brand', 
-            'search_read', [[
-                ['name', '=', jiji_model_cars[0]['make']]
-            ]], 
-            {'fields': ['id'], 'limit': 1})
-
-    brand = models.execute_kw(db, uid, password, 
-            'brand', 
-            'search_read', [[
-                ['name', 'ilike', jiji_model_cars[0]['make']]
-            ]], 
-            {'fields': ['id'], 'limit': 1})
-
-    car_model = models.execute_kw(db, uid, password, 
-            'car.model', 
-            'search_read', [[
-                ['name', 'ilike', jiji_model_cars[0]['model']]
-            ]], 
-            {'fields': ['id'], 'limit': 1})
-    
-    category = models.execute_kw(db, uid, password, 
-            'category', 
-            'search_read', [[
-                ['name', 'ilike', 'hatchback']
-            ]], 
-            {'fields': ['id'], 'limit': 1})
-    
-    
-    product = {
-        "category_id":category[0]['id'],
-        "year": str(jiji_model_cars[0]['year']),
-        "transmission": jiji_model_cars[0]['transmission'].lower(),
-        "scraped":True,
-        "brand_id":brand[0]['id'],
-        "car_model_id":car_model[0]['id'],
-        "mileage":jiji_model_cars[0]['mileage'],
-        "offer_type":'used',
-    }
-
-    id = models.execute_kw(
-        db, uid, password,
-        'product', 'create',[
-        product
-    ])
-asyncio.run(
-    main()
-)

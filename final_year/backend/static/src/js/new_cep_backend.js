@@ -90,7 +90,6 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
 
         renderElement: function (ev) {
             var self = this;
-            //var uid = odoo.session_info.user_context;
             $.when(this._super())
                 .then(function (ev) {
                     
@@ -139,24 +138,23 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                         }
                     });
 
-                    
-                    //Feedback Filing Report
+                    //Products Uploaded
                     rpc.query({
                         model: "product",
-                        method: "get_tickets_by_month",
-                        args:[uid],
+                        method: "get_products_by_month",
+                    
                     })
                     .then(function (result) {
-                        if ($("#feedBackFilingReport").length) {
-                            var tickets_labels = result.tickets_labels; // Add data values to array                       
-                            var tickets_dict = result.tickets_dict; // Add labels to array
+                        if ($("#productsPerMonth").length) {
+                            var products_labels = result.products_labels; // Add data values to array                       
+                            var products_dict = result.products_dict; // Add labels to array
                         
-                            var feedBackFilingReportChart = document.getElementById("feedBackFilingReport").getContext('2d');
-                            var feedBackFilingReportData = {
-                                labels: tickets_labels,
+                            var productsPerMonthChart = document.getElementById("productsPerMonth").getContext('2d');
+                            var productsPerMonthData = {
+                                labels: products_labels,
                                 datasets: [{
                                     label: 'Total',
-                                    data: tickets_dict,
+                                    data: products_dict,
                                     backgroundColor: "#52CDFF",
                                     borderColor: [
                                         '#52CDFF',
@@ -167,7 +165,7 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                                 }]
                             };
                         
-                            var feedBackFilingReportOptions = {
+                            var productsPerMonthOptions = {
                               responsive: true,
                               maintainAspectRatio: false,
                                 scales: {
@@ -212,103 +210,23 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                                     backgroundColor: 'rgba(31, 59, 179, 1)',
                                 }
                             }
-                            var feedBackFilingReport = new Chart(feedBackFilingReportChart, {
+                            var productsPerMonth = new Chart(productsPerMonthChart, {
                                 type: 'bar',
-                                data: feedBackFilingReportData,
-                                options: feedBackFilingReportOptions
+                                data: productsPerMonthData,
+                                options: productsPerMonthOptions
                             });
                           }   
                     });
 
-                    //Issues Resolved
+                    //Most Common brand
                     rpc.query({
-                        model: "product",
-                        method: "get_tickets_resolved",
-                        args:[uid],
-                    })
-                    .then(function (result) {
-                        if ($("#feedBackSolved").length) {
-                            var tickets_labels = result.tickets_labels; // Add data values to array                       
-                            var tickets_dict = result.tickets_dict; // Add labels to array
-                        
-
-                            var feedBackSolvedChart = document.getElementById("feedBackSolved").getContext('2d');
-                            var feedBackSolvedData = {
-                                labels: tickets_labels,
-                                datasets: [{
-                                    label: 'Total',
-                                    data: tickets_dict,
-                                    backgroundColor: "#ffcf3f",
-                                    borderColor: [
-                                        '#ffcf3f',
-                                    ],
-                                    borderWidth: 0,
-                                    fill: true, // 3: no fill
-                                    
-                                }]
-                            };
-                        
-                            var feedBackSolvedOptions = {
-                              responsive: true,
-                              maintainAspectRatio: false,
-                                scales: {
-                                    yAxes: [{
-                                        gridLines: {
-                                            display: true,
-                                            drawBorder: false,
-                                            color:"rgba(255,255,255,.05)",
-                                            zeroLineColor: "rgba(255,255,255,.05)",
-                                        },
-                                        ticks: {
-                                          beginAtZero: true,
-                                          autoSkip: true,
-                                          maxTicksLimit: 5,
-                                          fontSize: 10,
-                                          color:"#6B778C"
-                                        }
-                                    }],
-                                    xAxes: [{
-                                      barPercentage: 0.5,
-                                      gridLines: {
-                                          display: false,
-                                          drawBorder: false,
-                                      },
-                                      ticks: {
-                                        beginAtZero: false,
-                                        autoSkip: true,
-                                        maxTicksLimit: 7,
-                                        fontSize: 10,
-                                        color:"#6B778C"
-                                      }
-                                  }],
-                                },
-                                legend:false,
-                                
-                                elements: {
-                                    line: {
-                                        tension: 0.4,
-                                    }
-                                },
-                                tooltips: {
-                                    backgroundColor: 'rgba(31, 59, 179, 1)',
-                                }
-                            }
-                            var feedBackSolved = new Chart(feedBackSolvedChart, {
-                                type: 'bar',
-                                data: feedBackSolvedData,
-                                options: feedBackSolvedOptions
-                            });
-                          } 
-                    });
-
-                    //Feedback by Source
-                    rpc.query({
-                        model: "product",
-                        method: "feedback_by_source",
-                        args:[uid],
+                        model: "brand",
+                        method: "most_common_brand",
                     }).then(function (result) {
                         var tickets_labels = result.tickets_labels; // Add data values to array                       
                         var tickets_dict = result.tickets_dict; // Add labels to array
+                        
+                        
                         if ($("#feedBackSource").length) {
                             var feedBackSourceCanvas = $("#feedBackSource").get(0).getContext("2d");
                             var doughnutPieData = {
@@ -386,65 +304,35 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                           }
                     });
 
-
-                    //Tickets vs Leads Line Chart
+                    //Orders per month
                     rpc.query({
-                        model: "product",
-                        method: "get_tickets_vs_leads",
-                        args:[uid],    
+                        model: "order",
+                        method: "orders_per_month",
                     })
                     .then(function (result) {
-                        if ($("#performaneLine").length) {
-                            var ticket_labels = result.tickets_labels;
-                            var ticket_data = result.tickets_dict;
-                            var lead_data = result.leads_dict;
-                            
-                            console.log(ticket_labels)
-                            console.log(ticket_data)
-                            var graphGradient = document.getElementById("performaneLine").getContext('2d');
-                            var graphGradient2 = document.getElementById("performaneLine").getContext('2d');
-                            
-                            var saleGradientBg = graphGradient.createLinearGradient(5, 0, 5, 100);
-                            saleGradientBg.addColorStop(0, 'rgba(26, 115, 232, 0.18)');
-                            saleGradientBg.addColorStop(1, 'rgba(26, 115, 232, 0.02)');
-                            
-                            var saleGradientBg2 = graphGradient2.createLinearGradient(100, 0, 50, 150);
-                            saleGradientBg2.addColorStop(0, 'rgba(0, 208, 255, 0.19)');
-                            saleGradientBg2.addColorStop(1, 'rgba(0, 208, 255, 0.03)');
-                            var salesTopData = {
-                                labels: ticket_labels,
+                        if ($("#ordersPerMonth").length) {
+                            var orders_labels = result.orders_labels; // Add data values to array                       
+                            var orders_dict = result.orders_dict; // Add labels to array
+                        
+                            console.log("here");
+                            console.log("there");
+                            var ordersPerMonthChart = document.getElementById("ordersPerMonth").getContext('2d');
+                            var ordersPerMonthData = {
+                                labels: orders_labels,
                                 datasets: [{
-                                    label: 'No. Of Feedback',
-                                    data: ticket_data,
-                                    backgroundColor: saleGradientBg,
+                                    label: 'Total',
+                                    data: orders_dict,
+                                    backgroundColor: "#ffcf3f",
                                     borderColor: [
-                                        '#1F3BB3',
+                                        '#ffcf3f',
                                     ],
-                                    borderWidth: 1.5,
+                                    borderWidth: 0,
                                     fill: true, // 3: no fill
-                                    pointBorderWidth: 1,
-                                    pointRadius: [4, 4, 4, 4, 4,4, 4, 4, 4, 4,4, 4, 4],
-                                    pointHoverRadius: [2, 2, 2, 2, 2,2, 2, 2, 2, 2,2, 2, 2],
-                                    pointBackgroundColor: ['#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)', '#1F3BB3', '#1F3BB3', '#1F3BB3','#1F3BB3)'],
-                                    pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
-                                },{
-                                  label: 'No. of Leads',
-                                  data: lead_data,
-                                  backgroundColor: saleGradientBg2,
-                                  borderColor: [
-                                      '#52CDFF',
-                                  ],
-                                  borderWidth: 1.5,
-                                  fill: true, // 3: no fill
-                                  pointBorderWidth: 1,
-                                  pointRadius: [0, 0, 0, 4, 0],
-                                  pointHoverRadius: [0, 0, 0, 2, 0],
-                                  pointBackgroundColor: ['#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)', '#52CDFF', '#52CDFF', '#52CDFF','#52CDFF)'],
-                                    pointBorderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff','#fff',],
-                              }]
+                                    
+                                }]
                             };
                         
-                            var salesTopOptions = {
+                            var ordersPerMonthOptions = {
                               responsive: true,
                               maintainAspectRatio: false,
                                 scales: {
@@ -452,18 +340,19 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                                         gridLines: {
                                             display: true,
                                             drawBorder: false,
-                                            color:"#F0F0F0",
-                                            zeroLineColor: '#F0F0F0',
+                                            color:"rgba(255,255,255,.05)",
+                                            zeroLineColor: "rgba(255,255,255,.05)",
                                         },
                                         ticks: {
-                                          beginAtZero: false,
+                                          beginAtZero: true,
                                           autoSkip: true,
-                                          maxTicksLimit: 4,
+                                          maxTicksLimit: 5,
                                           fontSize: 10,
                                           color:"#6B778C"
                                         }
                                     }],
                                     xAxes: [{
+                                      barPercentage: 0.5,
                                       gridLines: {
                                           display: false,
                                           drawBorder: false,
@@ -478,19 +367,6 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                                   }],
                                 },
                                 legend:false,
-                                legendCallback: function (chart) {
-                                  var text = [];
-                                  text.push('<div class="chartjs-legend"><ul>');
-                                  for (var i = 0; i < chart.data.datasets.length; i++) {
-                                    console.log(chart.data.datasets[i]); // see what's inside the obj.
-                                    text.push('<li>');
-                                    text.push('<span style="background-color:' + chart.data.datasets[i].borderColor + '">' + '</span>');
-                                    text.push(chart.data.datasets[i].label);
-                                    text.push('</li>');
-                                  }
-                                  text.push('</ul></div>');
-                                  return text.join("");
-                                },
                                 
                                 elements: {
                                     line: {
@@ -501,128 +377,14 @@ odoo.define('CepNewDashboard.CepNewDashboard', function (require) {
                                     backgroundColor: 'rgba(31, 59, 179, 1)',
                                 }
                             }
-                            var salesTop = new Chart(graphGradient, {
-                                type: 'line',
-                                data: salesTopData,
-                                options: salesTopOptions
-                            });
-                            document.getElementById('performance-line-legend').innerHTML = salesTop.generateLegend();
-                          }
-                               
-                    });
-
-                    rpc.query({
-                        model: "product",
-                        method: "get_tickets_vs_leads",
-                        args:[uid],    
-                    })
-                    .then(function (result) {
-
-                        if ($("#marketingOverview").length) {
-                            var ticket_labels = result.tickets_labels;
-                            var ticket_data = result.tickets_dict;
-                            var lead_data = result.leads_dict;
-                            var total = result.total
-                            if(!$('#leads_tickets_count_added').length){    
-                                $('#leads_tickets_count').append('<span id="leads_tickets_count_added">' + total + '</span>');
-                            }
-                            
-                            var marketingOverviewChart = document.getElementById("marketingOverview").getContext('2d');
-                            var marketingOverviewData = {
-                                labels: ticket_labels,
-                                datasets: [{
-                                    label: 'Feedback',
-                                    data: ticket_data,
-                                    backgroundColor: "#1F3BB3",
-                                    borderColor: [
-                                        '#1F3BB3',
-                                    ],
-                                    borderWidth: 0,
-                                    fill: true, // 3: no fill
-                                    
-                                },{
-                                label: 'Leads',
-                                data: lead_data,
-                                backgroundColor: "#52CDFF",
-                                borderColor: [
-                                    '#52CDFF',
-                                    
-                                ],
-                                borderWidth: 0,
-                                fill: true, // 3: no fill
-                            }]
-                            };
-                        
-                            var marketingOverviewOptions = {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                                scales: {
-                                    yAxes: [{
-                                        gridLines: {
-                                            display: true,
-                                            drawBorder: false,
-                                            color:"#F0F0F0",
-                                            zeroLineColor: '#F0F0F0',
-                                        },
-                                        ticks: {
-                                        beginAtZero: true,
-                                        autoSkip: true,
-                                        maxTicksLimit: 5,
-                                        fontSize: 10,
-                                        color:"#6B778C"
-                                        }
-                                    }],
-                                    xAxes: [{
-                                    stacked: true,
-                                    barPercentage: 0.35,
-                                    gridLines: {
-                                        display: false,
-                                        drawBorder: false,
-                                    },
-                                    ticks: {
-                                        beginAtZero: false,
-                                        autoSkip: true,
-                                        maxTicksLimit: 12,
-                                        fontSize: 10,
-                                        color:"#6B778C"
-                                    }
-                                }],
-                                },
-                                legend:false,
-                                legendCallback: function (chart) {
-                                var text = [];
-                                text.push('<div class="chartjs-legend"><ul>');
-                                for (var i = 0; i < chart.data.datasets.length; i++) {
-                                    console.log(chart.data.datasets[i]); // see what's inside the obj.
-                                    text.push('<li class="text-muted text-small">');
-                                    text.push('<span style="background-color:' + chart.data.datasets[i].borderColor + '">' + '</span>');
-                                    text.push(chart.data.datasets[i].label);
-                                    text.push('</li>');
-                                }
-                                text.push('</ul></div>');
-                                return text.join("");
-                                },
-                                
-                                elements: {
-                                    line: {
-                                        tension: 0.4,
-                                    }
-                                },
-                                tooltips: {
-                                    backgroundColor: 'rgba(31, 59, 179, 1)',
-                                }
-                            }
-                            var marketingOverview = new Chart(marketingOverviewChart, {
+                            var ordersPerMonth = new Chart(ordersPerMonthChart, {
                                 type: 'bar',
-                                data: marketingOverviewData,
-                                options: marketingOverviewOptions
+                                data: ordersPerMonthData,
+                                options: ordersPerMonthOptions
                             });
-                            document.getElementById('marketing-overview-legend').innerHTML = marketingOverview.generateLegend();
-                        }
+                          } 
                     });
-                      
-
-
+                    
             });
         },
 

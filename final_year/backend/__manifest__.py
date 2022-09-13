@@ -45,6 +45,7 @@
             '/backend/static/src/js/new_cep_backend.js',
             '/backend/static/src/scss/common.scss',
             '/backend/static/src/js/tooltip.js',
+            '/backend/static/src/js/Chart.min.js',
             
         ],
 
