@@ -29,14 +29,13 @@ def get_slug(text):
 def variance(data, ddof=0):
     n = len(data)
     mean = sum(data) / n
-    return sum((x - mean) ** 2 for x in data) / (n - ddof)
+    return mean
 
 #get the standard deviation
 def std(data):
     data = get_car_costs(data)
     var = variance(data)
-    std_dev = math.sqrt(var)
-    return std_dev
+    return var
 
 def get_car_costs(carList): 
     return list(map(get_unit_cost, carList))
